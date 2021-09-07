@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="stateHidden"
+    tools:context=".MainActivity">
+
+    <!-- Background -->
+    <View
+        android:id="@+id/background"
+        style="@style/background" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Background title -->
+                <View
+                    android:id="@+id/background_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="133dp"
+                    android:background="@drawable/main__background_title" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/title"
+                    android:textSize="30sp"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/login_title" />
+
+            </RelativeLayout>
+
+            <!-- Title icon -->
+            <View
+                android:id="@+id/title_icon"
+                android:layout_width="155dp"
+                android:layout_height="104dp"
+                android:layout_gravity="center"
+                android:background="@drawable/main__title_icon" />
+
+            <!-- Title info -->
+            <TextView
+                android:id="@+id/title_info"
+                style="@style/message"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:text="@string/login_info_title" />
+
+            <!-- Username -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_username"
+                style="@style/text_input_layout"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="@string/create_account_username"
+                app:helperTextTextColor="@color/helper_text_red"
+                app:startIconDrawable="@drawable/icon__people">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_username_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_password"
+                style="@style/text_input_layout"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="@string/create_account_password"
+                app:endIconMode="password_toggle"
+                app:helperTextTextColor="@color/helper_text_red"
+                app:startIconDrawable="@drawable/icon__lock">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_password_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
+
+                <!-- Remember me -->
+                <CheckBox
+                    android:id="@+id/remember_me_checkbox"
+                    style="@style/message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:buttonTint="@color/black"
+                    android:gravity="center_vertical"
+                    android:text="@string/remember_me"
+                    android:textSize="12sp" />
+
+                <!-- Forgot password -->
+                <TextView
+                    android:id="@+id/forgot_password"
+                    style="@style/message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:clickable="true"
+                    android:text="@string/forgot_password"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/button_login"
+                style="@style/button"
+                android:layout_marginTop="10dp"
+                android:text="@string/button_login" />
+
+            <!-- Create account -->
+            <TextView
+                android:id="@+id/create_account"
+                style="@style/message"
+                android:layout_marginBottom="50dp"
+                android:clickable="true"
+                android:text="@string/login_create_account" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

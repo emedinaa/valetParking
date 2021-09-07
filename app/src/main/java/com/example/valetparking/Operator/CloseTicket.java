@@ -1,0 +1,586 @@
+package com.example.valetparking.Operator;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.valetparking.CardView_Adapter;
+import com.example.valetparking.CardView_Data;
+import com.example.valetparking.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class CloseTicket extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    OpenTicket_Adapter adapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.op__close_ticket);
+
+        //Conexion de la parte logica con la grafica
+        recyclerView = findViewById(R.id.close_ticket_recyclerView);
+        TextInputLayout close_ticket_search = findViewById(R.id.close_ticket_search);
+
+        //Recycler view
+        setRecyclerView();
+
+        //endicons
+        close_ticket_search.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterDialog().show();
+            }
+        });
+    }
+
+    //Asignar recyclerView
+    private void setRecyclerView(){
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new OpenTicket_Adapter(this, getList());
+        recyclerView.setAdapter(adapter);
+    }
+
+    //Metodo para llenar los datos
+    private List<OpenTicket_Data> getList(){
+        List<OpenTicket_Data> data = new ArrayList<>();
+
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+
+        return data;
+    }
+
+    TextInputLayout brand, year, model, color, ticket, operator, date;
+    AutoCompleteTextView Brand, Year, Model, ColorC, Ticket, Operator;
+    TextInputEditText Date;
+    String selectorBrand;
+
+    //Metodo del alertDialog (Mensaje emergente)
+    private AlertDialog filterDialog(){
+        AlertDialog alertDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //Obtener el layout inflater
+        LayoutInflater inflater = getLayoutInflater();
+
+        //Inflar y establecer el layout para el dialogo
+        //Pasar nulo como vista principal porque va en el diseno del dialogo
+        View view = inflater.inflate(R.layout.gen__alert_dialog_filter, null);
+
+        //Dimensiones del alertDialog
+        view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));
+        view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.40));
+
+        //conexion de la parte logica con la parte grafica
+        //TextInputLayout
+        brand = view.findViewById(R.id.alert_filter_brand);
+        year = view.findViewById(R.id.alert_filter_year);
+        model = view.findViewById(R.id.alert_filter_model);
+        color = view.findViewById(R.id.alert_filter_color);
+        ticket = view.findViewById(R.id.alert_filter_ticket);
+        operator = view.findViewById(R.id.alert_filter_operator);
+        date = view.findViewById(R.id.alert_filter_date);
+
+        //AutoCompleteTextView
+        Brand = view.findViewById(R.id.alert_filter_brand_edit);
+        Year = view.findViewById(R.id.alert_filter_year_edit);
+        Model = view.findViewById(R.id.alert_filter_model_edit);
+        ColorC = view.findViewById(R.id.alert_filter_color_edit);
+        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
+        Operator = view.findViewById(R.id.alert_filter_operator_edit);
+
+        //TextInputEditText
+        Date = view.findViewById(R.id.alert_filter_date_edit);
+
+        //Button
+        Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
+
+        //Setear marca
+        setSelectorBrand("");
+
+        //EndIcons
+        brand.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectBrand().show();
+            }
+        });
+
+        year.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectYear().show();
+            }
+        });
+
+        model.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(brand.getEditText().getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Debe escoger una marca", Toast.LENGTH_SHORT).show();
+                } else {
+                    selectModel().show();
+                }
+            }
+        });
+
+        color.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectColor().show();
+            }
+        });
+
+        ticket.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTicket().show();
+            }
+        });
+
+        operator.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectOperator().show();
+            }
+        });
+
+        date.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDate();
+            }
+        });
+
+        //Mostrar alertDialog
+        builder.setView(view);
+        builder.setCancelable(true);
+        alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        //Cerrar alertDialog
+        alert_filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        return alertDialog;
+    }
+
+    //Metodo de selectores (Ventana emergente)
+        //Brand
+        private AlertDialog selectBrand(){
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            String[] brands = getResources().getStringArray(R.array.array_brands);
+            int[] logos = {R.drawable.check__brand_toyota, R.drawable.check__brand_honda};
+
+            for (int i = 0; i < brands.length; i++) {
+                data.add(new CardView_Data(brands[i], logos[i]));
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Year
+        private AlertDialog selectYear() {
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            String[] years = getResources().getStringArray(R.array.array_years);
+
+            for (int i = 0; i < years.length; i++) {
+                data.add(new CardView_Data(years[i], R.drawable.icon__calendar_year_2));
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    year.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Model
+        private AlertDialog selectModel(){
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+            View view2 = inflater.inflate(R.layout.op__check_in, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            //Seleccionar con que datos se llenaria
+            String[] toyota = getResources().getStringArray(R.array.array_models_toyota);
+            String[] honda = getResources().getStringArray(R.array.array_models_honda);
+
+            switch (getSelectorBrand()) {
+                case "Toyota":
+                    for (String model : toyota) {
+                        data.add(new CardView_Data(model, R.drawable.check__brand_toyota));
+                    }
+                    break;
+                case "Honda":
+                    for (String model : honda) {
+                        data.add(new CardView_Data(model, R.drawable.check__brand_honda));
+                    }
+                    break;
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Color
+        private AlertDialog selectColor(){
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            String[] colors = getResources().getStringArray(R.array.array_colors);
+
+            for (int i = 0; i < colors.length; i++) {
+                data.add(new CardView_Data(colors[i], R.drawable.icon__color));
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    color.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Tickets
+        private AlertDialog selectTicket(){
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            String[] tickets = getResources().getStringArray(R.array.array_filter_tickets);
+            int[] tickets_icons = {R.drawable.icon__ticket_open, R.drawable.icon__ticket_close, R.drawable.icon__ticket_cancel};
+
+            for (int i = 0; i < tickets.length; i++) {
+                data.add(new CardView_Data(tickets[i], tickets_icons[i]));
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ticket.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Operators
+        private AlertDialog selectOperator(){
+            RecyclerView card_recycler_view;
+            CardView_Adapter adapter;
+
+            AlertDialog alertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Obtener el layout inflater
+            LayoutInflater inflater = getLayoutInflater();
+
+            //Inflar y establecer el layout para el dialogo
+            //Pasar nulo como vista principal porque va en el diseno del dialogo
+            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
+
+            //Conexion de la parte logica con la grafica
+            card_recycler_view = view.findViewById(R.id.card_recycler_view);
+
+            //Dimensiones del alertDialog
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+
+            //RecyclerView - Adapter
+            card_recycler_view.setHasFixedSize(true);
+            card_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+
+            //Llenar data
+            List<CardView_Data> data = new ArrayList<>();
+
+            String[] operators = getResources().getStringArray(R.array.array_filter_operators);
+
+            for (int i = 0; i < operators.length; i++) {
+                data.add(new CardView_Data(operators[i], R.drawable.icon__operator));
+            }
+
+            //Asignar adapter
+            adapter = new CardView_Adapter(this, data);
+            card_recycler_view.setAdapter(adapter);
+
+            //Mostrar alertDialog
+            builder.setView(view);
+            builder.setCancelable(true);
+            alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+            //Asignar valor seleccionado y cerrar alertDialog
+            adapter.setOnClickLister(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    operator.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    alertDialog.dismiss();
+                }
+            });
+
+            return alertDialog;
+        }
+
+        //Date
+        private void selectDate(){
+            int day, month, year;
+
+            Calendar calendar = Calendar.getInstance();
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+            month = calendar.get(Calendar.MONTH);
+            year = calendar.get(Calendar.YEAR);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DatePicker,new DatePickerDialog.OnDateSetListener(){
+                @Override
+                public void onDateSet(DatePicker view, int Year, int Month, int Day) {
+                    Date.setText(Day + "/" + (Month+1) + "/" + Year);
+                }
+            }, year, month, day);
+            datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
+            datePickerDialog.show();
+        }
+
+    //Metodos Getter y Setter
+    public String getSelectorBrand() {
+        return selectorBrand;
+    }
+
+    public void setSelectorBrand(String selectorBrand) {
+        this.selectorBrand = selectorBrand;
+    }
+}

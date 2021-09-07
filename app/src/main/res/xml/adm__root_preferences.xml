@@ -1,0 +1,32 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Preferences check in">
+
+        <MultiSelectListPreference
+            app:key="preferences_check_in"
+            app:title="Preferences check in"
+            app:summary="Escoja las preferencias del registro del check in"
+            app:entries="@array/preferences_check_in"
+            app:entryValues="@array/preferences_check_in"
+            app:icon="@drawable/icon__check2" />
+
+    </PreferenceCategory>
+
+    <!-- About -->
+    <PreferenceCategory app:title="About" >
+
+        <PreferenceScreen
+            app:title="About"
+            app:summary="Conoce la informacion sobre la app"
+            app:icon="@drawable/icon__information">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.example.valetparking"
+                android:targetClass="com.example.valetparking.MainActivity" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+</PreferenceScreen>

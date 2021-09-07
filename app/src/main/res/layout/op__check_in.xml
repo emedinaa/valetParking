@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:windowSoftInputMode="adjustPan"
+    tools:context="com.example.valetparking.Operator.CheckInFragment">
+
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:focusableInTouchMode="true">
+
+            <!-- Vehicle -->
+            <TextView
+                android:id="@+id/check_in_subtitle_vehicle"
+                style="@style/subtitle"
+                android:text="@string/check_subtitle_vehicle" />
+            <TextView style="@style/line_down" />
+
+            <!-- First linear horizontal -->
+            <LinearLayout
+                android:id="@+id/first_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Brand -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/check_in_brand"
+                    style="@style/text_input_layout_dropdown"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu"
+                    android:hint="@string/check_brand"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/check_in_brand_edit"
+                        style="@style/auto_complete"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:paddingLeft="15dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Year -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/check_in_year"
+                    style="@style/text_input_layout_dropdown"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu"
+                    android:hint="@string/check_year"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/check_in_year_edit"
+                        style="@style/auto_complete"
+                        android:inputType="number"
+                        android:paddingLeft="15dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Second linear horizontal -->
+            <LinearLayout
+                android:id="@+id/second_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Model -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/check_in_model"
+                    style="@style/text_input_layout_dropdown"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu"
+                    android:hint="@string/check_model"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/check_in_model_edit"
+                        style="@style/auto_complete"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:paddingLeft="15dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Color -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/check_in_color"
+                    style="@style/text_input_layout_dropdown"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_weight="1"
+                    app:endIconMode="dropdown_menu"
+                    android:hint="@string/check_color"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/check_in_color_edit"
+                        style="@style/auto_complete"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:paddingLeft="15dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Plate -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/check_in_plate"
+                style="@style/text_input_layout"
+                android:hint="@string/check_plate"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/check_in_plate_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Driver -->
+            <TextView
+                android:id="@+id/check_in_subtitle_owner"
+                style="@style/subtitle"
+                android:text="@string/check_subtitle_driver" />
+            <TextView style="@style/line_down" />
+
+            <!-- Code & Phone -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Code -->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/check_in_code"
+                    style="@style/country_code_picker"
+
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp"
+                    app:ccpDialog_backgroundColor="@color/black"
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccpDialog_cornerRadius="12dp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccp_countryPreference="US"/>
+
+                <!-- Phone number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/check_in_telephone"
+                    style="@style/text_input_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/check_in_code"
+                    android:hint="@string/phone_number"
+                    app:startIconDrawable="@drawable/icon__telephone"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/check_in_telephone_edit"
+                        style="@style/text_input_edit_text"
+                        android:inputType="phone"
+                        android:digits="0123456789" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
+            <!-- Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/check_in_email"
+                style="@style/text_input_layout"
+                android:hint="@string/email"
+                app:helperTextTextColor="@color/helper_text_red"
+                app:startIconDrawable="@drawable/icon__email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/check_in_email_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Location -->
+            <TextView
+                android:id="@+id/check_in_subtitle_location"
+                style="@style/subtitle"
+                android:text="@string/check_subtitle_location" />
+            <TextView style="@style/line_down" />
+
+            <!-- Key location -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/check_in_key"
+                style="@style/text_input_layout"
+                android:hint="@string/check_key"
+                app:helperTextTextColor="@color/helper_text_red"
+                app:startIconDrawable="@drawable/icon__key">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/check_in_key_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Vehicle location -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/check_in_vehicle"
+                style="@style/text_input_layout"
+                android:hint="@string/check_vehicle"
+                app:startIconDrawable="@drawable/icon__car"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/check_in_vehicle_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/check_in_button"
+                style="@style/button"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/button_register" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

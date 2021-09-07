@@ -1,0 +1,16 @@
+<resources>
+    <!-- Preferences check in -->
+    <array name="preferences_check_in">
+        <item>Brand</item>
+        <item>Model</item>
+        <item>year</item>
+        <item>Color</item>
+        <item>Plate</item>
+
+        <item>Telephone</item>
+        <item>Email</item>
+
+        <item>Key location</item>
+        <item>Vehicle location</item>
+    </array>
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:windowSoftInputMode="stateHidden"
+    tools:context=".Operator.CloseTicket">
+
+    <!-- List of vehicle -->
+    <TextView
+        android:id="@+id/close_ticket_list"
+        style="@style/subtitle"
+        android:text="@string/ticket_list_closed" />
+    <TextView android:id="@+id/line_down_vehicle" style="@style/line_down" />
+
+    <!-- SearchView -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/close_ticket_search"
+        style="@style/text_input_layout_dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/ticket_search"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/icon__filter" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/close_ticket_search_edit"
+            style="@style/text_input_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/close_ticket_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:scrollbars="vertical"/>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- Details -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/open_ticket_row_details"
+        style="@style/text_input_layout"
+        android:hint="@string/check_details" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/open_ticket_row_details_edit"
+            style="@style/text_input_edit_text"
+            android:inputType="none"
+            android:editable="false"
+            android:focusable="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

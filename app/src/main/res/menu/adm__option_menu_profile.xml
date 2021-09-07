@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/option_profile_admin"
+        android:title="Admin"
+        android:icon="@drawable/icon__people"/>
+
+    <item
+        android:id="@+id/option_profile_place"
+        android:title="Place"
+        android:icon="@drawable/icon__place"/>
+</menu>

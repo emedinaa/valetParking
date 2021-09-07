@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.LocationActivity">
+
+    <!-- Maps -->
+    <fragment
+        android:id="@+id/location_google_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" />
+
+    <!-- SearchView -->
+    <SearchView
+        android:id="@+id/location_search"
+        android:background="@drawable/round__search_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="50dp"
+        android:queryHint="@string/location_search"
+        android:iconifiedByDefault="false"/>
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/location_button"
+        style="@style/button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:text="@string/button_register" />
+
+    <!-- GPS -->
+    <ImageButton
+        android:id="@+id/location_gps"
+        style="@style/button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@id/location_button"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        app:srcCompat="@drawable/icon__gps"
+        tools:ignore="VectorDrawableCompat" />
+</RelativeLayout>

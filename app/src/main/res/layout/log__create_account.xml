@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".login.CreateAccountActivity">
+
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <!-- Personal info -->
+            <TextView
+                android:id="@+id/create_account_subtitle_personal_info"
+                style="@style/subtitle"
+                android:text="@string/create_account_subtitle_personal_info" />
+            <TextView style="@style/line_down" />
+
+            <!-- Full name -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_name"
+                style="@style/text_input_layout"
+                android:hint="@string/create_account_name"
+                app:startIconDrawable="@drawable/icon__people"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_name_edit"
+                    style="@style/text_input_edit_text"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Code & phone -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Code -->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/create_account_code"
+                    style="@style/country_code_picker"
+
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp"
+                    app:ccpDialog_backgroundColor="@color/black"
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccpDialog_cornerRadius="12dp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccp_countryPreference="US" />
+
+                <!-- Phone number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/create_account_telephone"
+                    style="@style/text_input_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/create_account_code"
+                    android:hint="@string/phone_number"
+                    app:startIconDrawable="@drawable/icon__telephone"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/create_account_telephone_edit"
+                        style="@style/text_input_edit_text"
+                        android:inputType="phone"
+                        android:digits="0123456789" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
+            <!-- Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_email"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:textColorHint="@color/black"
+                app:startIconDrawable="@drawable/icon__email"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_email_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- User -->
+            <TextView
+                android:id="@+id/create_account_subtitle_user"
+                style="@style/subtitle"
+                android:text="@string/create_account_subtitle_user" />
+            <TextView style="@style/line_down" />
+
+            <!-- Username -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_username"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_username"
+                android:textColorHint="@color/black"
+                app:startIconDrawable="@drawable/icon__people"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_username_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_password"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_password"
+                android:textColorHint="@color/black"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/icon__lock"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_password_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_confirm_password"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_confirm_password"
+                android:textColorHint="@color/black"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/icon__lock"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_confirm_password_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Button -->
+            <Button
+                android:id="@+id/create_account_button"
+                style="@style/button"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/button_next" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

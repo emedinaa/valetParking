@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round__alert_dialog_light" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="8dp">
+
+        <TextView
+            style="@style/subtitle"
+            android:text="@string/cancel_alert_title" />
+        <TextView style="@style/line_down" />
+
+        <EditText
+            android:id="@+id/cancel_alert_note"
+            style="@style/text_input_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="8dp"
+            android:background="@drawable/round__search_view"
+            android:hint="@string/cancel_alert_note"
+            android:gravity="top"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/cancel_alert_button"
+            style="@style/button"
+            android:layout_marginTop="15dp"
+            android:text="@string/button_cancel" />
+
+    </LinearLayout>
+
+</RelativeLayout>

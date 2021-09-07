@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Administrator.ProfilePlace">
+
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <!-- Information -->
+            <TextView
+                android:id="@+id/profile_place_subtitle_information"
+                style="@style/subtitle"
+                android:text="@string/about_subtitle_information" />
+            <TextView style="@style/line_down" />
+
+            <!-- Name of the place -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_name"
+                style="@style/text_input_layout"
+                android:hint="@string/about_name"
+                app:startIconDrawable="@drawable/icon__people"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_place_name_edit"
+                    style="@style/auto_complete_none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Type of the place -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_type"
+                style="@style/text_input_layout_dropdown"
+                android:hint="@string/about_type"
+                app:startIconDrawable="@drawable/icon__place"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <AutoCompleteTextView
+                    android:id="@+id/profile_place_type_edit"
+                    style="@style/auto_complete_none"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_description"
+                style="@style/text_input_layout"
+                android:hint="@string/about_description"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_place_description_edit"
+                    style="@style/auto_complete_none"
+                    android:layout_height="100dp"
+                    android:padding="8dp"
+                    android:gravity="top" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Contacts -->
+            <TextView
+                android:id="@+id/profile_place_subtitle_contacts"
+                style="@style/subtitle"
+                android:text="@string/about_subtitle_contacts" />
+            <TextView style="@style/line_down" />
+
+            <!-- Facebook -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_facebook"
+                style="@style/text_input_layout"
+                android:hint="@string/about_facebook">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_place_facebook_edit"
+                    style="@style/auto_complete_none"
+                    android:drawableLeft="@drawable/icon__facebook"
+                    android:drawablePadding="5dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Instagram -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_instagram"
+                style="@style/text_input_layout"
+                android:hint="@string/about_instagram">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_place_instagram_edit"
+                    style="@style/auto_complete_none"
+                    android:drawableLeft="@drawable/icon__instagram"
+                    android:drawablePadding="5dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Twitter -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_place_twitter"
+                style="@style/text_input_layout"
+                android:hint="@string/about_twitter">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_place_twitter_edit"
+                    style="@style/auto_complete_none"
+                    android:drawableLeft="@drawable/icon__twitter"
+                    android:drawablePadding="5dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Code & phone -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Code -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profile_place_code"
+                    style="@style/text_input_layout"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/code">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/profile_place_code_edit"
+                        style="@style/auto_complete_none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Phone number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/profile_place_telephone"
+                    style="@style/text_input_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/profile_place_code"
+                    android:hint="@string/phone_number"
+                    app:startIconDrawable="@drawable/icon__telephone"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/profile_place_telephone_edit"
+                        style="@style/auto_complete_none" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

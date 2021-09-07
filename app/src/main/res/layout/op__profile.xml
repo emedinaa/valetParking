@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".Operator.ProfileOperatorActivity">
+
+    <!-- Operator -->
+    <TextView
+        android:id="@+id/title"
+        style="@style/subtitle"
+        android:text="@string/operator_profile_title" />
+    <TextView style="@style/line_down"/>
+
+    <!-- Username -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/operator_profile_username"
+        style="@style/text_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/create_account_username"
+        app:startIconDrawable="@drawable/icon__people">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/operator_profile_username_edit"
+            style="@style/auto_complete_none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Full name -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/operator_profile_name"
+        style="@style/text_input_layout"
+        android:hint="@string/create_account_name"
+        app:startIconDrawable="@drawable/icon__people">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/operator_profile_name_edit"
+            style="@style/auto_complete_none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Phone number -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Code -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/operator_profile_code"
+            style="@style/text_input_layout"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/code">
+
+            <AutoCompleteTextView
+                android:id="@+id/operator_profile_code_edit"
+                style="@style/auto_complete_none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone number -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/operator_profile_telephone"
+            style="@style/text_input_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/operator_profile_code"
+            android:hint="@string/phone_number"
+            app:startIconDrawable="@drawable/icon__telephone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/operator_profile_telephone_edit"
+                style="@style/auto_complete_none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <!-- Email -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/operator_profile_email"
+        style="@style/text_input_layout"
+        android:hint="@string/email"
+        app:startIconDrawable="@drawable/icon__email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/operator_profile_email_edit"
+            style="@style/auto_complete_none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/operator_profile_button"
+        style="@style/button"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/button_back"  />
+
+</LinearLayout>
