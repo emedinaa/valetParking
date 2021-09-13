@@ -146,6 +146,26 @@
                         style="@style/auto_complete_none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+                <!-- Information -->
+                <TextView
+                    android:id="@+id/profile_place_subtitle_location"
+                    style="@style/subtitle"
+                    android:layout_below="@+id/profile_place_telephone"
+                    android:text="@string/check_subtitle_location" />
+                <TextView android:id="@+id/profile_place_line_location" style="@style/line_down" android:layout_below="@+id/profile_place_subtitle_location"/>
+
+                <!-- Google Maps -->
+                <fragment
+                    android:id="@+id/location_google_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_below="@+id/profile_place_line_location"
+                    tools:context=".MapsActivity" />
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

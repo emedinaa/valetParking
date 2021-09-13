@@ -5,12 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:windowSoftInputMode="stateHidden"
+    android:background="@color/background"
     tools:context=".MainActivity">
-
-    <!-- Background -->
-    <View
-        android:id="@+id/background"
-        style="@style/background" />
 
     <ScrollView
         android:layout_width="match_parent"
