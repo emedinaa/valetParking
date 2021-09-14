@@ -53,7 +53,7 @@
 
         <!-- Administrator activities -->
         <activity android:name=".TabLayoutAdministrator" />
-        <activity android:name=".TabLayoutAdministratorProfile" />
+        <activity android:name=".TabLayoutAdministratorProfileUpdate" />
         <activity android:name=".Administrator.OperatorsActivity" />
 
         <!-- Google Map -->

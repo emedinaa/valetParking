@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Administrator.ProfileAdmin">
+    tools:context=".Administrator.ProfileUpdateAdmin">
 
     <!-- ScrollView -->
     <ScrollView
@@ -115,7 +115,7 @@
 
             <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profile_admin__password"
+                android:id="@+id/profile_admin_password"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

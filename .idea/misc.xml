@@ -104,6 +104,7 @@
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__pencil.xml" value="0.13815789473684212" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__people.xml" value="0.12730263157894736" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__place.xml" value="0.12730263157894736" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__save.xml" value="0.1" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__search.xml" value="0.12730263157894736" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__sms.xml" value="0.12730263157894736" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/drawable/icon__telephone.xml" value="0.12730263157894736" />
@@ -129,10 +130,13 @@
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__create_account_operator.xml" value="0.18" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__operator_element.xml" value="0.25" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile.xml" value="0.11447368421052631" />
-        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_admin.xml" value="0.17" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_admin.xml" value="0.33" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_location.xml" value="0.11447368421052631" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_place.xml" value="0.2" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_tab_layout.xml" value="0.1" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__profile_update_tab_layout.xml" value="0.1" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__settings_activity.xml" value="0.25" />
-        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__tab_layout.xml" value="0.25" />
+        <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__tab_layout.xml" value="0.14" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/adm__tickets.xml" value="0.2" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/gen__alert_dialog.xml" value="0.11666666666666667" />
         <entry key="..\:/Users/joel.guerrero/Desktop/ValetParking/app/src/main/res/layout/gen__alert_dialog_id.xml" value="0.25" />

@@ -75,7 +75,7 @@ public class TabLayoutAdministrator extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.option_profile:
-                intent = new Intent(TabLayoutAdministrator.this, TabLayoutAdministratorProfile.class);
+                intent = new Intent(TabLayoutAdministrator.this, TabLayoutAdministratorProfileUpdate.class);
                 startActivity(intent);
                 break;
             case R.id.option_operators:

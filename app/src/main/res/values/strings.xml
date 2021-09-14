@@ -14,6 +14,7 @@
     <string name="button_exit">Exit</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_register">Register</string>
+    <string name="button_update">Update</string>
     <string name="button_search">Search</string>
     <string name="button_login">LOGIN</string>
 
@@ -167,13 +168,14 @@
     <!-- Filters -->
     <string name="table_vehicles_out">Retired</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- TableLayout -->
     <string-array name="array_brands">
         <item>Toyota</item>
         <item>Honda</item>
     </string-array>
-
-
-    <!-- TableLayout -->
     <string-array name="array_years">
         <item>2000</item>
         <item>2001</item>
@@ -204,11 +206,11 @@
         <item>Corolla</item>
         <item>Hillux</item>
     </string-array>
+
     <string-array name="array_models_honda">
         <item>Accord</item>
         <item>Jazz</item>
     </string-array>
-
     <string-array name="array_colors">
 
         <!-- Codes -->
@@ -230,6 +232,7 @@
         <item>Year</item>
         <item>Color</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="array_filter_tickets">
         <item>Opened</item>
         <item>Closed</item>

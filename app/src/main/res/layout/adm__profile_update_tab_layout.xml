@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".TabLayoutAdministrator" >
+    tools:context=".TabLayoutAdministratorProfileUpdate" >
 
     <!-- Tab layout -->
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+        android:id="@+id/adm__profile_update_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -20,18 +20,19 @@
 
     <!-- view pager -->
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+        android:id="@+id/adm__profile_update_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout"
+        android:layout_below="@id/adm__profile_update_tab_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <ImageButton
+        android:id="@+id/adm__profile_update_image_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_margin="15dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         style="@style/button"
-        app:srcCompat="@drawable/icon__pencil"
-        android:layout_margin="15dp"/>
+        app:srcCompat="@drawable/icon__pencil" />
 </RelativeLayout>
