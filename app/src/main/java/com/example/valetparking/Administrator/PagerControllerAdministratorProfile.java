@@ -15,8 +15,8 @@ public class PagerControllerAdministratorProfile extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new ProfileUpdateAdmin();
-            case 1: return new ProfileUpdatePlace();
+            case 0: return new ProfileAdmin();
+            case 1: return new ProfilePlace();
             default: return null;
         }
     }

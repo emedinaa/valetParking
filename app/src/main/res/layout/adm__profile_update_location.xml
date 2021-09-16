@@ -12,7 +12,7 @@
 
         <!-- Maps -->
         <fragment
-            android:id="@+id/profile_admin_location_map"
+            android:id="@+id/profile_update_location_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,7 +20,7 @@
 
         <!-- SearchView -->
         <SearchView
-            android:id="@+id/profile_admin_location_search"
+            android:id="@+id/profile_update_location_search"
             style="@style/auto_complete_none"
             android:background="@drawable/round__search_view"
             android:layout_width="wrap_content"
@@ -32,23 +32,15 @@
             android:queryHint="@string/location_search"
             android:iconifiedByDefault="false"/>
 
-        <!-- Button -->
-        <Button
-            android:id="@+id/profile_admin_location_button"
-            style="@style/button"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:text="@string/button_update" />
-
         <!-- GPS -->
         <ImageButton
             android:id="@+id/profile_admin_location_gps"
             style="@style/button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_above="@id/profile_admin_location_button"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
+            android:layout_margin="15dp"
             app:srcCompat="@drawable/icon__gps"
             tools:ignore="VectorDrawableCompat" />
     </RelativeLayout>

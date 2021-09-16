@@ -3,12 +3,10 @@
     package="com.example.valetparking">
 
     <!-- Permisos -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- APP -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -53,8 +51,10 @@
 
         <!-- Administrator activities -->
         <activity android:name=".TabLayoutAdministrator" />
+        <activity android:name=".TabLayoutAdministratorProfile" />
         <activity android:name=".TabLayoutAdministratorProfileUpdate" />
         <activity android:name=".Administrator.OperatorsActivity" />
+        <activity android:name=".Administrator.Profile" />
 
         <!-- Google Map -->
         <meta-data

@@ -1,6 +1,9 @@
 package com.example.valetparking;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.valetparking.Administrator.PagerControllerAdministratorProfile;
 import com.google.android.material.tabs.TabLayout;
@@ -13,6 +16,7 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerControllerAdministratorProfile pagerAdapter;
+    ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,7 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
         //Conexion de la parte logica con la grafica
         tabLayout = findViewById(R.id.adm__profile_tab_layout);
         viewPager = findViewById(R.id.adm__profile_view_pager);
+        imageButton = findViewById(R.id.adm__profile_image_button);
 
         //Creacion de los tab
         tabLayout.addTab(tabLayout.newTab().setText("Admin"));
@@ -51,5 +56,14 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
         });
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        //Button de editar
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TabLayoutAdministratorProfile.this, TabLayoutAdministratorProfileUpdate.class);
+                startActivity(intent);
+            }
+        });
     }
 }

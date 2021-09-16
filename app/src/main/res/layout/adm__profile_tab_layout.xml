@@ -34,5 +34,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         style="@style/button"
-        app:srcCompat="@drawable/icon__save" />
+        app:srcCompat="@drawable/icon__pencil" />
 </RelativeLayout>

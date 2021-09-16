@@ -37,6 +37,9 @@
     <string name="alert_title_cancel">Successfully canceled</string>
     <string name="alert_message_cancel">Vehicle has been successfully canceled</string>
 
+    <string name="alert_title_update">Successfully updated</string>
+    <string name="alert_message_update">Register has been successfully updated</string>
+
     <string name="alert_id_title">Token id</string>
     <string name="alert_id_message">Insert the vehicle token id</string>
     <string name="alert_id_field">Token</string>
