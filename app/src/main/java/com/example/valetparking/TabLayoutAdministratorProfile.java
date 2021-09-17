@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.valetparking.Administrator.PagerControllerAdministratorProfile;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.valetparking.Administrator.PagerControllerAdministratorProfile;
+import com.example.valetparking.Administrator.Profile;
+import com.google.android.material.tabs.TabLayout;
 
 public class TabLayoutAdministratorProfile extends AppCompatActivity {
 
@@ -61,7 +62,7 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TabLayoutAdministratorProfile.this, TabLayoutAdministratorProfileUpdate.class);
+                Intent intent = new Intent(TabLayoutAdministratorProfile.this, Profile.class);
                 startActivity(intent);
             }
         });

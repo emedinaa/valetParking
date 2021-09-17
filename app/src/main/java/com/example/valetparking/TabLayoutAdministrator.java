@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.valetparking.Administrator.OperatorsActivity;
-import com.example.valetparking.Administrator.PagerControllerAdministrator;
-import com.example.valetparking.Administrator.Profile;
-import com.example.valetparking.Administrator.SettingsActivity;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.valetparking.Administrator.OperatorsActivity;
+import com.example.valetparking.Administrator.PagerControllerAdministrator;
+import com.example.valetparking.Administrator.SettingsActivity;
+import com.google.android.material.tabs.TabLayout;
 
 public class TabLayoutAdministrator extends AppCompatActivity {
 
@@ -76,7 +75,7 @@ public class TabLayoutAdministrator extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.option_profile:
-                intent = new Intent(TabLayoutAdministrator.this, Profile.class);
+                intent = new Intent(TabLayoutAdministrator.this, TabLayoutAdministratorProfile.class);
                 startActivity(intent);
                 break;
             case R.id.option_operators:

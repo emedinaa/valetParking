@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".TabLayoutAdministratorProfileUpdate" >
+    tools:context=".TabLayoutAdministratorProfile" >
 
     <!-- Tab layout -->
     <com.google.android.material.tabs.TabLayout
@@ -26,6 +26,7 @@
         android:layout_below="@id/adm__profile_tab_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <!-- Icono de editar -->
     <ImageButton
         android:id="@+id/adm__profile_image_button"
         android:layout_width="50dp"

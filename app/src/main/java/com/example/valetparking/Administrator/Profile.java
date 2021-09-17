@@ -12,10 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.valetparking.R;
 import com.example.valetparking.TabLayoutAdministratorProfile;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class Profile extends AppCompatActivity {
 
@@ -89,7 +89,7 @@ public class Profile extends AppCompatActivity {
         //Personalizacion del alertDialog
         alert_title.setText(getResources().getString(R.string.alert_title_update));
         alert_message.setText(getResources().getString(R.string.alert_message_update));
-        alert_image.setBackground(getResources().getDrawable(R.drawable.main__ic_launcher_foreground));
+        alert_image.setBackground(getResources().getDrawable(R.drawable.icon__update));
 
         //Mostrar alertDialog
         builder.setView(view);
