@@ -48,7 +48,7 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_in_brand_edit"
-                        style="@style/auto_complete"
+                        style="@style/auto_complete_none"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:paddingLeft="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -67,8 +67,7 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_in_year_edit"
-                        style="@style/auto_complete"
-                        android:inputType="number"
+                        style="@style/auto_complete_none"
                         android:paddingLeft="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -94,7 +93,7 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_in_model_edit"
-                        style="@style/auto_complete"
+                        style="@style/auto_complete_none"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:paddingLeft="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -113,7 +112,7 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_in_color_edit"
-                        style="@style/auto_complete"
+                        style="@style/auto_complete_none"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:paddingLeft="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>

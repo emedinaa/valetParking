@@ -20,7 +20,6 @@
 
             <!-- Personal info -->
             <TextView
-                android:id="@+id/create_account_subtitle_personal_info"
                 style="@style/subtitle"
                 android:text="@string/create_account_subtitle_personal_info" />
             <TextView style="@style/line_down" />
@@ -98,7 +97,6 @@
 
             <!-- User -->
             <TextView
-                android:id="@+id/create_account_subtitle_user"
                 style="@style/subtitle"
                 android:text="@string/create_account_subtitle_user" />
             <TextView style="@style/line_down" />

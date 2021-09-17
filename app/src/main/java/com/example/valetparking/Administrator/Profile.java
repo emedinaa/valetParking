@@ -12,10 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.valetparking.R;
 import com.example.valetparking.TabLayoutAdministratorProfile;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Profile extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class Profile extends AppCompatActivity {
         //Visualizar primera vista
         profile_admin_view.setVisibility(View.VISIBLE);
 
-        //Condicionales
+        //Cambio de vista
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

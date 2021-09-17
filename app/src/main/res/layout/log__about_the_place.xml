@@ -21,7 +21,6 @@
 
             <!-- Information -->
             <TextView
-                android:id="@+id/about_subtitle_information"
                 style="@style/subtitle"
                 android:text="@string/about_subtitle_information" />
             <TextView style="@style/line_down" />
@@ -73,7 +72,6 @@
 
             <!-- Contacts -->
             <TextView
-                android:id="@+id/about_subtitle_contacts"
                 style="@style/subtitle"
                 android:text="@string/about_subtitle_contacts" />
             <TextView style="@style/line_down" />

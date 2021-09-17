@@ -36,7 +36,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_admin_name_edit"
-                    style="@style/auto_complete_none"/>
+                    style="@style/text_input_edit_text"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Code & phone -->
@@ -45,17 +46,18 @@
                 android:layout_height="wrap_content">
 
                 <!-- Code -->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.hbb20.CountryCodePicker
                     android:id="@+id/profile_admin_code"
-                    style="@style/text_input_layout"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/code">
+                    style="@style/country_code_picker"
 
-                    <AutoCompleteTextView
-                        android:id="@+id/profile_admin_code_edit"
-                        style="@style/auto_complete_none" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp"
+                    app:ccpDialog_backgroundColor="@color/black"
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccpDialog_cornerRadius="12dp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccp_countryPreference="US" />
 
                 <!-- Phone number -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +73,9 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/profile_admin_telephone_edit"
-                        style="@style/auto_complete_none"/>
+                        style="@style/text_input_edit_text"
+                        android:inputType="phone"
+                        android:digits="0123456789"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
@@ -89,7 +93,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_admin_email_edit"
-                    style="@style/auto_complete_none"/>
+                    style="@style/text_input_edit_text"
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- User -->
@@ -111,7 +116,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_admin_username_edit"
-                    style="@style/auto_complete_none"/>
+                    style="@style/text_input_edit_text"
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Password -->
@@ -128,7 +134,26 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_admin_password_edit"
-                    style="@style/auto_complete_none"/>
+                    style="@style/text_input_edit_text"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/profile_admin_confirm_password"
+                style="@style/text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_account_confirm_password"
+                android:textColorHint="@color/black"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/icon__lock"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profile_admin_confirm_password_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -163,20 +188,22 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_place_name_edit"
-                    style="@style/auto_complete_none" />
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Type of the place -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/profile_place_type"
-                style="@style/text_input_layout"
+                style="@style/text_input_layout_dropdown"
                 android:hint="@string/about_type"
                 app:startIconDrawable="@drawable/icon__place"
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <AutoCompleteTextView
                     android:id="@+id/profile_place_type_edit"
-                    style="@style/auto_complete_none"/>
+                    style="@style/auto_complete_none"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Description -->
@@ -188,10 +215,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_place_description_edit"
-                    style="@style/auto_complete_none"
+                    style="@style/text_input_edit_text"
                     android:layout_height="100dp"
                     android:padding="8dp"
-                    android:gravity="top" />
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Contacts -->
@@ -209,9 +238,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_place_facebook_edit"
-                    style="@style/auto_complete_none"
+                    style="@style/text_input_edit_text"
                     android:drawableLeft="@drawable/icon__facebook"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Instagram -->
@@ -222,9 +252,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_place_instagram_edit"
-                    style="@style/auto_complete_none"
+                    style="@style/text_input_edit_text"
                     android:drawableLeft="@drawable/icon__instagram"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Twitter -->
@@ -235,9 +266,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_place_twitter_edit"
-                    style="@style/auto_complete_none"
+                    style="@style/text_input_edit_text"
                     android:drawableLeft="@drawable/icon__twitter"
-                    android:drawablePadding="5dp" />
+                    android:drawablePadding="5dp"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Code & phone -->
@@ -246,17 +278,18 @@
                 android:layout_height="wrap_content">
 
                 <!-- Code -->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.hbb20.CountryCodePicker
                     android:id="@+id/profile_place_code"
-                    style="@style/text_input_layout"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/code">
+                    style="@style/country_code_picker"
 
-                    <AutoCompleteTextView
-                        android:id="@+id/profile_place_code_edit"
-                        style="@style/auto_complete_none" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp"
+                    app:ccpDialog_backgroundColor="@color/black"
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccpDialog_cornerRadius="12dp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccp_countryPreference="US" />
 
                 <!-- Phone number -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -272,7 +305,9 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/profile_place_telephone_edit"
-                        style="@style/auto_complete_none" />
+                        style="@style/text_input_edit_text"
+                        android:inputType="phone"
+                        android:digits="0123456789" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>

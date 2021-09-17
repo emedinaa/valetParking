@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="600dp"
         android:layout_margin="8dp"
         android:orientation="vertical">
 
@@ -44,8 +44,8 @@
             android:id="@+id/tickets_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:scrollbars="vertical"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"/>
 
     </LinearLayout>
 </FrameLayout>

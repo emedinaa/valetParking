@@ -14,10 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.R;
@@ -28,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 
 /**
@@ -77,6 +76,9 @@ public class TicketsFragment extends Fragment {
         }
     }
 
+    RecyclerView recyclerView;
+    Tickets_Adapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +88,10 @@ public class TicketsFragment extends Fragment {
 
         //Conexion de la parte logica con la grafica
         TextInputLayout tickets_search = view.findViewById(R.id.tickets_search);
+        recyclerView = view.findViewById(R.id.tickets_recyclerView);
+
+        //RecyclerView
+        setRecyclerView();
 
         //Selectores en textinputlayout
         tickets_search.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +110,33 @@ public class TicketsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    //Asignar recyclerView
+    private void setRecyclerView(){
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        adapter = new Tickets_Adapter(getContext(), getList());
+        recyclerView.setAdapter(adapter);
+    }
+
+    //Metodo para llenar los datos
+    private List<Tickets_Data> getList(){
+        List<Tickets_Data> data = new ArrayList<>();
+
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+
+        return data;
     }
 
     TextInputLayout brand, year, model, color, ticket, operator, date;

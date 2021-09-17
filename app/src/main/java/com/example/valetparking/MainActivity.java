@@ -8,15 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.valetparking.Administrator.SettingsPreferences;
-import com.example.valetparking.login.CreateAccountActivity;
+import com.example.valetparking.login.CreateAccount;
 import com.example.valetparking.login.ForgotPasswordActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
+                Intent intent = new Intent(MainActivity.this, CreateAccount.class);
                 startActivity(intent);
             }
         });
