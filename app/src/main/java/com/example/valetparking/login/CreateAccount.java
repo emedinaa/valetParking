@@ -25,6 +25,13 @@ import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.MainActivity;
@@ -44,13 +51,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class CreateAccount extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -82,7 +82,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.log__create_account_);
+        setContentView(R.layout.log__create_account);
 
         //Conexion de la parte logica con la grafica
             //views
@@ -101,12 +101,12 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                 admin_confirm_password = findViewById(R.id.create_account_admin_confirm_password);
 
                 //TextInputEditText
-                admin_Name = findViewById(R.id.create_account_name_edit);
-                admin_Phone = findViewById(R.id.create_account_telephone_edit);
-                admin_Email = findViewById(R.id.create_account_email_edit);
-                admin_User = findViewById(R.id.create_account_username_edit);
-                admin_Password = findViewById(R.id.create_account_password_edit);
-                admin_Confirm_password = findViewById(R.id.create_account_confirm_password_edit);
+                admin_Name = findViewById(R.id.create_account_admin_name_edit);
+                admin_Phone = findViewById(R.id.create_account_admin_telephone_edit);
+                admin_Email = findViewById(R.id.create_account_admin_email_edit);
+                admin_User = findViewById(R.id.create_account_admin_username_edit);
+                admin_Password = findViewById(R.id.create_account_admin_password_edit);
+                admin_Confirm_password = findViewById(R.id.create_account_admin_confirm_password_edit);
 
                 //CountryCodePicker
                 admin_code = findViewById(R.id.create_account_admin_code);

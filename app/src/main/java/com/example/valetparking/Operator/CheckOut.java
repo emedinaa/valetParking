@@ -22,10 +22,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CheckOutFragment#newInstance} factory method to
+ * Use the {@link CheckOut#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CheckOutFragment extends Fragment {
+public class CheckOut extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +36,7 @@ public class CheckOutFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CheckOutFragment() {}
+    public CheckOut() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -44,11 +44,11 @@ public class CheckOutFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CheckOutFragment.
+     * @return A new instance of fragment CheckOut.
      */
     // TODO: Rename and change types and number of parameters
-    public static CheckOutFragment newInstance(String param1, String param2) {
-        CheckOutFragment fragment = new CheckOutFragment();
+    public static CheckOut newInstance(String param1, String param2) {
+        CheckOut fragment = new CheckOut();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

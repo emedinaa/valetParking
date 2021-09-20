@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.valetparking.Administrator.SettingsPreferences;
+import com.example.valetparking.Administrator.TabLayoutAdministrator;
+import com.example.valetparking.Operator.TabLayoutOperator;
 import com.example.valetparking.login.CreateAccount;
-import com.example.valetparking.login.ForgotPasswordActivity;
+import com.example.valetparking.login.ForgotPassword;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ForgotPasswordActivity.class);
+                Intent intent = new Intent(MainActivity.this, ForgotPassword.class);
                 startActivity(intent);
             }
         });

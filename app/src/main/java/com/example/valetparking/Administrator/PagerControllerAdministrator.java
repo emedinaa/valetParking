@@ -15,9 +15,9 @@ public class PagerControllerAdministrator extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new TicketsFragment();
-            case 1: return new CancelVehicleFragment();
-            case 2: return new CreateAccountOperatorFragment();
+            case 0: return new Tickets();
+            case 1: return new CancelVehicle();
+            case 2: return new CreateAccountOperator();
             default: return null;
         }
     }

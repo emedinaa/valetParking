@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".Administrator.Profile">
+    tools:context=".Administrator.ProfileAdministrator">
 
     <!-- Admin view -->
     <ScrollView
@@ -344,7 +344,7 @@
 
         <!-- GPS -->
         <ImageButton
-            android:id="@+id/profile_admin_location_gps"
+            android:id="@+id/profile_location_gps"
             style="@style/button"
             android:layout_width="50dp"
             android:layout_height="50dp"

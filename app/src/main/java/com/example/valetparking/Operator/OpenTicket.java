@@ -31,10 +31,10 @@ import io.github.muddz.styleabletoast.StyleableToast;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OpenTicketFragment#newInstance} factory method to
+ * Use the {@link OpenTicket#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OpenTicketFragment extends Fragment {
+public class OpenTicket extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,7 +45,7 @@ public class OpenTicketFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OpenTicketFragment() {}
+    public OpenTicket() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -53,11 +53,11 @@ public class OpenTicketFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OpenTicketFragment.
+     * @return A new instance of fragment OpenTicket.
      */
     // TODO: Rename and change types and number of parameters
-    public static OpenTicketFragment newInstance(String param1, String param2) {
-        OpenTicketFragment fragment = new OpenTicketFragment();
+    public static OpenTicket newInstance(String param1, String param2) {
+        OpenTicket fragment = new OpenTicket();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

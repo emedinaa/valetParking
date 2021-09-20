@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OperatorsActivity extends AppCompatActivity {
+public class Operators extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Operators_Adapter adapter;

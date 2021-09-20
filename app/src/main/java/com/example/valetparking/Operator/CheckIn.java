@@ -1,8 +1,6 @@
-package com.example.valetparking.Administrator;
+package com.example.valetparking.Operator;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,30 +9,33 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hbb20.CountryCodePicker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TicketsFragment#newInstance} factory method to
+ * Use the {@link CheckIn#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TicketsFragment extends Fragment {
+public class CheckIn extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,9 +46,7 @@ public class TicketsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TicketsFragment() {
-        // Required empty public constructor
-    }
+    public CheckIn() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -55,11 +54,11 @@ public class TicketsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TicketsFragment.
+     * @return A new instance of fragment CheckIn.
      */
     // TODO: Rename and change types and number of parameters
-    public static TicketsFragment newInstance(String param1, String param2) {
-        TicketsFragment fragment = new TicketsFragment();
+    public static CheckIn newInstance(String param1, String param2) {
+        CheckIn fragment = new CheckIn();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,115 +75,73 @@ public class TicketsFragment extends Fragment {
         }
     }
 
-    RecyclerView recyclerView;
-    Tickets_Adapter adapter;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.adm__tickets, container, false);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //Conexion de la parte logica con la grafica
-        TextInputLayout tickets_search = view.findViewById(R.id.tickets_search);
-        recyclerView = view.findViewById(R.id.tickets_recyclerView);
-
-        //RecyclerView
-        setRecyclerView();
-
-        //Selectores en textinputlayout
-        tickets_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filterDialog().show();
-            }
-        });
-
-        //Endicons
-        tickets_search.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filterDialog().show();
-            }
-        });
-
-        return view;
-    }
-
-    //Asignar recyclerView
-    private void setRecyclerView(){
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        adapter = new Tickets_Adapter(getContext(), getList());
-        recyclerView.setAdapter(adapter);
-    }
-
-    //Metodo para llenar los datos
-    private List<Tickets_Data> getList(){
-        List<Tickets_Data> data = new ArrayList<>();
-
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-
-        return data;
-    }
-
-    TextInputLayout brand, year, model, color, ticket, operator, date;
-    AutoCompleteTextView Brand, Year, Model, ColorC, Ticket, Operator;
-    TextInputEditText Date;
+    TextInputLayout brand, year, model, color, plate, phone, email, key, vehicle;
+    TextInputEditText Plate, Phone, Email, Key, Vehicle;
+    AutoCompleteTextView Brand, Year, Model, Color;
+    CountryCodePicker code;
     String selectorBrand;
 
-    //Metodo del alertDialog (Mensaje emergente)
-    private AlertDialog filterDialog(){
-        AlertDialog alertDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        //Obtener el layout inflater
-        LayoutInflater inflater = getLayoutInflater();
-
-        //Inflar y establecer el layout para el dialogo
-        //Pasar nulo como vista principal porque va en el diseno del dialogo
-        View view = inflater.inflate(R.layout.gen__alert_dialog_filter, null);
-
-        //Dimensiones del alertDialog
-        view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));
-        view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.40));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Inflar el Layout con el Fragment
+        View view = inflater.inflate(R.layout.op__check_in, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //conexion de la parte logica con la parte grafica
-        //TextInputLayout
-        brand = view.findViewById(R.id.alert_filter_brand);
-        year = view.findViewById(R.id.alert_filter_year);
-        model = view.findViewById(R.id.alert_filter_model);
-        color = view.findViewById(R.id.alert_filter_color);
-        ticket = view.findViewById(R.id.alert_filter_ticket);
-        operator = view.findViewById(R.id.alert_filter_operator);
-        date = view.findViewById(R.id.alert_filter_date);
+            //TextInputLayout
+            brand = view.findViewById(R.id.check_in_brand);
+            year = view.findViewById(R.id.check_in_year);
+            model = view.findViewById(R.id.check_in_model);
+            color = view.findViewById(R.id.check_in_color);
+            plate = view.findViewById(R.id.check_in_plate);
+            phone = view.findViewById(R.id.check_in_telephone);
+            email = view.findViewById(R.id.check_in_email);
+            key = view.findViewById(R.id.check_in_key);
+            vehicle = view.findViewById(R.id.check_in_vehicle);
 
-        //AutoCompleteTextView
-        Brand = view.findViewById(R.id.alert_filter_brand_edit);
-        Year = view.findViewById(R.id.alert_filter_year_edit);
-        Model = view.findViewById(R.id.alert_filter_model_edit);
-        ColorC = view.findViewById(R.id.alert_filter_color_edit);
-        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
-        Operator = view.findViewById(R.id.alert_filter_operator_edit);
+            //AutoCompleteTextView
+            Brand = view.findViewById(R.id.check_in_brand_edit);
+            Year = view.findViewById(R.id.check_in_year_edit);
+            Model = view.findViewById(R.id.check_in_model_edit);
+            Color = view.findViewById(R.id.check_in_color_edit);
 
-        //TextInputEditText
-        Date = view.findViewById(R.id.alert_filter_date_edit);
+            //TextInputEditText
+            Plate = view.findViewById(R.id.check_in_plate_edit);
+            Phone = view.findViewById(R.id.check_in_telephone_edit);
+            Email = view.findViewById(R.id.check_in_email_edit);
+            Key = view.findViewById(R.id.check_in_key_edit);
+            Vehicle = view.findViewById(R.id.check_in_vehicle_edit);
 
-        //Button
-        Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
+            //CountryCodePicker
+            code = view.findViewById(R.id.check_in_code);
 
-        //Setear marca
+            //Button
+            Button check_in_button = view.findViewById(R.id.check_in_button);
+
+        //Validar para pasar de vista
+        check_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Brand.getText().toString().equals("") ||
+                    Year.getText().toString().equals("") ||
+                    Model.getText().toString().equals("") ||
+                    Color.getText().toString().equals("") ||
+                    Plate.getText().toString().equals("") ||
+                    //Code.getText().toString().equals("") ||
+                    Phone.getText().toString().equals("") ||
+                    Email.getText().toString().equals("") ||
+                    Key.getText().toString().equals("") ||
+                    Vehicle.getText().toString().equals("")
+                ){
+                    validateData(v);
+                } else {
+                    setFields(v);
+                    customDialog().show();
+                }
+            }
+        });
+
+        //Seter marca vacia
         setSelectorBrand("");
 
         //EndIcons
@@ -220,51 +177,75 @@ public class TicketsFragment extends Fragment {
             }
         });
 
-        ticket.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectTicket().show();
-            }
-        });
+        return view;
+    }
 
-        operator.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectOperator().show();
-            }
-        });
+    //Metodo para setear los campos
+    private void setFields(View view){
+        Brand.setText("");
+        Year.setText("");
+        Model.setText("");
+        Color.setText("");
+        Plate.setText("");
+        //Code.setText("");
+        Phone.setText("");
+        Email.setText("");
+        Key.setText("");
+        Vehicle.setText("");
 
-        date.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int day, month, year;
+        brand.setHelperText(null);
+        year.setHelperText(null);
+        model.setHelperText(null);
+        color.setHelperText(null);
+        plate.setHelperText(null);
+        //code.setHelperText(null);
+        phone.setHelperText(null);
+        email.setHelperText(null);
+        key.setHelperText(null);
+        vehicle.setHelperText(null);
 
-                Calendar calendar = Calendar.getInstance();
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                month = calendar.get(Calendar.MONTH);
-                year = calendar.get(Calendar.YEAR);
+        plate.clearFocus();
+        phone.clearFocus();
+        email.clearFocus();
+        key.clearFocus();
+        vehicle.clearFocus();
+    }
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DatePicker,new DatePickerDialog.OnDateSetListener(){
+    //Metodo del alertDialog (Mensaje emergente)
+    private AlertDialog customDialog(){
+        AlertDialog alertDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                    @Override
-                    public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-                        Date.setText(Day + "/" + (Month+1) + "/" + Year);
-                    }
-                }, year, month, day);
-                datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
-                datePickerDialog.show();
+        //Obtener el layout inflater
+        LayoutInflater inflater = getLayoutInflater();
 
-            }
-        });
+        //Inflar y establecer el layout para el dialogo
+        //Pasar nulo como vista principal porque va en el diseno del dialogo
+        View view =  inflater.inflate(R.layout.gen__alert_dialog, null);
+
+        //Dimensiones del alertDialog
+        view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));
+        view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.40));
+
+        //Conexion de la parte logica con grafica
+        TextView alert_title = view.findViewById(R.id.alert_title);
+        TextView alert_message = view.findViewById(R.id.alert_message);
+        ImageView alert_image = view.findViewById(R.id.alert_image);
+        Button alert_button = view.findViewById(R.id.alert_button);
+
+        //Personalizacion del alertDialog
+        alert_title.setText(getResources().getString(R.string.alert_title_token));
+        alert_message.setText(getResources().getString(R.string.alert_message_token));
+        alert_image.setBackground(getResources().getDrawable(R.drawable.icon__token));
 
         //Mostrar alertDialog
         builder.setView(view);
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         alertDialog = builder.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         //Cerrar alertDialog
-        alert_filter_button.setOnClickListener(new View.OnClickListener() {
+        alert_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
@@ -341,6 +322,7 @@ public class TicketsFragment extends Fragment {
                             alertDialog.dismiss();
                         }
                     }
+
                 }
             });
 
@@ -348,7 +330,7 @@ public class TicketsFragment extends Fragment {
         }
 
         //Year
-        private AlertDialog selectYear() {
+        private AlertDialog selectYear(){
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -366,8 +348,8 @@ public class TicketsFragment extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -530,120 +512,141 @@ public class TicketsFragment extends Fragment {
             return alertDialog;
         }
 
-        //Tickets
-        private AlertDialog selectTicket(){
-            RecyclerView card_recycler_view;
-            CardView_Adapter adapter;
-
-            AlertDialog alertDialog;
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            //Obtener el layout inflater
-            LayoutInflater inflater = getLayoutInflater();
-
-            //Inflar y establecer el layout para el dialogo
-            //Pasar nulo como vista principal porque va en el diseno del dialogo
-            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
-
-            //Conexion de la parte logica con la grafica
-            card_recycler_view = view.findViewById(R.id.card_recycler_view);
-
-            //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
-
-            //RecyclerView - Adapter
-            card_recycler_view.setHasFixedSize(true);
-            card_recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            //Llenar data
-            List<CardView_Data> data = new ArrayList<>();
-
-            String[] tickets = getResources().getStringArray(R.array.array_filter_tickets);
-            int[] tickets_icons = {R.drawable.icon__ticket_open, R.drawable.icon__ticket_close, R.drawable.icon__ticket_cancel};
-
-            for (int i = 0; i < tickets.length; i++) {
-                data.add(new CardView_Data(tickets[i], tickets_icons[i]));
-            }
-
-            //Asignar adapter
-            adapter = new CardView_Adapter(getContext(), data);
-            card_recycler_view.setAdapter(adapter);
-
-            //Mostrar alertDialog
-            builder.setView(view);
-            builder.setCancelable(true);
-            alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-            //Asignar valor seleccionado y cerrar alertDialog
-            adapter.setOnClickLister(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ticket.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                    alertDialog.dismiss();
-                }
-            });
-
-            return alertDialog;
+    //Validar marca
+    private boolean validateBrand(View view, String text_brand){
+        Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
+        if(!pattern.matcher(text_brand).matches()){
+            brand.setHelperText("Invalid brand");
+            return false;
+        } else {
+            brand.setHelperText(null);
         }
+        return true;
+    }
 
-        //Operators
-        private AlertDialog selectOperator(){
-            RecyclerView card_recycler_view;
-            CardView_Adapter adapter;
-
-            AlertDialog alertDialog;
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            //Obtener el layout inflater
-            LayoutInflater inflater = getLayoutInflater();
-
-            //Inflar y establecer el layout para el dialogo
-            //Pasar nulo como vista principal porque va en el diseno del dialogo
-            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
-
-            //Conexion de la parte logica con la grafica
-            card_recycler_view = view.findViewById(R.id.card_recycler_view);
-
-            //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
-
-            //RecyclerView - Adapter
-            card_recycler_view.setHasFixedSize(true);
-            card_recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            //Llenar data
-            List<CardView_Data> data = new ArrayList<>();
-
-            String[] operators = getResources().getStringArray(R.array.array_filter_operators);
-
-            for (int i = 0; i < operators.length; i++) {
-                data.add(new CardView_Data(operators[i], R.drawable.icon__operator));
-            }
-
-            //Asignar adapter
-            adapter = new CardView_Adapter(getContext(), data);
-            card_recycler_view.setAdapter(adapter);
-
-            //Mostrar alertDialog
-            builder.setView(view);
-            builder.setCancelable(true);
-            alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-            //Asignar valor seleccionado y cerrar alertDialog
-            adapter.setOnClickLister(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    operator.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                    alertDialog.dismiss();
-                }
-            });
-
-            return alertDialog;
+    //Validar año
+    private boolean validateYear(View view, String text_year){
+        Pattern pattern = Pattern.compile("^[0-9]{4}+$");
+        if(!pattern.matcher(text_year).matches()){
+            year.setHelperText("Invalid year");
+            return false;
+        } else {
+            year.setHelperText(null);
         }
+        return true;
+    }
+
+    //Validar modelo
+    private boolean validateModel(View view, String text_model){
+        Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
+        if(!pattern.matcher(text_model).matches()){
+            model.setHelperText("Invalid model");
+            return false;
+        } else {
+            model.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar color
+    private boolean validateColor(View view, String text_color){
+        Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
+        if(!pattern.matcher(text_color).matches()){
+            color.setHelperText("Invalid color");
+            return false;
+        } else {
+            color.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar placa
+    private boolean validatePlate(View view, String text_plate){
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
+        if(!pattern.matcher(text_plate).matches()){
+            plate.setHelperText("Invalid plate");
+            return false;
+        } else {
+            plate.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar telefono
+    private boolean validatePhone(View view, String text_phone){
+        Pattern pattern = Pattern.compile("^[0-9]+$");
+        if(!pattern.matcher(text_phone).matches()){
+            phone.setHelperText("Invalid number");
+            return  false;
+        } else {
+            phone.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar correo
+    private boolean validateEmail(View view, String text_email){
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_-]*@[a-zA-Z0-9]*.+$");
+        if(!pattern.matcher(text_email).matches()){
+            email.setHelperText("Invalid email");
+            return false;
+        } else {
+            email.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar llave
+    private boolean validateKey(View view, String text_key){
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
+        if(!pattern.matcher(text_key).matches()){
+            key.setHelperText("Invalid location key");
+            return false;
+        } else {
+            key.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar vehiculo
+    private boolean validateVehicle(View view, String text_vehicle){
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
+        if(!pattern.matcher(text_vehicle).matches()){
+            vehicle.setHelperText("Invalid location vehicle");
+            return false;
+        } else {
+            vehicle.setHelperText(null);
+        }
+        return true;
+    }
+
+    //Validar datos
+    private void validateData(View view){
+        String Brand = brand.getEditText().getText().toString();
+        String Year = year.getEditText().getText().toString();
+        String Model = model.getEditText().getText().toString();
+        String Color = color.getEditText().getText().toString();
+        String Plate = plate.getEditText().getText().toString();
+        String Phone = phone.getEditText().getText().toString();
+        String Email = email.getEditText().getText().toString();
+        String Key = key.getEditText().getText().toString();
+        String Vehicle = vehicle.getEditText().getText().toString();
+
+        boolean booleanBrand = validateBrand(view, Brand);
+        boolean booleanYear = validateYear(view, Year);
+        boolean booleanModel = validateModel(view, Model);
+        boolean booleanColor = validateColor(view,Color);
+        boolean booleanPlate = validatePlate(view, Plate);
+        boolean booleanPhone = validatePhone(view,Phone);
+        boolean booleanEmail = validateEmail(view,Email);
+        boolean booleanKey = validateKey(view, Key);
+        boolean booleanVehicle = validateVehicle(view, Vehicle);
+
+        if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
+            customDialog().show();
+        }
+    }
+
 
     //Metodos Getter y Setter
     public String getSelectorBrand() {

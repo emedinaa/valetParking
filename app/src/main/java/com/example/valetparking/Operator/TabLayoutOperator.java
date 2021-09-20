@@ -1,4 +1,4 @@
-package com.example.valetparking;
+package com.example.valetparking.Operator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,16 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.valetparking.Administrator.OperatorsActivity;
-import com.example.valetparking.Administrator.PagerControllerAdministrator;
-import com.example.valetparking.Administrator.SettingsActivity;
+import com.example.valetparking.MainActivity;
+import com.example.valetparking.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class TabLayoutAdministrator extends AppCompatActivity {
+public class TabLayoutOperator extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    PagerControllerAdministrator pagerAdapter;
+    PagerControllerOperator pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +28,12 @@ public class TabLayoutAdministrator extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
 
         //Creacion de los tab
-        tabLayout.addTab(tabLayout.newTab().setText("Tickets"));
-        tabLayout.addTab(tabLayout.newTab().setText("Cancel vehicle"));
-        tabLayout.addTab(tabLayout.newTab().setText("Operator account"));
+        tabLayout.addTab(tabLayout.newTab().setText("Check in"));
+        tabLayout.addTab(tabLayout.newTab().setText("Open ticket"));
+        tabLayout.addTab(tabLayout.newTab().setText("Check out"));
 
         //Adapter
-        pagerAdapter = new PagerControllerAdministrator(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PagerControllerOperator(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -64,7 +63,7 @@ public class TabLayoutAdministrator extends AppCompatActivity {
     //option menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.adm__option_menu, menu);
+        getMenuInflater().inflate(R.menu.op__option_menu, menu);
         return true;
     }
 
@@ -75,21 +74,17 @@ public class TabLayoutAdministrator extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.option_profile:
-                intent = new Intent(TabLayoutAdministrator.this, TabLayoutAdministratorProfile.class);
+                intent = new Intent(TabLayoutOperator.this, ProfileOperator.class);
                 startActivity(intent);
                 break;
-            case R.id.option_operators:
-                intent = new Intent(TabLayoutAdministrator.this, OperatorsActivity.class);
+            case R.id.option_close_tickets:
+                intent = new Intent(TabLayoutOperator.this, CloseTicket.class);
                 startActivity(intent);
                 break;
             case R.id.option_logout:
-                intent = new Intent(TabLayoutAdministrator.this, MainActivity.class);
+                intent = new Intent(TabLayoutOperator.this, MainActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.option_settings:
-                intent = new Intent(TabLayoutAdministrator.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
