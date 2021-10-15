@@ -1,11 +1,37 @@
 package com.example.valetparking.Database.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Vehicle {
 
-    private String brand, model, year, color, plate, phone, email, key, vehicle, operator;
+    @SerializedName("brand")
+    private String brand;
+
+    @SerializedName("model")
+    private String model;
+
+    @SerializedName("year")
+    private String year;
+
+    @SerializedName("color")
+    private String color;
+
+    @SerializedName("plate")
+    private String plate;
+
+    @SerializedName("phone")
+    private String phone;
+
+    @SerializedName("email")
+    private String email;
+
+    @SerializedName("key")
+    private String key;
+
+    @SerializedName("vehicle")
+    private String vehicle;
 
     //Getters
-
     public String getBrand() {
         return brand;
     }
@@ -42,7 +68,4 @@ public class Vehicle {
         return vehicle;
     }
 
-    public String getOperator() {
-        return operator;
-    }
 }

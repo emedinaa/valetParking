@@ -18,6 +18,7 @@ import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
 import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,7 +35,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -107,6 +107,9 @@ public class OpenTicketFragment extends Fragment {
         return view;
     }
 
+    //Retrofit
+    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
     //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
@@ -116,41 +119,24 @@ public class OpenTicketFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    //Retrofit
-    public void getVehicles() {
-
-    }
-
     //Metodo para llenar los datos
     private List<OpenTicket_Data> getList(){
         List<OpenTicket_Data> data = new ArrayList<>();
 
-        Log.i("Info", "0");
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:4000/") //http://localhost:4000
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         //ROUTE
-        Log.i("Info", "1");
         Vehicles vehicles = retrofit.create(Vehicles.class);
 
         //MODEL
-        Log.i("Info", "2");
         Call<List<Vehicle>> call = vehicles.getVehicles();
 
-        Log.i("Info", "3");
+        //CALLBACK
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override
             public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
-                Log.i("Info", "4");
-
                 if(!response.isSuccessful()) {
-                    Log.i("Info", "5");
                     Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    Log.i("Info", "6");
                     List<Vehicle> vehicleList = response.body();
 
                     for(Vehicle vehicle : vehicleList) {
@@ -161,24 +147,10 @@ public class OpenTicketFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Vehicle>> call, Throwable t) {
-                Log.i("Info", "7");
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("Valet parking", "Error: " + t.getMessage());
+                Log.e("Open ticket", "Error: " + t.getMessage());
             }
         });
-
-        /*
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-         */
 
         return data;
     }
