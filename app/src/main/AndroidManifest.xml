@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ValetParking"
-        android:windowSoftInputMode="stateHidden">
+        android:windowSoftInputMode="stateHidden"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".login.CreateAccount"
             android:exported="true" />

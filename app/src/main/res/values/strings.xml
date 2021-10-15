@@ -152,7 +152,7 @@
     <!-- Years -->
     <string name="table_hours">Hours</string>
 
-    <!-- Models -->
+    <!-- com.example.valetparking.Database.Models -->
     <!-- Toyota -->
     <string name="table_vehicles">Vehicles</string>
 
