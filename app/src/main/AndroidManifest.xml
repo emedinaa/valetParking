@@ -4,6 +4,8 @@
 
 
     <!-- Permisos -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,11 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ValetParking"
-        android:windowSoftInputMode="stateHidden"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".login.CreateAccount"
-            android:exported="true" />
+        android:windowSoftInputMode="stateHidden">
 
         <!-- Main activity -->
         <activity
@@ -34,7 +32,7 @@
 
         <!-- Settings -->
         <activity
-            android:name=".Administrator.SettingsActivity"
+            android:name=".Administrator.Settings"
             android:exported="true"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -43,22 +41,20 @@
         </activity>
 
         <!-- Logins activities -->
-        <activity android:name=".login.ChangePasswordActivity" />
-        <activity android:name=".login.ForgotPasswordActivity" />
-        <activity android:name=".login.LocationActivity" />
-        <activity android:name=".login.AboutThePlaceActivity" />
-        <activity android:name=".login.CreateAccountActivity" />
+        <activity android:name=".login.CreateAccount" />
+        <activity android:name=".login.ChangePassword" />
+        <activity android:name=".login.ForgotPassword" />
 
         <!-- Operator activities -->
-        <activity android:name=".TabLayoutOperator" />
+        <activity android:name=".Operator.TabLayoutOperator" />
         <activity android:name=".Operator.CloseTicket" />
-        <activity android:name=".Operator.ProfileOperatorActivity" />
+        <activity android:name=".Operator.ProfileOperator" />
 
         <!-- Administrator activities -->
-        <activity android:name=".TabLayoutAdministrator" />
-        <activity android:name=".TabLayoutAdministratorProfile" />
-        <activity android:name=".Administrator.OperatorsActivity" />
-        <activity android:name=".Administrator.Profile" />
+        <activity android:name=".Administrator.TabLayoutAdministrator" />
+        <activity android:name=".Administrator.TabLayoutAdministratorProfile" />
+        <activity android:name=".Administrator.Operators" />
+        <activity android:name=".Administrator.ProfileAdministrator" />
 
         <!-- Google Map -->
         <meta-data

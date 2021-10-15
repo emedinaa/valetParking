@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CancelVehicleFragment#newInstance} factory method to
+ * Use the {@link CancelVehicle#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CancelVehicleFragment extends Fragment {
+public class CancelVehicle extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +29,7 @@ public class CancelVehicleFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CancelVehicleFragment() {
+    public CancelVehicle() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class CancelVehicleFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CancelVehicleFragment.
+     * @return A new instance of fragment CancelVehicle.
      */
     // TODO: Rename and change types and number of parameters
-    public static CancelVehicleFragment newInstance(String param1, String param2) {
-        CancelVehicleFragment fragment = new CancelVehicleFragment();
+    public static CancelVehicle newInstance(String param1, String param2) {
+        CancelVehicle fragment = new CancelVehicle();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

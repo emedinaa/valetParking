@@ -13,22 +13,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.valetparking.R;
-import com.example.valetparking.TabLayoutAdministrator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import java.util.regex.Pattern;
 
-import androidx.fragment.app.Fragment;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CreateAccountOperatorFragment#newInstance} factory method to
+ * Use the {@link CreateAccountOperator#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateAccountOperatorFragment extends Fragment {
+public class CreateAccountOperator extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +38,7 @@ public class CreateAccountOperatorFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CreateAccountOperatorFragment() {
+    public CreateAccountOperator() {
         // Required empty public constructor
     }
 
@@ -49,11 +48,11 @@ public class CreateAccountOperatorFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateAccountOperatorFragment.
+     * @return A new instance of fragment CreateAccountOperator.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateAccountOperatorFragment newInstance(String param1, String param2) {
-        CreateAccountOperatorFragment fragment = new CreateAccountOperatorFragment();
+    public static CreateAccountOperator newInstance(String param1, String param2) {
+        CreateAccountOperator fragment = new CreateAccountOperator();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -163,7 +162,7 @@ public class CreateAccountOperatorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(CreateAccountOperatorFragment.super.getContext(), TabLayoutAdministrator.class);
+                Intent intent = new Intent(CreateAccountOperator.super.getContext(), TabLayoutAdministrator.class);
                 startActivity(intent);
             }
         });

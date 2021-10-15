@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangePassword extends AppCompatActivity {
 
     TextInputLayout password, confirm_password;
     TextInputEditText Password, Confirm_password;
@@ -142,7 +142,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(ChangePasswordActivity.this, MainActivity.class);
+                Intent intent = new Intent(ChangePassword.this, MainActivity.class);
                 startActivity(intent);
             }
         });

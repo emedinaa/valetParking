@@ -1,14 +1,14 @@
-package com.example.valetparking.Administrator;
+package com.example.valetparking.Operator;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
+import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,13 +31,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TicketsFragment#newInstance} factory method to
+ * Use the {@link OpenTicket#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TicketsFragment extends Fragment {
+public class OpenTicket extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,9 +52,7 @@ public class TicketsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TicketsFragment() {
-        // Required empty public constructor
-    }
+    public OpenTicket() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -55,11 +60,11 @@ public class TicketsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TicketsFragment.
+     * @return A new instance of fragment OpenTicket.
      */
     // TODO: Rename and change types and number of parameters
-    public static TicketsFragment newInstance(String param1, String param2) {
-        TicketsFragment fragment = new TicketsFragment();
+    public static OpenTicket newInstance(String param1, String param2) {
+        OpenTicket fragment = new OpenTicket();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,32 +82,22 @@ public class TicketsFragment extends Fragment {
     }
 
     RecyclerView recyclerView;
-    Tickets_Adapter adapter;
+    OpenTicket_Adapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.adm__tickets, container, false);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        View view = inflater.inflate(R.layout.op__open_ticket, container, false);
 
         //Conexion de la parte logica con la grafica
-        TextInputLayout tickets_search = view.findViewById(R.id.tickets_search);
-        recyclerView = view.findViewById(R.id.tickets_recyclerView);
+        recyclerView = view.findViewById(R.id.open_ticket_recyclerView);
+        TextInputLayout open_ticket_search = view.findViewById(R.id.open_ticket_search);
 
         //RecyclerView
         setRecyclerView();
 
-        //Selectores en textinputlayout
-        tickets_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filterDialog().show();
-            }
-        });
-
         //Endicons
-        tickets_search.setEndIconOnClickListener(new View.OnClickListener() {
+        open_ticket_search.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterDialog().show();
@@ -112,29 +107,50 @@ public class TicketsFragment extends Fragment {
         return view;
     }
 
+    //Retrofit
+    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
     //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new Tickets_Adapter(getContext(), getList());
+        adapter = new OpenTicket_Adapter(getContext(), getList());
         recyclerView.setAdapter(adapter);
     }
 
     //Metodo para llenar los datos
-    private List<Tickets_Data> getList(){
-        List<Tickets_Data> data = new ArrayList<>();
+    private List<OpenTicket_Data> getList(){
+        List<OpenTicket_Data> data = new ArrayList<>();
 
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new Tickets_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
+        //ROUTE
+        Vehicles vehicles = retrofit.create(Vehicles.class);
+
+        //MODEL
+        Call<List<Vehicle>> call = vehicles.getVehicles();
+
+        //CALLBACK
+        call.enqueue(new Callback<List<Vehicle>>() {
+            @Override
+            public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    List<Vehicle> vehicleList = response.body();
+
+                    for(Vehicle vehicle : vehicleList) {
+                        data.add(new OpenTicket_Data(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(), vehicle.getEmail(), vehicle.getKey(), vehicle.getVehicle()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Open ticket", "Error: " + t.getMessage());
+            }
+        });
 
         return data;
     }
@@ -161,28 +177,28 @@ public class TicketsFragment extends Fragment {
         view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.40));
 
         //conexion de la parte logica con la parte grafica
-        //TextInputLayout
-        brand = view.findViewById(R.id.alert_filter_brand);
-        year = view.findViewById(R.id.alert_filter_year);
-        model = view.findViewById(R.id.alert_filter_model);
-        color = view.findViewById(R.id.alert_filter_color);
-        ticket = view.findViewById(R.id.alert_filter_ticket);
-        operator = view.findViewById(R.id.alert_filter_operator);
-        date = view.findViewById(R.id.alert_filter_date);
+            //TextInputLayout
+            brand = view.findViewById(R.id.alert_filter_brand);
+            year = view.findViewById(R.id.alert_filter_year);
+            model = view.findViewById(R.id.alert_filter_model);
+            color = view.findViewById(R.id.alert_filter_color);
+            ticket = view.findViewById(R.id.alert_filter_ticket);
+            operator = view.findViewById(R.id.alert_filter_operator);
+            date = view.findViewById(R.id.alert_filter_date);
 
-        //AutoCompleteTextView
-        Brand = view.findViewById(R.id.alert_filter_brand_edit);
-        Year = view.findViewById(R.id.alert_filter_year_edit);
-        Model = view.findViewById(R.id.alert_filter_model_edit);
-        ColorC = view.findViewById(R.id.alert_filter_color_edit);
-        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
-        Operator = view.findViewById(R.id.alert_filter_operator_edit);
+            //AutoCompleteTextView
+            Brand = view.findViewById(R.id.alert_filter_brand_edit);
+            Year = view.findViewById(R.id.alert_filter_year_edit);
+            Model = view.findViewById(R.id.alert_filter_model_edit);
+            ColorC = view.findViewById(R.id.alert_filter_color_edit);
+            Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
+            Operator = view.findViewById(R.id.alert_filter_operator_edit);
 
-        //TextInputEditText
-        Date = view.findViewById(R.id.alert_filter_date_edit);
+            //TextInputEditText
+            Date = view.findViewById(R.id.alert_filter_date_edit);
 
-        //Button
-        Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
+            //Button
+            Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
 
         //Setear marca
         setSelectorBrand("");
@@ -654,3 +670,4 @@ public class TicketsFragment extends Fragment {
         this.selectorBrand = selectorBrand;
     }
 }
+

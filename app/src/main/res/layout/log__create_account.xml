@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".login.CreateAccountActivity">
+    android:windowSoftInputMode = "adjustNothing"
+    tools:context=".login.CreateAccount">
 
-    <!-- ScrollView -->
+    <!-- Admin view -->
     <ScrollView
+        android:id="@+id/create_account_admin_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,14 +29,14 @@
 
             <!-- Full name -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_account_name"
+                android:id="@+id/create_account_admin_name"
                 style="@style/text_input_layout"
                 android:hint="@string/create_account_name"
                 app:startIconDrawable="@drawable/icon__people"
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_account_name_edit"
+                    android:id="@+id/create_account_admin_name_edit"
                     style="@style/text_input_edit_text"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -45,7 +48,7 @@
 
                 <!-- Code -->
                 <com.hbb20.CountryCodePicker
-                    android:id="@+id/create_account_code"
+                    android:id="@+id/create_account_admin_code"
                     style="@style/country_code_picker"
 
                     app:ccp_autoDetectCountry="true"
@@ -59,28 +62,28 @@
 
                 <!-- Phone number -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/create_account_telephone"
+                    android:id="@+id/create_account_admin_telephone"
                     style="@style/text_input_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/create_account_code"
+                    android:layout_toRightOf="@id/create_account_admin_code"
                     android:hint="@string/phone_number"
                     app:startIconDrawable="@drawable/icon__telephone"
                     app:helperTextTextColor="@color/helper_text_red">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/create_account_telephone_edit"
+                        android:id="@+id/create_account_admin_telephone_edit"
                         style="@style/text_input_edit_text"
                         android:inputType="phone"
-                        android:digits="0123456789" />
+                        android:digits="0123456789"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
 
             <!-- Email -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_account_email"
+                android:id="@+id/create_account_admin_email"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,9 +93,9 @@
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_account_email_edit"
+                    android:id="@+id/create_account_admin_email_edit"
                     style="@style/text_input_edit_text"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- User -->
@@ -103,7 +106,7 @@
 
             <!-- Username -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_account_username"
+                android:id="@+id/create_account_admin_username"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,14 +116,14 @@
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_account_username_edit"
+                    android:id="@+id/create_account_admin_username_edit"
                     style="@style/text_input_edit_text"
-                    android:inputType="text" />
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Password -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_account_password"
+                android:id="@+id/create_account_admin_password"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,14 +134,14 @@
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_account_password_edit"
+                    android:id="@+id/create_account_admin_password_edit"
                     style="@style/text_input_edit_text"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Confirm password -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/create_account_confirm_password"
+                android:id="@+id/create_account_admin_confirm_password"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,19 +152,215 @@
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/create_account_confirm_password_edit"
+                    android:id="@+id/create_account_admin_confirm_password_edit"
                     style="@style/text_input_edit_text"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Button -->
-            <Button
-                android:id="@+id/create_account_button"
-                style="@style/button"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/button_next" />
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Place view -->
+    <ScrollView
+        android:id="@+id/create_account_place_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <!-- Information -->
+            <TextView
+                style="@style/subtitle"
+                android:text="@string/about_subtitle_information" />
+            <TextView style="@style/line_down" />
+
+            <!-- Name of the place -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_name"
+                style="@style/text_input_layout"
+                android:hint="@string/about_name"
+                app:startIconDrawable="@drawable/icon__people"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_place_name_edit"
+                    style="@style/text_input_edit_text"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Type of the place -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_type"
+                style="@style/text_input_layout_dropdown"
+                android:hint="@string/about_type"
+                app:startIconDrawable="@drawable/icon__place"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <AutoCompleteTextView
+                    android:id="@+id/create_account_place_type_edit"
+                    style="@style/auto_complete_none"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ " />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_description"
+                style="@style/text_input_layout"
+                android:hint="@string/about_description"
+                app:helperTextTextColor="@color/helper_text_red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_place_description_edit"
+                    style="@style/text_input_edit_text"
+                    android:layout_height="100dp"
+                    android:padding="8dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Contacts -->
+            <TextView
+                style="@style/subtitle"
+                android:text="@string/about_subtitle_contacts" />
+            <TextView style="@style/line_down" />
+
+            <!-- Facebook -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_facebook"
+                style="@style/text_input_layout"
+                android:hint="@string/about_facebook">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_place_facebook_edit"
+                    style="@style/text_input_edit_text"
+                    android:drawableLeft="@drawable/icon__facebook"
+                    android:drawablePadding="5dp"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Instagram -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_instagram"
+                style="@style/text_input_layout"
+                android:hint="@string/about_instagram">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_place_instagram_edit"
+                    style="@style/text_input_edit_text"
+                    android:drawableLeft="@drawable/icon__instagram"
+                    android:drawablePadding="5dp"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Twitter -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/create_account_place_twitter"
+                style="@style/text_input_layout"
+                android:hint="@string/about_twitter">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_account_place_twitter_edit"
+                    style="@style/text_input_edit_text"
+                    android:drawableLeft="@drawable/icon__twitter"
+                    android:drawablePadding="5dp"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Code & phone -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Code -->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/create_account_place_code"
+                    style="@style/country_code_picker"
+
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp"
+                    app:ccpDialog_backgroundColor="@color/black"
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccpDialog_cornerRadius="12dp"
+                    app:ccpDialog_showCloseIcon="true"
+                    app:ccp_countryPreference="US" />
+
+                <!-- Phone number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/create_account_place_telephone"
+                    style="@style/text_input_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/create_account_place_code"
+                    android:hint="@string/phone_number"
+                    app:startIconDrawable="@drawable/icon__telephone"
+                    app:helperTextTextColor="@color/helper_text_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/create_account_place_telephone_edit"
+                        style="@style/text_input_edit_text"
+                        android:inputType="phone"
+                        android:digits="0123456789" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Location view -->
+    <RelativeLayout
+        android:id="@+id/create_account_location_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <!-- Maps -->
+        <fragment
+            android:id="@+id/create_account_location_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity" />
+
+        <!-- SearchView -->
+        <SearchView
+            android:id="@+id/create_account_location_search"
+            android:background="@drawable/round__search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="50dp"
+            android:layout_alignParentRight="true"
+            android:queryHint="@string/location_search"
+            android:iconifiedByDefault="false"/>
+
+        <!-- GPS -->
+        <ImageButton
+            android:id="@+id/create_account_location_gps"
+            style="@style/button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            app:srcCompat="@drawable/icon__gps"
+            tools:ignore="VectorDrawableCompat" />
+    </RelativeLayout>
+
+    <!-- Button ciclador -->
+    <Button
+        android:id="@+id/create_account_button"
+        style="@style/button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:text="@string/button_next" />
+
 </RelativeLayout>

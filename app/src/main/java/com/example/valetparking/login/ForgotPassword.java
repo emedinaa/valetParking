@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPassword extends AppCompatActivity {
 
     TextInputLayout sms, email;
     TextInputEditText Sms, Email;
@@ -149,7 +149,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         if(booleanSms || booleanEmail){
             setFields(view);
-            Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
+            Intent intent = new Intent(ForgotPassword.this, ChangePassword.class);
             startActivity(intent);
         }
     }

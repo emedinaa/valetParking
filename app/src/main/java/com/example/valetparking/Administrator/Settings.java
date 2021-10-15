@@ -8,7 +8,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.valetparking.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
