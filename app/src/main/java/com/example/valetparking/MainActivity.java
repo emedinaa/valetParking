@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.valetparking.Administrator.SettingsPreferences;
 import com.example.valetparking.Administrator.TabLayoutAdministrator;
 import com.example.valetparking.Operator.TabLayoutOperator;
@@ -16,9 +19,6 @@ import com.example.valetparking.login.ForgotPassword;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         title_icon = findViewById(R.id.title_icon);
         title_info = findViewById(R.id.title_info);
 
-        //TextView de prueba para ir a las vistas del admin
+        //Prueba adminView
         pruebaAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Button para loguearse
+        //Login
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TextView para ir a crear una cuenta
+        //Create account
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TextView para ir a olvidar una clave
+        //Forgot password
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

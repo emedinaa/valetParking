@@ -113,7 +113,7 @@
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Operators -->
+            <!-- Operator -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/alert_filter_operator"
                 style="@style/text_input_layout_dropdown"

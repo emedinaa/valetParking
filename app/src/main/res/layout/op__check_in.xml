@@ -148,14 +148,14 @@
                     android:id="@+id/check_in_code"
                     style="@style/country_code_picker"
 
-                    app:ccp_autoDetectCountry="true"
-                    app:ccp_showNameCode="true"
-                    app:ccp_textSize="12sp"
                     app:ccpDialog_backgroundColor="@color/black"
-                    app:ccpDialog_textColor="@color/white"
                     app:ccpDialog_cornerRadius="12dp"
                     app:ccpDialog_showCloseIcon="true"
-                    app:ccp_countryPreference="US"/>
+                    app:ccpDialog_textColor="@color/white"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_countryPreference="US"
+                    app:ccp_showNameCode="true"
+                    app:ccp_textSize="12sp" />
 
                 <!-- Phone number -->
                 <com.google.android.material.textfield.TextInputLayout

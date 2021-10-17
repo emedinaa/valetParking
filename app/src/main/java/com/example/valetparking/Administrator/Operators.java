@@ -1,15 +1,23 @@
 package com.example.valetparking.Administrator;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.valetparking.Database.Models.Operator;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Operators extends AppCompatActivity {
 
@@ -27,6 +35,7 @@ public class Operators extends AppCompatActivity {
         setRecyclerView();
     }
 
+    //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -35,17 +44,42 @@ public class Operators extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    //Retrofit
+    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+    //Metodo para llenar los datos
     private List<Operators_Data> getList(){
         List<Operators_Data> data = new ArrayList<>();
 
-        data.add(new Operators_Data("Joel",700,1200,8,8));
-        data.add(new Operators_Data("Gabriel",700,1200,12,12));
-        data.add(new Operators_Data("Jesus",1200,1600,14,14));
-        data.add(new Operators_Data("Maria",1200,1600,15,15));
-        data.add(new Operators_Data("Sofia",1200,1600,18,18));
-        data.add(new Operators_Data("Mariangel",1600,2300,18,18));
-        data.add(new Operators_Data("Ariana",1600,2300,18,18));
-        data.add(new Operators_Data("Pablo",1600,2300 ,18,18));
+        //ROUTE
+        com.example.valetparking.Database.Interfaces.Operators operators = retrofit.create(com.example.valetparking.Database.Interfaces.Operators.class);
+
+        //MODEL
+        Call<List<Operator>> call = operators.getOperators();
+
+        //CALLBACK
+        call.enqueue(new Callback<List<Operator>>() {
+            @Override
+            public void onResponse(Call<List<Operator>> call, Response<List<Operator>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    List<Operator> operatorList = response.body();
+
+                    for(Operator operator : operatorList){
+                        data.add(new Operators_Data(operator.getName(), operator.getHourIn(), operator.getHourOut(), operator.getVehiclesIn(), operator.getVehiclesOut()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Operator>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        data.add(new Operators_Data("Mari044",1739,1800,88,6));
+        data.add(new Operators_Data("JoelG28",1739,1800,88,6));
 
         return data;
     }

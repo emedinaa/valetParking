@@ -188,6 +188,7 @@
         </RelativeLayout>
 
         <ImageView
+            android:id="@+id/adm__card_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

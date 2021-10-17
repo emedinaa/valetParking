@@ -67,5 +67,4 @@ public class Vehicle {
     public String getVehicle() {
         return vehicle;
     }
-
 }

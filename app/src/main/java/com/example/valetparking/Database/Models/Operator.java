@@ -2,7 +2,7 @@ package com.example.valetparking.Database.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Operators {
+public class Operator {
 
     @SerializedName("name")
     private String name;
@@ -19,7 +19,20 @@ public class Operators {
     @SerializedName("password")
     private String password;
 
+    @SerializedName("hourIn")
+    private int hourIn;
+
+    @SerializedName("hourOut")
+    private int hourOut;
+
+    @SerializedName("vehiclesIn")
+    private int vehiclesIn;
+
+    @SerializedName("vehiclesOut")
+    private int vehiclesOut;
+
     //Getters
+
     public String getName() {
         return name;
     }
@@ -38,5 +51,21 @@ public class Operators {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getHourIn() {
+        return hourIn;
+    }
+
+    public int getHourOut() {
+        return hourOut;
+    }
+
+    public int getVehiclesIn() {
+        return vehiclesIn;
+    }
+
+    public int getVehiclesOut() {
+        return vehiclesOut;
     }
 }

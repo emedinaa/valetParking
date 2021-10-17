@@ -4,14 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.valetparking.R;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.MyViewHolderOperators> {
 
@@ -40,6 +42,14 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
             holder.hour_exit.setText(String.valueOf(datas.getHourOut()));
             holder.vehicle_entry.setText(String.valueOf(datas.getVehiclesIn()));
             holder.vehicle_exit.setText(String.valueOf(datas.getVehiclesOut()));
+
+            //Eliminar registro
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Operator: " + datas.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             return;
         }
@@ -53,6 +63,7 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
     //Clase View Holder
     public class MyViewHolderOperators extends RecyclerView.ViewHolder {
         TextView name, hour_entry, hour_exit, vehicle_entry, vehicle_exit;
+        ImageView delete;
 
         public MyViewHolderOperators(View itemView) {
             super(itemView);
@@ -62,6 +73,7 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
             hour_exit = itemView.findViewById(R.id.adm__card_hour_exit_content);
             vehicle_entry = itemView.findViewById(R.id.adm__card_vehicles_entry_content);
             vehicle_exit = itemView.findViewById(R.id.adm__card_vehicles_exit_content);
+            delete = itemView.findViewById(R.id.adm__card_delete);
         }
     }
 }

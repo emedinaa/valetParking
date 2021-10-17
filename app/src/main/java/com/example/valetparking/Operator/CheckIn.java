@@ -141,7 +141,7 @@ public class CheckIn extends Fragment {
             }
         });
 
-        //Seter marca vacia
+        //Setear marca vacia
         setSelectorBrand("");
 
         //EndIcons

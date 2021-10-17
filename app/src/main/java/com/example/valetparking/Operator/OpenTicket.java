@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
@@ -27,9 +30,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,9 +107,6 @@ public class OpenTicket extends Fragment {
         return view;
     }
 
-    //Retrofit
-    Retrofit retrofit = RetrofitClient.getRetrofitClient();
-
     //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
@@ -118,6 +115,9 @@ public class OpenTicket extends Fragment {
         adapter = new OpenTicket_Adapter(getContext(), getList());
         recyclerView.setAdapter(adapter);
     }
+
+    //Retrofit
+    Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
     //Metodo para llenar los datos
     private List<OpenTicket_Data> getList(){
@@ -134,12 +134,11 @@ public class OpenTicket extends Fragment {
             @Override
             public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
-                    return;
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                 } else {
                     List<Vehicle> vehicleList = response.body();
 
-                    for(Vehicle vehicle : vehicleList) {
+                    for (Vehicle vehicle : vehicleList) {
                         data.add(new OpenTicket_Data(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(), vehicle.getEmail(), vehicle.getKey(), vehicle.getVehicle()));
                     }
                 }
@@ -147,10 +146,11 @@ public class OpenTicket extends Fragment {
 
             @Override
             public void onFailure(Call<List<Vehicle>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("Open ticket", "Error: " + t.getMessage());
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        data.add(new OpenTicket_Data("Getz","Hyundai","2001","Blue","MFC99C","+584122133219","valentinapereira2112@gmail.com","A113","B13"));
 
         return data;
     }
@@ -604,7 +604,7 @@ public class OpenTicket extends Fragment {
             return alertDialog;
         }
 
-        //Operators
+        //Operator
         private AlertDialog selectOperator(){
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;

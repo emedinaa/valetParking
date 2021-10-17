@@ -588,7 +588,7 @@ public class Tickets extends Fragment {
             return alertDialog;
         }
 
-        //Operators
+        //Operator
         private AlertDialog selectOperator(){
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
