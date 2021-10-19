@@ -57,7 +57,7 @@ public class CloseTicket extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new OpenTicket_Adapter(this, getList());
+        //adapter = new OpenTicket_Adapter(this, getList());
         recyclerView.setAdapter(adapter);
     }
 

@@ -20,10 +20,10 @@ public class Operator {
     private String password;
 
     @SerializedName("hourIn")
-    private int hourIn;
+    private String hourIn;
 
     @SerializedName("hourOut")
-    private int hourOut;
+    private String hourOut;
 
     @SerializedName("vehiclesIn")
     private int vehiclesIn;
@@ -53,11 +53,11 @@ public class Operator {
         return password;
     }
 
-    public int getHourIn() {
+    public String getHourIn() {
         return hourIn;
     }
 
-    public int getHourOut() {
+    public String getHourOut() {
         return hourOut;
     }
 

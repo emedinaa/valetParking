@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
@@ -30,6 +27,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,8 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link OpenTicket#newInstance} factory method to
+ * A simple {@link Fragment} subclass. Use the {@link OpenTicket#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class OpenTicket extends Fragment {
@@ -52,11 +53,12 @@ public class OpenTicket extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OpenTicket() {}
+    public OpenTicket() {
+    }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Use this factory method to create a new instance of this fragment using the provided
+     * parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
@@ -85,9 +87,16 @@ public class OpenTicket extends Fragment {
     OpenTicket_Adapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.op__open_ticket, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         //Conexion de la parte logica con la grafica
         recyclerView = view.findViewById(R.id.open_ticket_recyclerView);
@@ -104,60 +113,51 @@ public class OpenTicket extends Fragment {
             }
         });
 
-        return view;
+        //Recuperar datos y mostrarlos
+        retrieveVehicles();
     }
 
-    //Asignar recyclerView
-    private void setRecyclerView(){
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        adapter = new OpenTicket_Adapter(getContext(), getList());
-        recyclerView.setAdapter(adapter);
-    }
-
-    //Metodo para llenar los datos
-    private List<OpenTicket_Data> getList(){
-        List<OpenTicket_Data> data = new ArrayList<>();
-
-        //RETROFIT
+    //Recuperar datos
+    private void  retrieveVehicles() {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        //INTERFACE
-        Vehicles vehicles = retrofit.create(Vehicles.class);
+        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getVehicles();
 
-        //MODEL
-        Call<List<Vehicle>> call = vehicles.getVehicles();
-
-        //CALLBACK
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override
             public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
-
-                try {
-
-                    if(!response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-                    } else {
-                        List<Vehicle> vehicleList = response.body();
-
-                        for (Vehicle vehicle : vehicleList) {
-                            data.add(new OpenTicket_Data(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(), vehicle.getEmail(), vehicle.getKey(), vehicle.getVehicle()));
-                        }
-                    }
-
-                } catch (Exception e){
-                    Toast.makeText(getContext(), "Catch: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                if(response.isSuccessful()) {
+                    List<Vehicle> vehicleList = response.body();
+                    populateVehicles(vehicleList);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Vehicle>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<List<Vehicle>> call, Throwable throwable) {
+                Log.e("CONSOLE",throwable.getMessage());
             }
         });
+    }
 
-        return data;
+    //Poblar los datos
+    private void  populateVehicles( List<Vehicle> vehicleList) {
+        List<OpenTicket_Data> data = new ArrayList<>();
+
+        for (Vehicle vehicle : vehicleList) {
+            data.add(new OpenTicket_Data(vehicle.getBrand(),vehicle.getModel(),
+                    vehicle.getYear(), vehicle.getColor(),vehicle.getPlate(),vehicle.getPhone(),
+                    vehicle.getEmail(),vehicle.getKey(), vehicle.getVehicle()));
+        }
+        adapter.update(data);
+    }
+
+    //Asignar recyclerView
+    private void setRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        adapter = new OpenTicket_Adapter(getContext(), new ArrayList<>());
+        recyclerView.setAdapter(adapter);
     }
 
     TextInputLayout brand, year, model, color, ticket, operator, date;
@@ -166,7 +166,7 @@ public class OpenTicket extends Fragment {
     String selectorBrand;
 
     //Metodo del alertDialog (Mensaje emergente)
-    private AlertDialog filterDialog(){
+    private AlertDialog filterDialog() {
         AlertDialog alertDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -178,32 +178,32 @@ public class OpenTicket extends Fragment {
         View view = inflater.inflate(R.layout.gen__alert_dialog_filter, null);
 
         //Dimensiones del alertDialog
-        view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));
-        view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.40));
+        view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.40));
+        view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.40));
 
         //conexion de la parte logica con la parte grafica
-            //TextInputLayout
-            brand = view.findViewById(R.id.alert_filter_brand);
-            year = view.findViewById(R.id.alert_filter_year);
-            model = view.findViewById(R.id.alert_filter_model);
-            color = view.findViewById(R.id.alert_filter_color);
-            ticket = view.findViewById(R.id.alert_filter_ticket);
-            operator = view.findViewById(R.id.alert_filter_operator);
-            date = view.findViewById(R.id.alert_filter_date);
+        //TextInputLayout
+        brand = view.findViewById(R.id.alert_filter_brand);
+        year = view.findViewById(R.id.alert_filter_year);
+        model = view.findViewById(R.id.alert_filter_model);
+        color = view.findViewById(R.id.alert_filter_color);
+        ticket = view.findViewById(R.id.alert_filter_ticket);
+        operator = view.findViewById(R.id.alert_filter_operator);
+        date = view.findViewById(R.id.alert_filter_date);
 
-            //AutoCompleteTextView
-            Brand = view.findViewById(R.id.alert_filter_brand_edit);
-            Year = view.findViewById(R.id.alert_filter_year_edit);
-            Model = view.findViewById(R.id.alert_filter_model_edit);
-            ColorC = view.findViewById(R.id.alert_filter_color_edit);
-            Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
-            Operator = view.findViewById(R.id.alert_filter_operator_edit);
+        //AutoCompleteTextView
+        Brand = view.findViewById(R.id.alert_filter_brand_edit);
+        Year = view.findViewById(R.id.alert_filter_year_edit);
+        Model = view.findViewById(R.id.alert_filter_model_edit);
+        ColorC = view.findViewById(R.id.alert_filter_color_edit);
+        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
+        Operator = view.findViewById(R.id.alert_filter_operator_edit);
 
-            //TextInputEditText
-            Date = view.findViewById(R.id.alert_filter_date_edit);
+        //TextInputEditText
+        Date = view.findViewById(R.id.alert_filter_date_edit);
 
-            //Button
-            Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
+        //Button
+        Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
 
         //Setear marca
         setSelectorBrand("");
@@ -226,8 +226,10 @@ public class OpenTicket extends Fragment {
         model.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(brand.getEditText().getText().toString().equals("")){
-                    StyleableToast.makeText(getContext(),"Debe escoger una marca", Toast.LENGTH_LONG, R.style.toast).show();
+                if (brand.getEditText().getText().toString().equals("")) {
+                    StyleableToast
+                            .makeText(getContext(), "Debe escoger una marca", Toast.LENGTH_LONG, R.style.toast)
+                            .show();
                 } else {
                     selectModel().show();
                 }
@@ -265,14 +267,16 @@ public class OpenTicket extends Fragment {
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DatePicker,new DatePickerDialog.OnDateSetListener(){
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DatePicker,
+                        new DatePickerDialog.OnDateSetListener() {
 
-                    @Override
-                    public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-                        Date.setText(Day + "/" + (Month+1) + "/" + Year);
-                    }
-                }, year, month, day);
-                datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
+                            @Override
+                            public void onDateSet(DatePicker view, int Year, int Month, int Day) {
+                                Date.setText(Day + "/" + (Month + 1) + "/" + Year);
+                            }
+                        }, year, month, day);
+                datePickerDialog.getWindow()
+                        .setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
                 datePickerDialog.show();
 
             }
@@ -295,9 +299,9 @@ public class OpenTicket extends Fragment {
         return alertDialog;
     }
 
-    //Metodo de selectores (Ventana emergente)
+        //Metodo de selectores (Ventana emergente)
         //Brand
-        private AlertDialog selectBrand(){
+        private AlertDialog selectBrand() {
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -315,8 +319,8 @@ public class OpenTicket extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -340,25 +344,33 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(model.getEditText().getText().toString().equals("")){
-                        brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                        setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    if (model.getEditText().getText().toString().equals("")) {
+                        brand.getEditText()
+                                .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setSelectorBrand(
+                                data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                         alertDialog.dismiss();
                     } else {
-                        if(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view().equals(getSelectorBrand())){
-                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        if (data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view()
+                                .equals(getSelectorBrand())) {
+                            brand.getEditText().setText(
+                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setSelectorBrand(
+                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         } else {
-                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            brand.getEditText().setText(
+                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             model.getEditText().setText("");
-                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setSelectorBrand(
+                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         }
                     }
@@ -411,13 +423,15 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    year.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    year.getEditText()
+                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -426,7 +440,7 @@ public class OpenTicket extends Fragment {
         }
 
         //Model
-        private AlertDialog selectModel(){
+        private AlertDialog selectModel() {
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -445,8 +459,8 @@ public class OpenTicket extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -480,13 +494,15 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    model.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    model.getEditText()
+                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -495,7 +511,7 @@ public class OpenTicket extends Fragment {
         }
 
         //Color
-        private AlertDialog selectColor(){
+        private AlertDialog selectColor() {
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -513,8 +529,8 @@ public class OpenTicket extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -537,13 +553,15 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    color.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    color.getEditText()
+                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -552,7 +570,7 @@ public class OpenTicket extends Fragment {
         }
 
         //Tickets
-        private AlertDialog selectTicket(){
+        private AlertDialog selectTicket() {
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -570,8 +588,8 @@ public class OpenTicket extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -581,7 +599,8 @@ public class OpenTicket extends Fragment {
             List<CardView_Data> data = new ArrayList<>();
 
             String[] tickets = getResources().getStringArray(R.array.array_filter_tickets);
-            int[] tickets_icons = {R.drawable.icon__ticket_open, R.drawable.icon__ticket_close, R.drawable.icon__ticket_cancel};
+            int[] tickets_icons = {R.drawable.icon__ticket_open, R.drawable.icon__ticket_close,
+                    R.drawable.icon__ticket_cancel};
 
             for (int i = 0; i < tickets.length; i++) {
                 data.add(new CardView_Data(tickets[i], tickets_icons[i]));
@@ -595,13 +614,15 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ticket.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    ticket.getEditText()
+                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -610,7 +631,7 @@ public class OpenTicket extends Fragment {
         }
 
         //Operator
-        private AlertDialog selectOperator(){
+        private AlertDialog selectOperator() {
             RecyclerView card_recycler_view;
             CardView_Adapter adapter;
 
@@ -628,8 +649,8 @@ public class OpenTicket extends Fragment {
             card_recycler_view = view.findViewById(R.id.card_recycler_view);
 
             //Dimensiones del alertDialog
-            view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int)(getResources().getDisplayMetrics().heightPixels * 0.80));
+            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
+            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
 
             //RecyclerView - Adapter
             card_recycler_view.setHasFixedSize(true);
@@ -652,13 +673,15 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow()
+                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    operator.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    operator.getEditText()
+                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });

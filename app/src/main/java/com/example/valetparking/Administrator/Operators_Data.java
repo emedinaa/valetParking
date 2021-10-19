@@ -1,11 +1,11 @@
 package com.example.valetparking.Administrator;
 
 public class Operators_Data {
-    private String name;
-    private int hourIn, hourOut, vehiclesIn, vehiclesOut;
+    private String name, hourIn, hourOut;
+    private int vehiclesIn, vehiclesOut;
 
     //Constructor
-    public Operators_Data(String name, int hourIn, int hourOut, int vehiclesIn, int vehiclesOut) {
+    public Operators_Data(String name, String hourIn, String hourOut, int vehiclesIn, int vehiclesOut) {
         this.name = name;
         this.hourIn = hourIn;
         this.hourOut = hourOut;
@@ -22,19 +22,19 @@ public class Operators_Data {
         this.name = name;
     }
 
-    public int getHourIn() {
+    public String getHourIn() {
         return hourIn;
     }
 
-    public void setHourIn(int hourIn) {
+    public void setHourIn(String hourIn) {
         this.hourIn = hourIn;
     }
 
-    public int getHourOut() {
+    public String getHourOut() {
         return hourOut;
     }
 
-    public void setHourOut(int hourOut) {
+    public void setHourOut(String hourOut) {
         this.hourOut = hourOut;
     }
 
