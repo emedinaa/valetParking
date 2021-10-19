@@ -11,30 +11,31 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static String BASE_URL = "http://192.168.8.16:4000/"; //http://192.168.8.16:4000/
-    private static Retrofit retrofit;
+    private static Retrofit retrofit = null;
     private static Gson gson;
 
     public static Retrofit getRetrofitClient(){
 
-        //Creamos un interceptor y le indicamos el log level a usar
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        if(retrofit == null) {
+            //Creamos un interceptor y le indicamos el log level a usar
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        //Asociamos el interceptor a las peticiones
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.addInterceptor(interceptor);
+            //Asociamos el interceptor a las peticiones
+            OkHttpClient.Builder client = new OkHttpClient.Builder();
+            client.addInterceptor(interceptor);
 
-        gson = new GsonBuilder()
-                .serializeNulls()
-                .setLenient()
-                .create();
+            gson = new GsonBuilder()
+                    .serializeNulls()
+                    .setLenient()
+                    .create();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client.build())
-                .build();
-
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client.build())
+                    .build();
+        }
         return retrofit;
     }
 }
