@@ -133,14 +133,14 @@ public class OpenTicket extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Vehicle>> call, Throwable throwable) {
-                Log.e("CONSOLE",throwable.getMessage());
+            public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                Log.e("CONSOLE", t.getMessage());
             }
         });
     }
 
     //Poblar los datos
-    private void  populateVehicles( List<Vehicle> vehicleList) {
+    private void  populateVehicles(List<Vehicle> vehicleList) {
         List<OpenTicket_Data> data = new ArrayList<>();
 
         for (Vehicle vehicle : vehicleList) {

@@ -8,12 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.MyViewHolderOperators> {
 
@@ -24,6 +24,12 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
     public Operators_Adapter(Context context, List<Operators_Data> data) {
         this.context = context;
         this.data = data;
+    }
+
+    //Actualizar los datos
+    public void update(List<Operators_Data> list) {
+        data = list;
+        notifyDataSetChanged();
     }
 
     @Override
