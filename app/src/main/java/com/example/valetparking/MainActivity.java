@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.example.valetparking.Administrator.SettingsPreferences;
 import com.example.valetparking.Administrator.TabLayoutAdministrator;
-import com.example.valetparking.Operator.TabLayoutOperator;
+import com.example.valetparking.Database.Interfaces.Authentication;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.login.CreateAccount;
 import com.example.valetparking.login.ForgotPassword;
 import com.google.android.material.textfield.TextInputLayout;
@@ -19,10 +20,14 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextInputLayout username, password;
+    String user, pass;
+    TextInputLayout ti_username, ti_password;
     View title_icon;
     TextView title_info, create_account, forgot_password, pruebaAdmin;
     Button button_login;
@@ -39,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         forgot_password = findViewById(R.id.forgot_password);
         pruebaAdmin = findViewById(R.id.title_info);
 
-        username = findViewById(R.id.login_username);
-        password = findViewById(R.id.login_password);
+        ti_username = findViewById(R.id.login_username);
+        ti_password = findViewById(R.id.login_password);
         title_icon = findViewById(R.id.title_icon);
         title_info = findViewById(R.id.title_info);
 
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateData(v);
+                LoginCheck(user, pass);
             }
         });
 
@@ -91,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean validateUsername(String user){
         Pattern pattern = Pattern.compile("^[a-zA-Z0123456789]+$");
         if(!pattern.matcher(user).matches() || user.length() > 10){
-            username.setHelperText("Invalide username");
+            ti_username.setHelperText("Invalide username");
             return false;
         } else {
-            username.setHelperText(null);
+            ti_username.setHelperText(null);
         }
         return true;
     }
@@ -103,25 +108,29 @@ public class MainActivity extends AppCompatActivity {
     private boolean validatePassword(String pass){
         Pattern pattern = Pattern.compile("^[a-zA-Z0123456789]+$");
         if(!pattern.matcher(pass).matches() || pass.length() > 10){
-            password.setHelperText("Invalide password");
+            ti_password.setHelperText("Invalide password");
             return false;
         } else {
-            password.setHelperText(null);
+            ti_password.setHelperText(null);
         }
         return true;
     }
 
-    //Validar datos
-    private void validateData(View view){
-        String user = username.getEditText().getText().toString();
-        String pass = password.getEditText().getText().toString();
+    //Validar Login
+    private void LoginCheck(final String username, final String password) {
+        setUser(ti_username.getEditText().getText().toString());
+        setPass(ti_password.getEditText().getText().toString());
 
-        boolean User = validateUsername(user);
-        boolean Pass = validatePassword(pass);
+        boolean User = validateUsername(getUser());
+        boolean Pass = validatePassword(getPass());
 
         if(User && Pass){
-            Intent intent = new Intent(MainActivity.this, TabLayoutOperator.class);
-            startActivity(intent);
+            Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+            Call<ResponseBody> call = retrofit.create(Authentication.class).checkLogin(getUser(), getPass());
+
+
+
         }
     }
 
@@ -141,6 +150,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Metodos getter y setters
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }
 
