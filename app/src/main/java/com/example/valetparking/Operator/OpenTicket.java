@@ -116,14 +116,14 @@ public class OpenTicket extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    //Retrofit
-    Retrofit retrofit = RetrofitClient.getRetrofitClient();
-
     //Metodo para llenar los datos
     private List<OpenTicket_Data> getList(){
         List<OpenTicket_Data> data = new ArrayList<>();
 
-        //ROUTE
+        //RETROFIT
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        //INTERFACE
         Vehicles vehicles = retrofit.create(Vehicles.class);
 
         //MODEL
@@ -133,14 +133,21 @@ public class OpenTicket extends Fragment {
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override
             public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
-                if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-                } else {
-                    List<Vehicle> vehicleList = response.body();
 
-                    for (Vehicle vehicle : vehicleList) {
-                        data.add(new OpenTicket_Data(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(), vehicle.getEmail(), vehicle.getKey(), vehicle.getVehicle()));
+                try {
+
+                    if(!response.isSuccessful()) {
+                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    } else {
+                        List<Vehicle> vehicleList = response.body();
+
+                        for (Vehicle vehicle : vehicleList) {
+                            data.add(new OpenTicket_Data(vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(), vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(), vehicle.getEmail(), vehicle.getKey(), vehicle.getVehicle()));
+                        }
                     }
+
+                } catch (Exception e){
+                    Toast.makeText(getContext(), "Catch: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -149,8 +156,6 @@ public class OpenTicket extends Fragment {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-        data.add(new OpenTicket_Data("Getz","Hyundai","2001","Blue","MFC99C","+584122133219","valentinapereira2112@gmail.com","A113","B13"));
 
         return data;
     }
