@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +120,7 @@ public class OpenTicket extends Fragment {
     private void  retrieveVehicles() {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getVehicles();
+        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getOpenVehicles();
 
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override
@@ -134,7 +133,7 @@ public class OpenTicket extends Fragment {
 
             @Override
             public void onFailure(Call<List<Vehicle>> call, Throwable t) {
-                Log.e("CONSOLE", t.getMessage());
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

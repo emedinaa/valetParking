@@ -7,14 +7,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.valetparking.Administrator.SettingsPreferences;
 import com.example.valetparking.Administrator.TabLayoutAdministrator;
 import com.example.valetparking.Database.Interfaces.Authentication;
 import com.example.valetparking.Database.RetrofitClient;
+import com.example.valetparking.Operator.TabLayoutOperator;
 import com.example.valetparking.login.CreateAccount;
 import com.example.valetparking.login.ForgotPassword;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
@@ -22,6 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     //Validar contraseña
     private boolean validatePassword(String pass){
         Pattern pattern = Pattern.compile("^[a-zA-Z0123456789]+$");
-        if(!pattern.matcher(pass).matches() || pass.length() > 10){
+        if(!pattern.matcher(pass).matches() || pass.length() > 25){
             ti_password.setHelperText("Invalide password");
             return false;
         } else {
@@ -129,7 +135,42 @@ public class MainActivity extends AppCompatActivity {
 
             Call<ResponseBody> call = retrofit.create(Authentication.class).checkLogin(getUser(), getPass());
 
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(!response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    } else {
 
+                        try {
+
+                            String result = response.body().string();
+
+                            JSONObject jsonObject = new JSONObject(result);
+
+                            String rol = jsonObject.getString("rol");
+                            String id = jsonObject.getString("_id");
+
+                            if(rol.equals("admin")) {
+                                Intent intent = new Intent(MainActivity.this, TabLayoutAdministrator.class);
+                                startActivity(intent);
+                            } else if(rol.equals("operator")){
+                                Intent intent = new Intent(MainActivity.this, TabLayoutOperator.class);
+                                startActivity(intent);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }

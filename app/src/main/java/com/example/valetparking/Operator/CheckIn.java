@@ -13,12 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
+import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,35 +27,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CheckIn#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CheckIn extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public CheckIn() {}
+    public CheckIn() {
+    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CheckIn.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CheckIn newInstance(String param1, String param2) {
         CheckIn fragment = new CheckIn();
         Bundle args = new Bundle();
@@ -75,11 +65,12 @@ public class CheckIn extends Fragment {
         }
     }
 
-    TextInputLayout brand, year, model, color, plate, phone, email, key, vehicle;
-    TextInputEditText Plate, Phone, Email, Key, Vehicle;
-    AutoCompleteTextView Brand, Year, Model, Color;
-    CountryCodePicker code;
-    String selectorBrand;
+    private TextInputLayout brand, model, year, color, plate, phone, email, key, vehicle;
+    private String BrandS, ModelS, YearS, ColorS, PlateS, PhoneS, EmailS, KeyS, VehicleS;
+    private TextInputEditText Plate, Phone, Email, Key, Vehicle;
+    private AutoCompleteTextView Brand, Year, Model, Color;
+    private CountryCodePicker code;
+    private String selectorBrand;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,6 +113,7 @@ public class CheckIn extends Fragment {
         check_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 if(Brand.getText().toString().equals("") ||
                     Year.getText().toString().equals("") ||
                     Model.getText().toString().equals("") ||
@@ -132,12 +124,16 @@ public class CheckIn extends Fragment {
                     Email.getText().toString().equals("") ||
                     Key.getText().toString().equals("") ||
                     Vehicle.getText().toString().equals("")
-                ){
-                    validateData(v);
+                )
+                {
+                    validateData(v, retrieveVehicle());
                 } else {
                     setFields(v);
                     customDialog().show();
                 }
+                */
+
+                validateData(v);
             }
         });
 
@@ -249,6 +245,7 @@ public class CheckIn extends Fragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                setFields(v);
             }
         });
 
@@ -574,7 +571,7 @@ public class CheckIn extends Fragment {
 
     //Validar telefono
     private boolean validatePhone(View view, String text_phone){
-        Pattern pattern = Pattern.compile("^[0-9]+$");
+        Pattern pattern = Pattern.compile("^[0-9+]+$");
         if(!pattern.matcher(text_phone).matches()){
             phone.setHelperText("Invalid number");
             return  false;
@@ -620,33 +617,75 @@ public class CheckIn extends Fragment {
         return true;
     }
 
-    //Validar datos
-    private void validateData(View view){
-        String Brand = brand.getEditText().getText().toString();
-        String Year = year.getEditText().getText().toString();
-        String Model = model.getEditText().getText().toString();
-        String Color = color.getEditText().getText().toString();
-        String Plate = plate.getEditText().getText().toString();
-        String Phone = phone.getEditText().getText().toString();
-        String Email = email.getEditText().getText().toString();
-        String Key = key.getEditText().getText().toString();
-        String Vehicle = vehicle.getEditText().getText().toString();
+    //Recuperar datos
+    private com.example.valetparking.Database.Models.Vehicle retrieveVehicle(){
+        com.example.valetparking.Database.Models.Vehicle vehicle = new Vehicle();
 
-        boolean booleanBrand = validateBrand(view, Brand);
-        boolean booleanYear = validateYear(view, Year);
-        boolean booleanModel = validateModel(view, Model);
-        boolean booleanColor = validateColor(view,Color);
-        boolean booleanPlate = validatePlate(view, Plate);
-        boolean booleanPhone = validatePhone(view,Phone);
-        boolean booleanEmail = validateEmail(view,Email);
-        boolean booleanKey = validateKey(view, Key);
-        boolean booleanVehicle = validateVehicle(view, Vehicle);
+        vehicle.setBrand(getBrandS());
+        vehicle.setModel(getModelS());
+        vehicle.setYear(getYearS());
+        vehicle.setColor(getColorS());
+        vehicle.setPlate(getPlateS());
+        vehicle.setPhone(getPhoneS());
+        vehicle.setEmail(getEmails());
+        vehicle.setKey(getKeyS());
+        vehicle.setVehicle(getVehicleS());
 
-        if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
-            customDialog().show();
-        }
+        return vehicle;
     }
 
+    //Guardar datos
+    private void registerVehicle(Vehicle vehicle) {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<Vehicle> call = retrofit.create(Vehicles.class).createVehicle(vehicle, "61701bd114515cdc9ca34f56");
+
+        call.enqueue(new Callback<com.example.valetparking.Database.Models.Vehicle>() {
+            @Override
+            public void onResponse(Call<com.example.valetparking.Database.Models.Vehicle> call, Response<com.example.valetparking.Database.Models.Vehicle> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    customDialog().show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.example.valetparking.Database.Models.Vehicle> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println("Error: " +  t.getMessage());
+            }
+        });
+    }
+
+    //Validar datos
+    private void validateData(View view){
+        setBrandS(brand.getEditText().getText().toString());
+        setModelS(model.getEditText().getText().toString());
+        setYearS(year.getEditText().getText().toString());
+        setColorS(color.getEditText().getText().toString());
+        setPlateS(plate.getEditText().getText().toString());
+        setPhoneS(code.getSelectedCountryCodeWithPlus() + phone.getEditText().getText().toString());
+        setEmails(email.getEditText().getText().toString());
+        setKeyS(key.getEditText().getText().toString());
+        setVehicleS(vehicle.getEditText().getText().toString());
+
+        boolean booleanBrand = validateBrand(view, getBrandS());
+        boolean booleanModel = validateModel(view, getModelS());
+        boolean booleanYear = validateYear(view, getYearS());
+        boolean booleanColor = validateColor(view, getColorS());
+        boolean booleanPlate = validatePlate(view, getPlateS());
+        boolean booleanPhone = validatePhone(view, getPhoneS());
+        boolean booleanEmail = validateEmail(view, getEmails());
+        boolean booleanKey = validateKey(view, getKeyS());
+        boolean booleanVehicle = validateVehicle(view, getVehicleS());
+
+        if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
+            System.out.println("Code: " + getPhoneS());
+            Toast.makeText(getContext(), getPhoneS(), Toast.LENGTH_SHORT).show();
+            registerVehicle(retrieveVehicle());
+        }
+    }
 
     //Metodos Getter y Setter
     public String getSelectorBrand() {
@@ -655,5 +694,77 @@ public class CheckIn extends Fragment {
 
     public void setSelectorBrand(String selectorBrand) {
         this.selectorBrand = selectorBrand;
+    }
+
+    public String getBrandS() {
+        return BrandS;
+    }
+
+    public void setBrandS(String brandS) {
+        BrandS = brandS;
+    }
+
+    public String getModelS() {
+        return ModelS;
+    }
+
+    public void setModelS(String modelS) {
+        ModelS = modelS;
+    }
+
+    public String getYearS() {
+        return YearS;
+    }
+
+    public void setYearS(String yearS) {
+        YearS = yearS;
+    }
+
+    public String getColorS() {
+        return ColorS;
+    }
+
+    public void setColorS(String colorS) {
+        ColorS = colorS;
+    }
+
+    public String getPlateS() {
+        return PlateS;
+    }
+
+    public void setPlateS(String plateS) {
+        PlateS = plateS;
+    }
+
+    public String getPhoneS() {
+        return PhoneS;
+    }
+
+    public void setPhoneS(String phoneS) {
+        PhoneS = phoneS;
+    }
+
+    public String getEmails() {
+        return EmailS;
+    }
+
+    public void setEmails(String emailS) {
+        EmailS = emailS;
+    }
+
+    public String getKeyS() {
+        return KeyS;
+    }
+
+    public void setKeyS(String keyS) {
+        KeyS = keyS;
+    }
+
+    public String getVehicleS() {
+        return VehicleS;
+    }
+
+    public void setVehicleS(String vehicleS) {
+        VehicleS = vehicleS;
     }
 }
