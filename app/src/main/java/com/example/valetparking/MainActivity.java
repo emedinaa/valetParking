@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                             } else if(rol.equals("operator")){
                                 Intent intent = new Intent(MainActivity.this, TabLayoutOperator.class);
+                                intent.putExtra("id", id);
                                 startActivity(intent);
                             }
 

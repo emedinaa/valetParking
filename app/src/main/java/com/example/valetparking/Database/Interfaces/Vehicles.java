@@ -12,12 +12,20 @@ import retrofit2.http.Path;
 
 public interface Vehicles {
 
-    @GET("vehicle/")
+    //CHECK IN
+    //@FormUrlEncoded
+    @POST("vehicle/opened/{id}")
+    Call<Vehicle> createVehicle(@Body Vehicle vehicle, @Path("id") String id);
+
+    //OPEN TICKET
+    @GET("vehicle/opened")
     Call<List<Vehicle>> getOpenVehicles();
 
-    //@FormUrlEncoded
-    @POST("vehicle/{id}")
-    Call<Vehicle> createVehicle(@Body Vehicle vehicle, @Path("id") String id);
+    //CHECK OUT
+
+    //CLOSE TICKET
+    @GET("vehicle/closed/{id}")
+    Call<List<Vehicle>> getCloseVehicles(@Path("id") String id);
 
     /*
     @Field("brand") String brand,

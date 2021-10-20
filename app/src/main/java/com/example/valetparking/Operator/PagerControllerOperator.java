@@ -6,16 +6,18 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PagerControllerOperator extends FragmentPagerAdapter {
     int numTabs;
+    String Id;
 
-    public PagerControllerOperator(FragmentManager fm, int behavior) {
+    public PagerControllerOperator(FragmentManager fm, int behavior, String id) {
         super(fm, behavior);
         this.numTabs = behavior;
+        Id = id;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new CheckIn();
+            case 0: return new CheckIn(Id);
             case 1: return new OpenTicket();
             case 2: return new CheckOut();
             default: return null;

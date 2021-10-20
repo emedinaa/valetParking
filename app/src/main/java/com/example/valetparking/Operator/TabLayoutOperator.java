@@ -18,13 +18,14 @@ public class TabLayoutOperator extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerControllerOperator pagerAdapter;
+    String id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gen__tab_layout);
 
-        String id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
@@ -35,7 +36,7 @@ public class TabLayoutOperator extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Check out"));
 
         //Adapter
-        pagerAdapter = new PagerControllerOperator(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PagerControllerOperator(getSupportFragmentManager(), tabLayout.getTabCount(), id);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

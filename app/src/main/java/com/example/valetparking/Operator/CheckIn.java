@@ -37,6 +37,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class CheckIn extends Fragment {
+    private static String ID;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -44,11 +45,12 @@ public class CheckIn extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CheckIn() {
+    public CheckIn(String id) {
+        ID = id;
     }
 
     public static CheckIn newInstance(String param1, String param2) {
-        CheckIn fragment = new CheckIn();
+        CheckIn fragment = new CheckIn(ID);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -638,7 +640,7 @@ public class CheckIn extends Fragment {
     private void registerVehicle(Vehicle vehicle) {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<Vehicle> call = retrofit.create(Vehicles.class).createVehicle(vehicle, "61701bd114515cdc9ca34f56");
+        Call<Vehicle> call = retrofit.create(Vehicles.class).createVehicle(vehicle, ID);
 
         call.enqueue(new Callback<com.example.valetparking.Database.Models.Vehicle>() {
             @Override
@@ -681,8 +683,6 @@ public class CheckIn extends Fragment {
         boolean booleanVehicle = validateVehicle(view, getVehicleS());
 
         if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
-            System.out.println("Code: " + getPhoneS());
-            Toast.makeText(getContext(), getPhoneS(), Toast.LENGTH_SHORT).show();
             registerVehicle(retrieveVehicle());
         }
     }
