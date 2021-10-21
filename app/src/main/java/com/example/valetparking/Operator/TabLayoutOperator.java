@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.valetparking.MainActivity;
-import com.example.valetparking.R;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.valetparking.MainActivity;
+import com.example.valetparking.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class TabLayoutOperator extends AppCompatActivity {
 
@@ -63,6 +63,11 @@ public class TabLayoutOperator extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
 
+
+    //Anular el button back
+    @Override
+    public void onBackPressed() { }
+
     //option menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,6 +83,7 @@ public class TabLayoutOperator extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.option_profile:
                 intent = new Intent(TabLayoutOperator.this, ProfileOperator.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
             case R.id.option_close_tickets:

@@ -13,6 +13,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -26,11 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,7 +126,9 @@ public class OpenTicket extends Fragment {
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override
             public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
-                if(response.isSuccessful()) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
                     List<Vehicle> vehicleList = response.body();
                     populateVehicles(vehicleList);
                 }
