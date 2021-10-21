@@ -18,8 +18,8 @@ public interface Vehicles {
         Call<Vehicle> createVehicle(@Body Vehicle vehicle, @Path("id") String id);
 
         //OPEN TICKET
-        @GET("vehicle/open")
-        Call<List<Vehicle>> getOpenVehicles();
+        @GET("vehicle/open/{id}")
+        Call<List<Vehicle>> getOpenVehicles(@Path("id") String id);
 
         //CHECK OUT
         @GET("vehicle/checkout/{token}")
@@ -30,8 +30,8 @@ public interface Vehicles {
         Call<List<Vehicle>> getCloseVehicles(@Path("id") String id);
 
     //ADMINISTRATOR
-    //OPEN TICKET
-    @GET("vehicle/tickets")
-    Call<List<Vehicle>> getVehicles();
+        //TICKETS
+        @GET("vehicle/tickets")
+        Call<List<Vehicle>> getVehicles();
 
 }

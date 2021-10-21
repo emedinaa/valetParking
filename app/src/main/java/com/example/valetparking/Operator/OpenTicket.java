@@ -37,35 +37,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass. Use the {@link OpenTicket#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class OpenTicket extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static String ID;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public OpenTicket() {
+    public OpenTicket(String id) {
+        ID = id;
     }
 
-    /**
-     * Use this factory method to create a new instance of this fragment using the provided
-     * parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OpenTicket.
-     */
-    // TODO: Rename and change types and number of parameters
     public static OpenTicket newInstance(String param1, String param2) {
-        OpenTicket fragment = new OpenTicket();
+        OpenTicket fragment = new OpenTicket(ID);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -120,7 +105,9 @@ public class OpenTicket extends Fragment {
     private void  retrieveVehicles() {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getOpenVehicles();
+        Toast.makeText(getContext(), "ID: " + ID, Toast.LENGTH_SHORT).show();
+
+        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getOpenVehicles(ID);
 
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override

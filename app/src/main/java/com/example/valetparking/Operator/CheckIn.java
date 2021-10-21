@@ -37,11 +37,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class CheckIn extends Fragment {
-    private static String ID;
 
+    private static String ID;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
