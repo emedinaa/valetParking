@@ -12,10 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -29,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,7 +61,6 @@ public class CloseTicket extends AppCompatActivity {
 
         //Recuperar id
         id = getIntent().getStringExtra("id");
-        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
 
         //Recuperar datos y mostrarlos
         retrieveVehicles();

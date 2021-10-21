@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static String BASE_URL = "http://192.168.8.3:4000/"; //Casa -->  192.168.8.3 // Oficina --> 10.140.7.2
+    private static String BASE_URL = "http://10.140.7.2:4000/"; //Casa -->  192.168.8.3 // Oficina --> 10.140.7.2
     private static Retrofit retrofit;
     private static Gson gson;
 

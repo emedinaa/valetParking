@@ -6,8 +6,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -15,21 +13,19 @@ import retrofit2.http.Path;
 public interface Vehicles {
 
     //CHECK IN
-    //@FormUrlEncoded
-    @POST("vehicle/opened/{id}")
+    @POST("vehicle/checkin/{id}")
     Call<Vehicle> createVehicle(@Body Vehicle vehicle, @Path("id") String id);
 
     //OPEN TICKET
-    @GET("vehicle/opened")
+    @GET("vehicle/open")
     Call<List<Vehicle>> getOpenVehicles();
 
     //CHECK OUT
-    @FormUrlEncoded
-    @GET("vehicle/closed")
-    Call<Vehicle> getCloseVehicle(@Field("token") int token);
+    @GET("vehicle/checkout/{token}")
+    Call<Vehicle> getCloseVehicle(@Path("token") int token);
 
     //CLOSE TICKET
-    @GET("vehicle/closed/{id}")
+    @GET("vehicle/close/{id}")
     Call<List<Vehicle>> getCloseVehicles(@Path("id") String id);
 
     /*

@@ -43,6 +43,10 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_out_brand_edit"
+                        android:layout_height="45dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:paddingRight="0dp"
                         style="@style/auto_complete_none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +62,10 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_out_year_edit"
+                        android:layout_height="45dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:paddingRight="0dp"
                         style="@style/auto_complete_none" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -80,6 +88,10 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_out_model_edit"
+                        android:layout_height="45dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:paddingRight="0dp"
                         style="@style/auto_complete_none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,6 +107,10 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/check_out_color_edit"
+                        android:layout_height="45dp"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:paddingRight="0dp"
                         style="@style/auto_complete_none" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -107,6 +123,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/check_out_plate_edit"
+                    android:layout_height="45dp"
+                    android:padding="0dp"
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,6 +144,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/check_out_telephone_edit"
+                    android:layout_height="45dp"
+                    android:padding="0dp"
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,6 +158,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/check_out_email_edit"
+                    android:layout_height="45dp"
+                    android:padding="0dp"
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,6 +179,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/check_out_key_edit"
+                    android:layout_height="45dp"
+                    android:padding="0dp"
                     style="@style/auto_complete_none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,6 +194,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/check_out_vehicle_edit"
+                    android:layout_height="45dp"
+                    android:padding="0dp"
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 
