@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.valetparking.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -19,9 +20,15 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
     Context context;
 
     //Constructor
-    public Tickets_Adapter(Context context, List<Tickets_Data> data) {
+    public Tickets_Adapter(Context context, ArrayList<Tickets_Data> data) {
         this.context = context;
         this.data = data;
+    }
+
+    //Actualizar los datos
+    public void update(List<Tickets_Data> list) {
+        data = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -30,6 +37,7 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
         return new MyViewHolderOpenTicket(v);
     }
 
+    //Asignar los datos
     @Override
     public void onBindViewHolder(@NonNull MyViewHolderOpenTicket holder, int position) {
         if(data != null && data.size() > 0){
