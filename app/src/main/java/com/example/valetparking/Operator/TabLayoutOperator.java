@@ -88,6 +88,7 @@ public class TabLayoutOperator extends AppCompatActivity {
                 break;
             case R.id.option_close_tickets:
                 intent = new Intent(TabLayoutOperator.this, CloseTicket.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
             case R.id.option_logout:

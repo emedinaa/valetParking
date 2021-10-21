@@ -12,7 +12,6 @@ import com.example.valetparking.Database.Interfaces.Operators;
 import com.example.valetparking.Database.Models.Operator;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
@@ -24,7 +23,6 @@ public class ProfileOperator extends AppCompatActivity {
 
     private String id;
     private TextInputLayout username, name, phone, email;
-    private TextInputEditText Username, Name, Phone, Email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +35,6 @@ public class ProfileOperator extends AppCompatActivity {
             name = findViewById(R.id.operator_profile_name);
             phone = findViewById(R.id.operator_profile_telephone);
             email = findViewById(R.id.operator_profile_email);
-
-            //TextInputEditText
-            Username = findViewById(R.id.operator_profile_username_edit);
-            Name = findViewById(R.id.operator_profile_name_edit);
-            Phone = findViewById(R.id.operator_profile_telephone_edit);
-            Email = findViewById(R.id.operator_profile_email_edit);
 
             //Button
             Button button_profile_back = findViewById(R.id.operator_profile_button);

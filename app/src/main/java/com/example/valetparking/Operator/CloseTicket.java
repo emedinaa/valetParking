@@ -12,8 +12,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
+import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,14 +29,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class CloseTicket extends AppCompatActivity {
 
+    private String id;
     RecyclerView recyclerView;
-    OpenTicket_Adapter adapter;
+    CloseTicket_Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,33 +59,58 @@ public class CloseTicket extends AppCompatActivity {
                 filterDialog().show();
             }
         });
+
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+
+        //Recuperar datos y mostrarlos
+        retrieveVehicles();
+    }
+
+    //Recuperar datos
+    private void retrieveVehicles() {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getCloseVehicles(id);
+
+        call.enqueue(new Callback<List<Vehicle>>() {
+            @Override
+            public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+                if(!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    List<Vehicle> vehicleList = response.body();
+                    populateVehicles(vehicleList);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Poblar los datos
+    private void  populateVehicles(List<Vehicle> vehicleList) {
+        List<CloseTicket_Data> data = new ArrayList<>();
+
+        for (Vehicle vehicle : vehicleList) {
+            data.add(new CloseTicket_Data(vehicle.getBrand(),vehicle.getModel(),
+                    vehicle.getYear(), vehicle.getColor(),vehicle.getPlate(),vehicle.getPhone(),
+                    vehicle.getEmail(),vehicle.getKey(), vehicle.getVehicle()));
+        }
+        adapter.update(data);
     }
 
     //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        //adapter = new OpenTicket_Adapter(this, getList());
+        adapter = new CloseTicket_Adapter(getApplicationContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
-    }
-
-    //Metodo para llenar los datos
-    private List<OpenTicket_Data> getList(){
-        List<OpenTicket_Data> data = new ArrayList<>();
-
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-        data.add(new OpenTicket_Data("Hyunday", "Getz", "2001", "Blue", "MFC99C", "04122133219", "valentinapereira2112@gmail.com", "A113", "B13"));
-
-        return data;
     }
 
     TextInputLayout brand, year, model, color, date;
