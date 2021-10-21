@@ -15,10 +15,17 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,14 +72,31 @@ public class CheckOut extends Fragment {
         }
     }
 
+    private TextInputLayout brand, model, year, color, plate, phone, email, key, vehiclee;
+    private int token;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflar el Layout con el Fragment
         View view = inflater.inflate(R.layout.op__check_out, container, false);
 
         //conexion de la parte logica con  la grafica
-        Button check_out_button = view.findViewById(R.id.check_out_button);
-        FloatingActionButton check_out_token = view.findViewById(R.id.check_out_token);
+            //TextinputLayout
+            brand = view.findViewById(R.id.check_in_brand);
+            model = view.findViewById(R.id.check_in_model);
+            year = view.findViewById(R.id.check_in_year);
+            color = view.findViewById(R.id.check_in_color);
+            plate = view.findViewById(R.id.check_in_plate);
+            phone = view.findViewById(R.id.check_in_telephone);
+            email = view.findViewById(R.id.check_in_email);
+            key = view.findViewById(R.id.check_in_key);
+            vehiclee = view.findViewById(R.id.check_in_vehicle);
+
+            //Button
+            Button check_out_button = view.findViewById(R.id.check_out_button);
+
+            //Floating action button
+            FloatingActionButton check_out_token = view.findViewById(R.id.check_out_token);
 
         //Ventana emergente del id
         check_out_token.setOnClickListener(new View.OnClickListener() {
@@ -155,11 +179,10 @@ public class CheckOut extends Fragment {
 
         //Conexion de la parte logica con grafica
         TextInputLayout id = view.findViewById(R.id.alert_id);
-        TextInputEditText Id = view.findViewById(R.id.alert_id_edit);
         Button alert_id_button = view.findViewById(R.id.alert_id_button);
 
         //RequestFocus
-        Id.requestFocus();
+        id.requestFocus();
 
         //Mostrar alertDialog
         builder.setView(view);
@@ -172,10 +195,42 @@ public class CheckOut extends Fragment {
         alert_id_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Id.getText().toString().length() != 5){
+                if(id.getEditText().getText().toString().length() != 5){
                     Toast.makeText(getContext(), "Debe ingresar el token id", Toast.LENGTH_SHORT).show();
                 } else {
-                    alertDialog.dismiss();
+                    token = Integer.parseInt(id.getEditText().getText().toString());
+
+                    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                    Call<Vehicle> call = retrofit.create(Vehicles.class).getCloseVehicle(token);
+
+                    call.enqueue(new Callback<Vehicle>() {
+                        @Override
+                        public void onResponse(Call<Vehicle> call, Response<Vehicle> response) {
+                            if (!response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Vehicle vehicle = response.body();
+
+                                brand.getEditText().setText(vehicle.getBrand());
+                                model.getEditText().setText(vehicle.getModel());
+                                year.getEditText().setText(vehicle.getYear());
+                                color.getEditText().setText(vehicle.getColor());
+                                plate.getEditText().setText(vehicle.getPlate());
+                                phone.getEditText().setText(vehicle.getPhone());
+                                email.getEditText().setText(vehicle.getEmail());
+                                key.getEditText().setText(vehicle.getKey());
+                                vehiclee.getEditText().setText(vehicle.getVehicle());
+
+                                alertDialog.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Vehicle> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

@@ -117,40 +117,17 @@
                 android:text="@string/check_subtitle_driver" />
             <TextView style="@style/line_down" />
 
-            <!-- Code & Phone -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!-- Phone number -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/check_out_telephone"
+                style="@style/text_input_layout"
+                android:hint="@string/phone_number"
+                app:startIconDrawable="@drawable/icon__telephone">
 
-                <!-- Code -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/check_out_code"
-                    style="@style/text_input_layout"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/code">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/check_out_code_edit"
-                        style="@style/auto_complete_none" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Phone number -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/check_out_telephone"
-                    style="@style/text_input_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/check_out_code"
-                    android:layout_marginLeft="5dp"
-                    app:startIconDrawable="@drawable/icon__telephone"
-                    android:hint="@string/phone_number">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/check_out_telephone_edit"
-                        style="@style/auto_complete_none" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </RelativeLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/check_out_telephone_edit"
+                    style="@style/auto_complete_none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Email -->
             <com.google.android.material.textfield.TextInputLayout
@@ -208,6 +185,7 @@
 
     </ScrollView>
 
+    <!-- Floating action button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/check_out_token"
         style="@style/Widget.App.FloatingActionButton"
