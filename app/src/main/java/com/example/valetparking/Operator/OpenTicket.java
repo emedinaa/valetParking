@@ -13,6 +13,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -26,11 +33,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,8 +69,10 @@ public class OpenTicket extends Fragment {
         }
     }
 
+    TextInputLayout open_ticket_search;
     RecyclerView recyclerView;
     OpenTicket_Adapter adapter;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,7 +88,8 @@ public class OpenTicket extends Fragment {
 
         //Conexion de la parte logica con la grafica
         recyclerView = view.findViewById(R.id.open_ticket_recyclerView);
-        TextInputLayout open_ticket_search = view.findViewById(R.id.open_ticket_search);
+        open_ticket_search = view.findViewById(R.id.open_ticket_search);
+        refreshLayout = view.findViewById(R.id.open_ticket_refresh);
 
         //RecyclerView
         setRecyclerView();
@@ -99,6 +104,17 @@ public class OpenTicket extends Fragment {
 
         //Recuperar datos y mostrarlos
         retrieveVehicles();
+
+        //Recargar datos
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveVehicles();
+
+                //Evitar el bucle
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     //Recuperar datos

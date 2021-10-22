@@ -6,13 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.valetparking.Database.Interfaces.Operators;
 import com.example.valetparking.Database.Models.Operator;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,17 +39,18 @@ public class ProfileOperator extends AppCompatActivity {
             //Button
             Button button_profile_back = findViewById(R.id.operator_profile_button);
 
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
+
         //Button back
         button_profile_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileOperator.this, TabLayoutOperator.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
-
-        //Recuperar id
-        id = getIntent().getStringExtra("id");
 
         //Recuperar datos
         retrieveOperator();
