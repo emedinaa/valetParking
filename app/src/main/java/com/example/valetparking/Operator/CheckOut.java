@@ -26,11 +26,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CheckOut#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CheckOut extends Fragment {
 
     private static String ID;
@@ -85,21 +80,21 @@ public class CheckOut extends Fragment {
             Button check_out_button = view.findViewById(R.id.check_out_button);
 
             //Floating action button
-            FloatingActionButton check_out_token = view.findViewById(R.id.check_out_token);
+            FloatingActionButton search_token = view.findViewById(R.id.check_out_token);
 
-        //Ventana emergente del id
-        check_out_token.setOnClickListener(new View.OnClickListener() {
+        //Token search button
+        search_token.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 idDialog().show();
             }
         });
 
-        //Mensaje del checkout
+        //Check out button
         check_out_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                customDialog().show();
+                checkOutClose();
             }
         });
 
@@ -123,7 +118,7 @@ public class CheckOut extends Fragment {
     private void retrieveVehicle(int token) {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<Vehicle> call = retrofit.create(Vehicles.class).getCloseVehicle(ID, token);
+        Call<Vehicle> call = retrofit.create(Vehicles.class).checkOut(token);
 
         call.enqueue(new Callback<Vehicle>() {
             @Override
@@ -132,16 +127,6 @@ public class CheckOut extends Fragment {
                     Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
                     Vehicle vehicle = response.body();
-
-                    System.out.println("Brand: " + vehicle.getBrand());
-                    System.out.println("Model: " + vehicle.getModel());
-                    System.out.println("Year: " + vehicle.getYear());
-                    System.out.println("Color: " + vehicle.getColor());
-                    System.out.println("Plate: " + vehicle.getPlate());
-                    System.out.println("Phone: " + vehicle.getPhone());
-                    System.out.println("Email: " + vehicle.getEmail());
-                    System.out.println("Key: " + vehicle.getKey());
-                    System.out.println("Vehicle: " + vehicle.getVehicle());
 
                     brand.getEditText().setText(vehicle.getBrand());
                     model.getEditText().setText(vehicle.getModel());
@@ -160,6 +145,29 @@ public class CheckOut extends Fragment {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void checkOutClose(){
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<Vehicle> call = retrofit.create(Vehicles.class).updateTicketClose(ID, plate.getEditText().getText().toString());
+
+        call.enqueue(new Callback<Vehicle>() {
+            @Override
+            public void onResponse(Call<Vehicle> call, Response<Vehicle> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    customDialog().show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Vehicle> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     //Metodo del alertDialog (Mensaje emergente)

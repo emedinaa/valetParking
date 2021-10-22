@@ -103,9 +103,10 @@ public class CheckIn extends Fragment {
             Key = view.findViewById(R.id.check_in_key_edit);
             Vehicle = view.findViewById(R.id.check_in_vehicle_edit);
 
+             */
             //CountryCodePicker
             code = view.findViewById(R.id.check_in_code);
-            */
+
 
             //Button
             Button check_in_button = view.findViewById(R.id.check_in_button);
@@ -617,7 +618,7 @@ public class CheckIn extends Fragment {
     private void registerVehicle(Vehicle vehicle) {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<Vehicle> call = retrofit.create(Vehicles.class).createVehicle(vehicle, ID);
+        Call<Vehicle> call = retrofit.create(Vehicles.class).checkIn(vehicle, ID);
 
         call.enqueue(new Callback<com.example.valetparking.Database.Models.Vehicle>() {
             @Override

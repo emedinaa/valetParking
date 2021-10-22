@@ -123,7 +123,7 @@ public class OpenTicket extends Fragment {
 
         Toast.makeText(getContext(), "ID: " + ID, Toast.LENGTH_SHORT).show();
 
-        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).getOpenVehicles(ID);
+        Call<List<Vehicle>> call = retrofit.create(Vehicles.class).openTicket(ID);
 
         call.enqueue(new Callback<List<Vehicle>>() {
             @Override

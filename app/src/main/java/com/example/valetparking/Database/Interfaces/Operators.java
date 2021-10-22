@@ -16,12 +16,12 @@ public interface Operators {
     @POST("operator/create/{id}")
     Call<Operator> createOperator(@Body Operator operator, @Path("id") String id);
 
+    //READ OPERATOR
+    @GET("operator/{id}")
+    Call<Operator> getOperator(@Path("id") String id);
+
     //OPERATORS FOR ADMIN
     @GET("operator/list/{id}")
     Call<List<Operator>> getOperatorsForAdmin(@Path("id") String id);
-
-    //READ ONE
-    @GET("operator/{id}")
-    Call<Operator> getOperator(@Path("id") String id);
 
 }
