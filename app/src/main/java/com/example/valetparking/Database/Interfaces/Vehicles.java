@@ -31,7 +31,7 @@ public interface Vehicles {
 
     //ADMINISTRATOR
         //TICKETS
-        @GET("vehicle/tickets")
-        Call<List<Vehicle>> getVehicles();
+        @GET("vehicle/tickets/{id}")
+        Call<List<Vehicle>> getVehicles(@Path("id") String id);
 
 }

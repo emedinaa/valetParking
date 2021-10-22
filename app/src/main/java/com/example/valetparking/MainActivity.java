@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if(rol.equals("admin")) {
                                 Intent intent = new Intent(MainActivity.this, TabLayoutAdministrator.class);
+                                intent.putExtra("id", id);
                                 startActivity(intent);
                             } else if(rol.equals("operator")){
                                 Intent intent = new Intent(MainActivity.this, TabLayoutOperator.class);

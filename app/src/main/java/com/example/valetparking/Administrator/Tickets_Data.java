@@ -1,16 +1,16 @@
 package com.example.valetparking.Administrator;
 
 public class Tickets_Data {
-    private String brand, model, year, color, plate, telephone, email, key, vehicle;
+    private String brand, year, model, color, plate, phone, email, key, vehicle;
 
     //Constructor
-    public Tickets_Data(String brand, String model, String year, String color, String plate, String telephone, String email, String key, String vehicle) {
+    public Tickets_Data(String brand, String model, String year, String color, String plate, String phone, String email, String key, String vehicle) {
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.color = color;
         this.plate = plate;
-        this.telephone = telephone;
+        this.phone = phone;
         this.email = email;
         this.key = key;
         this.vehicle = vehicle;
@@ -57,12 +57,12 @@ public class Tickets_Data {
         this.plate = plate;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {

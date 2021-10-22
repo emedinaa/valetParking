@@ -18,12 +18,17 @@ public class TabLayoutAdministrator extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerControllerAdministrator pagerAdapter;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gen__tab_layout);
 
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
+
+        //Conexion de la parte logica con la grafica
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
@@ -33,7 +38,7 @@ public class TabLayoutAdministrator extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Operator account"));
 
         //Adapter
-        pagerAdapter = new PagerControllerAdministrator(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PagerControllerAdministrator(getSupportFragmentManager(), tabLayout.getTabCount(), id);
         Bundle bundle = new Bundle();
         viewPager.setAdapter(pagerAdapter);
 

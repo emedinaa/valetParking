@@ -48,7 +48,7 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
             holder.year.setText(datas.getYear());
             holder.color.setText(datas.getColor());
             holder.plate.setText(datas.getPlate());
-            holder.telephone.setText(datas.getTelephone());
+            holder.telephone.setText(datas.getPhone());
             holder.email.setText(datas.getEmail());
             holder.key.setText(datas.getKey());
             holder.vehicle.setText(datas.getVehicle());

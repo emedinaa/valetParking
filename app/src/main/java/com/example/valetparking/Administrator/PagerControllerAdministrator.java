@@ -6,16 +6,18 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PagerControllerAdministrator extends FragmentPagerAdapter {
     int numTabs;
+    String Id;
 
-    public PagerControllerAdministrator(FragmentManager fm, int behavior) {
+    public PagerControllerAdministrator(FragmentManager fm, int behavior, String id) {
         super(fm, behavior);
         this.numTabs = behavior;
+        Id = id;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: return new Tickets();
+            case 0: return new Tickets(Id);
             case 1: return new CancelVehicle();
             case 2: return new CreateAccountOperator();
             default: return null;
