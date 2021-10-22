@@ -22,8 +22,8 @@ public interface Vehicles {
         Call<List<Vehicle>> getOpenVehicles(@Path("id") String id);
 
         //CHECK OUT
-        @GET("vehicle/checkout/{token}")
-        Call<Vehicle> getCloseVehicle(@Path("token") int token);
+        @GET("vehicle/checkout/{id}/{token}")
+        Call<Vehicle> getCloseVehicle(@Path("id") String id, @Path("token") int token);
 
         //CLOSE TICKET
         @GET("vehicle/close/{id}")

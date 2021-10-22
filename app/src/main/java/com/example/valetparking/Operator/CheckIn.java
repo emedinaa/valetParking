@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.example.valetparking.Database.Interfaces.Vehicles;
 import com.example.valetparking.Database.Models.Vehicle;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
@@ -68,8 +66,8 @@ public class CheckIn extends Fragment {
 
     private TextInputLayout brand, model, year, color, plate, phone, email, key, vehicle;
     private String BrandS, ModelS, YearS, ColorS, PlateS, PhoneS, EmailS, KeyS, VehicleS;
-    private TextInputEditText Plate, Phone, Email, Key, Vehicle;
-    private AutoCompleteTextView Brand, Year, Model, Color;
+    //private TextInputEditText Plate, Phone, Email, Key, Vehicle;
+    //private AutoCompleteTextView Brand, Year, Model, Color;
     private CountryCodePicker code;
     private String selectorBrand;
 
@@ -91,6 +89,7 @@ public class CheckIn extends Fragment {
             key = view.findViewById(R.id.check_in_key);
             vehicle = view.findViewById(R.id.check_in_vehicle);
 
+            /*
             //AutoCompleteTextView
             Brand = view.findViewById(R.id.check_in_brand_edit);
             Year = view.findViewById(R.id.check_in_year_edit);
@@ -106,6 +105,7 @@ public class CheckIn extends Fragment {
 
             //CountryCodePicker
             code = view.findViewById(R.id.check_in_code);
+            */
 
             //Button
             Button check_in_button = view.findViewById(R.id.check_in_button);
@@ -114,26 +114,6 @@ public class CheckIn extends Fragment {
         check_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                if(Brand.getText().toString().equals("") ||
-                    Year.getText().toString().equals("") ||
-                    Model.getText().toString().equals("") ||
-                    Color.getText().toString().equals("") ||
-                    Plate.getText().toString().equals("") ||
-                    //Code.getText().toString().equals("") ||
-                    Phone.getText().toString().equals("") ||
-                    Email.getText().toString().equals("") ||
-                    Key.getText().toString().equals("") ||
-                    Vehicle.getText().toString().equals("")
-                )
-                {
-                    validateData(v, retrieveVehicle());
-                } else {
-                    setFields(v);
-                    customDialog().show();
-                }
-                */
-
                 validateData(v);
             }
         });
@@ -179,23 +159,21 @@ public class CheckIn extends Fragment {
 
     //Metodo para setear los campos
     private void setFields(View view){
-        Brand.setText("");
-        Year.setText("");
-        Model.setText("");
-        Color.setText("");
-        Plate.setText("");
-        //Code.setText("");
-        Phone.setText("");
-        Email.setText("");
-        Key.setText("");
-        Vehicle.setText("");
+        brand.getEditText().setText("");
+        year.getEditText().setText("");
+        model.getEditText().setText("");
+        color.getEditText().setText("");
+        plate.getEditText().setText("");
+        phone.getEditText().setText("");
+        email.getEditText().setText("");
+        key.getEditText().setText("");
+        vehicle.getEditText().setText("");
 
         brand.setHelperText(null);
         year.setHelperText(null);
         model.setHelperText(null);
         color.setHelperText(null);
         plate.setHelperText(null);
-        //code.setHelperText(null);
         phone.setHelperText(null);
         email.setHelperText(null);
         key.setHelperText(null);
@@ -654,7 +632,6 @@ public class CheckIn extends Fragment {
             @Override
             public void onFailure(Call<com.example.valetparking.Database.Models.Vehicle> call, Throwable t) {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                System.out.println("Error: " +  t.getMessage());
             }
         });
     }

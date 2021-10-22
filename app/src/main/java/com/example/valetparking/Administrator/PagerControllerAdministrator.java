@@ -19,7 +19,7 @@ public class PagerControllerAdministrator extends FragmentPagerAdapter {
         switch (position){
             case 0: return new Tickets(Id);
             case 1: return new CancelVehicle();
-            case 2: return new CreateAccountOperator();
+            case 2: return new CreateAccountOperator(Id);
             default: return null;
         }
     }

@@ -85,6 +85,7 @@ public class TabLayoutAdministrator extends AppCompatActivity {
                 break;
             case R.id.option_operators:
                 intent = new Intent(TabLayoutAdministrator.this, Operators.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 break;
             case R.id.option_logout:

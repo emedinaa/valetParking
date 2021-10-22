@@ -20,8 +20,9 @@ import retrofit2.Retrofit;
 
 public class Operators extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    Operators_Adapter adapter;
+    private String ID;
+    private RecyclerView recyclerView;
+    private Operators_Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,9 @@ public class Operators extends AppCompatActivity {
         //Recycler view
         setRecyclerView();
 
+        //Recuperar id
+        ID = getIntent().getStringExtra("id");
+
         //Recuperar y poblar los datos
         retrieveOperators();
     }
@@ -42,7 +46,7 @@ public class Operators extends AppCompatActivity {
     private void retrieveOperators() {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-        Call<List<Operator>> call = retrofit.create(com.example.valetparking.Database.Interfaces.Operators.class).getOperators();
+        Call<List<Operator>> call = retrofit.create(com.example.valetparking.Database.Interfaces.Operators.class).getOperatorsForAdmin(ID);
 
         call.enqueue(new Callback<List<Operator>>() {
             @Override

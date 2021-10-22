@@ -19,7 +19,7 @@ public class PagerControllerOperator extends FragmentPagerAdapter {
         switch (position){
             case 0: return new CheckIn(Id);
             case 1: return new OpenTicket(Id);
-            case 2: return new CheckOut();
+            case 2: return new CheckOut(Id);
             default: return null;
         }
     }

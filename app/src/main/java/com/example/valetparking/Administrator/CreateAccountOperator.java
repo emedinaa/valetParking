@@ -1,7 +1,6 @@
 package com.example.valetparking.Administrator;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,47 +11,38 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-
+import com.example.valetparking.Database.Interfaces.Operators;
+import com.example.valetparking.Database.Models.Operator;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
 import java.util.regex.Pattern;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateAccountOperator#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class CreateAccountOperator extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static String ID;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public CreateAccountOperator() {
-        // Required empty public constructor
+    public CreateAccountOperator(String id) {
+        ID = id;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateAccountOperator.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CreateAccountOperator newInstance(String param1, String param2) {
-        CreateAccountOperator fragment = new CreateAccountOperator();
+        CreateAccountOperator fragment = new CreateAccountOperator(ID);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,10 +59,10 @@ public class CreateAccountOperator extends Fragment {
         }
     }
 
-    TextInputLayout name, phone, email, user, password, confirm_password;
-    TextInputEditText Name, Phone, Email, User, Password, Confirm_password;
-    CountryCodePicker code;
-    Button create_operator_account_button;
+    private TextInputLayout name, phone, email, user, password, confirm_password;
+    private String NameS, PhoneS, EmailS, UserS, PasswordS, Confirm_passwordS;
+    private CountryCodePicker code;
+    private Button create_operator_account_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,31 +79,13 @@ public class CreateAccountOperator extends Fragment {
         password = view.findViewById(R.id.create_account_operator_password);
         confirm_password = view.findViewById(R.id.create_account_operator_confirm_password);
 
-        Name = view.findViewById(R.id.create_account_operator_name_edit);
-        Phone = view.findViewById(R.id.create_account_operator_telephone_edit);
-        Email = view.findViewById(R.id.create_account_operator_email_edit);
-        User = view.findViewById(R.id.create_account_operator_username_edit);
-        Password = view.findViewById(R.id.create_account_operator_password_edit);
-        Confirm_password = view.findViewById(R.id.create_account_operator_confirm_password_edit);
-
         create_operator_account_button = view.findViewById(R.id.create_account_operator_button);
 
         //Validar la data para pasar de ventana
         create_operator_account_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Name.getText().toString().equals("") ||
-                        Phone.getText().toString().equals("") ||
-                        Email.getText().toString().equals("") ||
-                        User.getText().toString().equals("") ||
-                        Password.getText().toString().equals("") ||
-                        Confirm_password.getText().toString().equals("")
-                ){
-                    validateData(v);
-                } else {
-                    validateData(v);
-                    setFields(v);
-                }
+                validateData(v);
             }
         });
 
@@ -162,8 +134,7 @@ public class CreateAccountOperator extends Fragment {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(CreateAccountOperator.super.getContext(), TabLayoutAdministrator.class);
-                startActivity(intent);
+                setFields(v);
             }
         });
 
@@ -172,12 +143,12 @@ public class CreateAccountOperator extends Fragment {
 
     //Metodo para setear los campos
     private void setFields(View view){
-        Name.setText("");
-        Phone.setText("");
-        Email.setText("");
-        User.setText("");
-        Password.setText("");
-        Confirm_password.setText("");
+        name.getEditText().setText("");
+        phone.getEditText().setText("");
+        email.getEditText().setText("");
+        user.getEditText().setText("");
+        password.getEditText().setText("");
+        confirm_password.getEditText().setText("");
 
         name.setHelperText(null);
         phone.setHelperText(null);
@@ -209,7 +180,7 @@ public class CreateAccountOperator extends Fragment {
 
     //Validar telefono
     private boolean validatePhone(View view, String text_phone){
-        Pattern pattern = Pattern.compile("^[0-9]+$");
+        Pattern pattern = Pattern.compile("^[0-9+]+$");
         if(!pattern.matcher(text_phone).matches()){
             phone.setHelperText("Invalid phone");
             return false;
@@ -255,36 +226,117 @@ public class CreateAccountOperator extends Fragment {
         return true;
     }
 
-    //Validar confirmacion de clave
-    private boolean validateConfirmPassword(View view, String text_confirm_password){
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
-        if(!pattern.matcher(text_confirm_password).matches()){
-            confirm_password.setHelperText("Invalid password");
-            return false;
-        } else {
-            confirm_password.setHelperText(null);
-        }
-        return true;
+    //Recuperar datos
+    private Operator retrieveOperator() {
+        Operator operator = new Operator();
+
+        operator.setName(getNameS());
+        operator.setPhone(getPhoneS());
+        operator.setEmail(getEmailS());
+        operator.setUsername(getUserS());
+        operator.setPassword(getPasswordS());
+
+        return operator;
+    }
+
+    //Guardar datos
+    private void registerOperator(Operator operator) {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<Operator> call = retrofit.create(Operators.class).createOperator(operator, ID);
+
+        call.enqueue(new Callback<Operator>() {
+            @Override
+            public void onResponse(Call<Operator> call, Response<Operator> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    customDialog().show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Operator> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //Validar datos
     private void validateData(View view){
-        String Name = name.getEditText().getText().toString();
-        String Phone = phone.getEditText().getText().toString();
-        String Email = email.getEditText().getText().toString();
-        String User = user.getEditText().getText().toString();
-        String Password = password.getEditText().getText().toString();
-        String Confirm_password = confirm_password.getEditText().getText().toString();
+        setNameS(name.getEditText().getText().toString());
+        setPhoneS(phone.getEditText().getText().toString());
+        setEmailS(email.getEditText().getText().toString());
+        setUserS(user.getEditText().getText().toString());
+        setPasswordS(password.getEditText().getText().toString());
+        setConfirm_passwordS(confirm_password.getEditText().getText().toString());
 
-        boolean booleanName = validateName(view, Name);
-        boolean booleanPhone = validatePhone(view,Phone);
-        boolean booleanEmail = validateEmail(view,Email);
-        boolean booleanUser = validateUser(view, User);
-        boolean booleanPassword = validatePassword(view, Password);
-        boolean booleanConfirmPassword = validateConfirmPassword(view, Confirm_password);
+        boolean booleanName = validateName(view, getNameS());
+        boolean booleanPhone = validatePhone(view, getPhoneS());
+        boolean booleanEmail = validateEmail(view, getEmailS());
+        boolean booleanUser = validateUser(view, getUserS());
+        boolean booleanPassword = validatePassword(view, getPasswordS());
 
-        if(booleanName & booleanPhone & booleanEmail & booleanUser & booleanPassword & booleanConfirmPassword){
-            customDialog().show();
+        setPhoneS(code.getSelectedCountryCodeWithPlus() + getPhoneS());
+
+        if(booleanPassword) {
+            if(getPasswordS().equals(getConfirm_passwordS())) {
+                if(booleanName & booleanPhone & booleanEmail & booleanUser){
+                    registerOperator(retrieveOperator());
+                    confirm_password.setHelperText(null);
+                }
+            } else {
+                confirm_password.setHelperText("Invalid password");
+            }
         }
+    }
+
+    //Metodos getter y setter
+    public String getNameS() {
+        return NameS;
+    }
+
+    public void setNameS(String nameS) {
+        NameS = nameS;
+    }
+
+    public String getPhoneS() {
+        return PhoneS;
+    }
+
+    public void setPhoneS(String phoneS) {
+        PhoneS = phoneS;
+    }
+
+    public String getEmailS() {
+        return EmailS;
+    }
+
+    public void setEmailS(String emailS) {
+        EmailS = emailS;
+    }
+
+    public String getUserS() {
+        return UserS;
+    }
+
+    public void setUserS(String userS) {
+        UserS = userS;
+    }
+
+    public String getPasswordS() {
+        return PasswordS;
+    }
+
+    public void setPasswordS(String passwordS) {
+        PasswordS = passwordS;
+    }
+
+    public String getConfirm_passwordS() {
+        return Confirm_passwordS;
+    }
+
+    public void setConfirm_passwordS(String confirm_passwordS) {
+        Confirm_passwordS = confirm_passwordS;
     }
 }
