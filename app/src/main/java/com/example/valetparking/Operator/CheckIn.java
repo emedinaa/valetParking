@@ -644,7 +644,7 @@ public class CheckIn extends Fragment {
         setYearS(year.getEditText().getText().toString());
         setColorS(color.getEditText().getText().toString());
         setPlateS(plate.getEditText().getText().toString());
-        setPhoneS(code.getSelectedCountryCodeWithPlus() + phone.getEditText().getText().toString());
+        setPhoneS(phone.getEditText().getText().toString());
         setEmails(email.getEditText().getText().toString());
         setKeyS(key.getEditText().getText().toString());
         setVehicleS(vehicle.getEditText().getText().toString());
@@ -658,6 +658,8 @@ public class CheckIn extends Fragment {
         boolean booleanEmail = validateEmail(view, getEmails());
         boolean booleanKey = validateKey(view, getKeyS());
         boolean booleanVehicle = validateVehicle(view, getVehicleS());
+
+        setPhoneS(code.getSelectedCountryCodeWithPlus() + getPhoneS());
 
         if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
             registerVehicle(retrieveVehicle());

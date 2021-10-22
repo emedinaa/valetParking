@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,16 +23,13 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
+import com.example.valetparking.Database.Interfaces.Administrators;
+import com.example.valetparking.Database.Models.Administrator;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.MainActivity;
 import com.example.valetparking.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,7 +39,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 
@@ -52,32 +47,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class CreateAccount extends AppCompatActivity implements OnMapReadyCallback {
 
-    //viewa
-    ScrollView view_admin, view_place;
-    RelativeLayout view_location;
+    //Views
+    private ScrollView view_admin, view_place;
+    private RelativeLayout view_location;
 
     //view_admin
-    TextInputLayout admin_name, admin_phone, admin_email, admin_user, admin_password, admin_confirm_password;
-    TextInputEditText admin_Name, admin_Phone, admin_Email, admin_User, admin_Password, admin_Confirm_password;
-    CountryCodePicker admin_code;
+    private TextInputLayout admin_name, admin_phone, admin_email, admin_user, admin_password, admin_confirm_password;
+    private CountryCodePicker admin_code;
 
     //view_place
-    TextInputLayout place_name, place_type, place_description, place_phone, place_facebook, place_instagram, place_twitter;
-    TextInputEditText place_Name, place_Description, place_Phone, place_Facebook, place_Instagram, place_Twitter;
-    AutoCompleteTextView place_Type;
-    CountryCodePicker place_code;
+    private TextInputLayout place_name, place_type, place_description, place_phone, place_facebook, place_instagram, place_twitter;
+    private CountryCodePicker place_code;
 
     //view_location
-    GoogleMap map;
-    SearchView searchView;
-    SupportMapFragment mapFragment;
-    ImageButton gps;
+    private GoogleMap map;
+    private SearchView searchView;
+    private SupportMapFragment mapFragment;
+    private ImageButton gps;
 
-    //gen
-    Button create_account_button;
-    int count = 0;
+    //general
+    private String Admin_name, Admin_phone, Admin_email, Admin_user, Admin_password, Admin_confirm_password;
+    private String Place_name, Place_type, Place_description, Place_phone, Place_facebook, Place_instagram, Place_twitter;
+    private String latitude, longitude;
+    private Button create_account_button;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +106,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                 admin_password = findViewById(R.id.create_account_admin_password);
                 admin_confirm_password = findViewById(R.id.create_account_admin_confirm_password);
 
-                //TextInputEditText
-                admin_Name = findViewById(R.id.create_account_admin_name_edit);
-                admin_Phone = findViewById(R.id.create_account_admin_telephone_edit);
-                admin_Email = findViewById(R.id.create_account_admin_email_edit);
-                admin_User = findViewById(R.id.create_account_admin_username_edit);
-                admin_Password = findViewById(R.id.create_account_admin_password_edit);
-                admin_Confirm_password = findViewById(R.id.create_account_admin_confirm_password_edit);
-
                 //CountryCodePicker
                 admin_code = findViewById(R.id.create_account_admin_code);
 
@@ -120,17 +118,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                 place_facebook = findViewById(R.id.create_account_place_facebook);
                 place_instagram = findViewById(R.id.create_account_place_instagram);
                 place_twitter = findViewById(R.id.create_account_place_twitter);
-
-                //TextinputEditText
-                place_Name = findViewById(R.id.create_account_place_name_edit);
-                place_Description = findViewById(R.id.create_account_place_description_edit);
-                place_Phone = findViewById(R.id.create_account_place_telephone_edit);
-                place_Facebook = findViewById(R.id.create_account_place_facebook_edit);
-                place_Instagram = findViewById(R.id.create_account_place_instagram_edit);
-                place_Twitter = findViewById(R.id.create_account_place_twitter_edit);
-
-                //autoCompleteTextView
-                place_Type = findViewById(R.id.create_account_place_type_edit);
 
                 //CountryCodePicker
                 place_code = findViewById(R.id.create_account_place_code);
@@ -230,12 +217,12 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
     //Metodo para setear los campos
     private void setFields(View view){
         //admin
-        admin_Name.setText("");
-        admin_Phone.setText("");
-        admin_Email.setText("");
-        admin_User.setText("");
-        admin_Password.setText("");
-        admin_Confirm_password.setText("");
+        admin_name.getEditText().setText("");
+        admin_password.getEditText().setText("");
+        admin_email.getEditText().setText("");
+        admin_user.getEditText().setText("");
+        admin_password.getEditText().setText("");
+        admin_confirm_password.getEditText().setText("");
 
         admin_name.setHelperText(null);
         admin_phone.setHelperText(null);
@@ -253,10 +240,10 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
         admin_confirm_password.clearFocus();
 
         //place
-        place_Name.setText("");
-        place_Type.setText("");
-        place_Description.setText("");
-        place_Phone.setText("");
+        place_name.getEditText().setText("");
+        place_type.getEditText().setText("");
+        place_description.getEditText().setText("");
+        place_phone.getEditText().setText("");
 
         place_name.setHelperText(null);
         place_type.setHelperText(null);
@@ -347,30 +334,36 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
         //Validar datos
         private void admin_validateData(View view){
-            String Name = admin_name.getEditText().getText().toString();
-            String Phone = admin_phone.getEditText().getText().toString();
-            String Email = admin_email.getEditText().getText().toString();
-            String User = admin_user.getEditText().getText().toString();
-            String Password = admin_password.getEditText().getText().toString();
-            String Confirm_password = admin_confirm_password.getEditText().getText().toString();
+            setAdmin_name(admin_name.getEditText().getText().toString());
+            setAdmin_phone(admin_phone.getEditText().getText().toString());
+            setAdmin_email(admin_email.getEditText().getText().toString());
+            setAdmin_user(admin_user.getEditText().getText().toString());
+            setAdmin_password(admin_password.getEditText().getText().toString());
+            setAdmin_confirm_password(admin_confirm_password.getEditText().getText().toString());
 
-            boolean booleanName = admin_validateName(view, Name);
-            boolean booleanPhone = admin_validatePhone(view,Phone);
-            boolean booleanEmail = admin_validateEmail(view,Email);
-            boolean booleanUser = admin_validateUser(view, User);
-            boolean booleanPassword = admin_validatePassword(view, Password);
-            boolean booleanConfirmPassword = admin_validateConfirmPassword(view, Confirm_password);
+            boolean booleanName = admin_validateName(view, getAdmin_name());
+            boolean booleanPhone = admin_validatePhone(view, getAdmin_phone());
+            boolean booleanEmail = admin_validateEmail(view, getAdmin_email());
+            boolean booleanUser = admin_validateUser(view, getAdmin_user());
+            boolean booleanPassword = admin_validatePassword(view, getAdmin_password());
+            boolean booleanConfirmPassword = admin_validateConfirmPassword(view, getAdmin_confirm_password());
 
-            if(booleanName & booleanPhone & booleanEmail & booleanUser & booleanPassword & booleanConfirmPassword){
-                view_admin.setVisibility(View.INVISIBLE);
-                view_place.setVisibility(View.VISIBLE);
-                view_location.setVisibility(View.INVISIBLE);
+            setAdmin_phone(admin_code.getSelectedCountryCodeWithPlus() + getAdmin_phone());
 
-                count++;
+            if(booleanPassword) {
+                if(getAdmin_password().equals(getAdmin_confirm_password())) {
+                    if(booleanName & booleanPhone & booleanEmail & booleanUser & booleanPassword & booleanConfirmPassword){
+                        view_admin.setVisibility(View.INVISIBLE);
+                        view_place.setVisibility(View.VISIBLE);
+                        view_location.setVisibility(View.INVISIBLE);
+
+                        count++;
+                    }
+                } else {
+                    admin_confirm_password.setHelperText("Invalid password");
+                }
             }
         }
-
-    //ADMIN
 
     //PLACE
 
@@ -424,15 +417,17 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
         //Validar datos
         private void place_validateData(View view){
-            String Name = place_name.getEditText().getText().toString();
-            String Type = place_type.getEditText().getText().toString();
-            String Description = place_description.getEditText().getText().toString();
-            String Phone = place_phone.getEditText().getText().toString();
+            setPlace_name(place_name.getEditText().getText().toString());
+            setPlace_type(place_type.getEditText().getText().toString());
+            setPlace_description(place_description.getEditText().getText().toString());
+            setPlace_phone(place_phone.getEditText().getText().toString());
 
-            boolean booleanName = place_validateName(view, Name);
-            boolean booleanType = place_validateType(view, Type);
-            boolean booleanDescription = place_validateDescription(view, Description);
-            boolean booleanPhone = place_validatePhone(view,Phone);
+            boolean booleanName = place_validateName(view, getPlace_name());
+            boolean booleanType = place_validateType(view, getPlace_type());
+            boolean booleanDescription = place_validateDescription(view, getPlace_description());
+            boolean booleanPhone = place_validatePhone(view, getPlace_phone());
+
+            setPlace_phone(place_code.getSelectedCountryCodeWithPlus() + getPlace_phone());
 
             if(booleanName & booleanType & booleanDescription & booleanPhone){
                 view_admin.setVisibility(View.INVISIBLE);
@@ -502,8 +497,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             return alertDialog;
         }
 
-    //PLACE
-
     //LOCATION
 
         //Metodo para el searchView
@@ -527,6 +520,10 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
                         //Obtenemos ubicacion
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                        //Guardar latitud y longitud
+                        setLatitude(String.valueOf(address.getLatitude()));
+                        setLongitude(String.valueOf(address.getLongitude()));
 
                         //Colocar marcador
                         map.addMarker(new MarkerOptions().position(latLng).title(location));
@@ -568,6 +565,10 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                     //Recuperamos la ubicacion actual y la guardamos
                     LatLng myUbication = new LatLng(location.getLatitude(), location.getLongitude());
 
+                    //Guardar latitud y longitud
+                    setLatitude(String.valueOf(location.getLatitude()));
+                    setLongitude(String.valueOf(location.getLongitude()));
+
                     //Colocamos marcador en la ubicacion actual y movemos la camara
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(myUbication).zoom(14).bearing(90).tilt(45).build();
                     map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -602,5 +603,178 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             location_searchMethod();
         }
 
-    //LOCATION
+    //RETROFIT
+
+        //Recuperar datos
+        private Administrator retrieveAdministrator() {
+            Administrator administrator = new Administrator();
+
+            //Personal info
+            administrator.setAdminName(getAdmin_name());
+            administrator.setAdminPhone(getAdmin_phone());
+            administrator.setAdminEmail(getAdmin_email());
+            administrator.setAdminUsername(getAdmin_user());
+            administrator.setAdminPassword(getAdmin_password());
+
+            //Place
+            administrator.setPlaceName(getPlace_name());
+            administrator.setPlaceType(getPlace_type());
+            administrator.setPlaceDescription(getPlace_description());
+            administrator.setPlacePhone(getPlace_phone());
+            administrator.setPlaceFacebook(getPlace_facebook());
+            administrator.setPlaceInstagram(getPlace_instagram());
+            administrator.setPlaceTwitter(getPlace_twitter());
+
+            //Location
+            administrator.setLatitude(getLatitude());
+            administrator.setLongitude(getLongitude());
+
+            return administrator;
+        }
+
+        //Guardar datos
+        private  void registerAdministrator(Administrator administrator) {
+            Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+            Call<Administrator> call = retrofit.create(Administrators.class).createAccount(administrator);
+
+            call.enqueue(new Callback<Administrator>() {
+                @Override
+                public void onResponse(Call<Administrator> call, Response<Administrator> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        customDialog().show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Administrator> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+
+    //Metodos getter y setter
+    public String getAdmin_name() {
+        return Admin_name;
+    }
+
+    public void setAdmin_name(String admin_name) {
+        Admin_name = admin_name;
+    }
+
+    public String getAdmin_phone() {
+        return Admin_phone;
+    }
+
+    public void setAdmin_phone(String admin_phone) {
+        Admin_phone = admin_phone;
+    }
+
+    public String getAdmin_email() {
+        return Admin_email;
+    }
+
+    public void setAdmin_email(String admin_email) {
+        Admin_email = admin_email;
+    }
+
+    public String getAdmin_user() {
+        return Admin_user;
+    }
+
+    public void setAdmin_user(String admin_user) {
+        Admin_user = admin_user;
+    }
+
+    public String getAdmin_password() {
+        return Admin_password;
+    }
+
+    public void setAdmin_password(String admin_password) {
+        Admin_password = admin_password;
+    }
+
+    public String getAdmin_confirm_password() {
+        return Admin_confirm_password;
+    }
+
+    public void setAdmin_confirm_password(String admin_confirm_password) {
+        Admin_confirm_password = admin_confirm_password;
+    }
+
+    public String getPlace_name() {
+        return Place_name;
+    }
+
+    public void setPlace_name(String place_name) {
+        Place_name = place_name;
+    }
+
+    public String getPlace_type() {
+        return Place_type;
+    }
+
+    public void setPlace_type(String place_type) {
+        Place_type = place_type;
+    }
+
+    public String getPlace_description() {
+        return Place_description;
+    }
+
+    public void setPlace_description(String place_description) {
+        Place_description = place_description;
+    }
+
+    public String getPlace_phone() {
+        return Place_phone;
+    }
+
+    public void setPlace_phone(String place_phone) {
+        Place_phone = place_phone;
+    }
+
+    public String getPlace_facebook() {
+        return Place_facebook;
+    }
+
+    public void setPlace_facebook(String place_facebook) {
+        Place_facebook = place_facebook;
+    }
+
+    public String getPlace_instagram() {
+        return Place_instagram;
+    }
+
+    public void setPlace_instagram(String place_instagram) {
+        Place_instagram = place_instagram;
+    }
+
+    public String getPlace_twitter() {
+        return Place_twitter;
+    }
+
+    public void setPlace_twitter(String place_twitter) {
+        Place_twitter = place_twitter;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 }
