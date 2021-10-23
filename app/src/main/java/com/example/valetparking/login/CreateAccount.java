@@ -658,29 +658,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             });
         }
 
-        //Mostrat datos
-        private void showData() {
-            System.out.println("ADMIN INFO");
-            System.out.println("Admin name: " + getAdmin_name());
-            System.out.println("Admin phone: " + getAdmin_phone());
-            System.out.println("Admin email: " + getAdmin_email());
-            System.out.println("Admin username: " + getAdmin_user());
-            System.out.println("Admin password: " + getAdmin_password());
-
-            System.out.println("PLACE INFO");
-            System.out.println("Place name: " + getPlace_name());
-            System.out.println("Place type: " + getPlace_type());
-            System.out.println("Place description: " + getPlace_description());
-            System.out.println("Place phone: " + getPlace_phone());
-            System.out.println("Place Facebook: " + getPlace_facebook());
-            System.out.println("Place Instagram: " + getPlace_instagram());
-            System.out.println("Place Twitter: " + getPlace_twitter());
-
-            System.out.println("LOCATION");
-            System.out.println("Location latitude: " + getLatitude());
-            System.out.println("Location longitude: " + getLongitude());
-        }
-
     //Metodos getter y setter
     public String getAdmin_name() {
         return Admin_name;
