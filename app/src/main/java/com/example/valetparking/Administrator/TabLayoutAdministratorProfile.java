@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.valetparking.R;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.valetparking.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class TabLayoutAdministratorProfile extends AppCompatActivity {
 
@@ -17,11 +17,15 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
     ViewPager viewPager;
     PagerControllerAdministratorProfile pagerAdapter;
     ImageButton imageButton;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adm__profile_tab_layout);
+
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
 
         //Conexion de la parte logica con la grafica
         tabLayout = findViewById(R.id.adm__profile_tab_layout);
@@ -33,7 +37,7 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Place"));
 
         //Adapter
-        pagerAdapter = new PagerControllerAdministratorProfile(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PagerControllerAdministratorProfile(getSupportFragmentManager(), tabLayout.getTabCount(), id);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -66,4 +70,8 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
             }
         });
     }
+
+    //Anular el button back
+    @Override
+    public void onBackPressed() { }
 }
