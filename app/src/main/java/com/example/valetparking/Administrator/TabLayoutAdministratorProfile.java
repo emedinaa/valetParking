@@ -70,8 +70,4 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
             }
         });
     }
-
-    //Anular el button back
-    @Override
-    public void onBackPressed() { }
 }

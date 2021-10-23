@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.valetparking.Database.Interfaces.Administrators;
 import com.example.valetparking.Database.Models.Administrator;
@@ -18,7 +17,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,7 +34,6 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
 
     private String mParam1;
     private String mParam2;
-    private FragmentManager supportFragmentManager;
 
     public ProfilePlace(String id) {
         ID = id;
@@ -62,8 +59,6 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
 
     private TextInputLayout name, type, description, facebook, instagram, twitter, phone;
     private Double lat, lng;
-    private SupportMapFragment mapFragment;
-    private GoogleMap map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,16 +74,13 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
         twitter = view.findViewById(R.id.place_profile_twitter);
         phone = view.findViewById(R.id.place_profile_telephone);
 
-        //Recuperar datos
-        retrieveAdministrator();
-
-        mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.location_profile_map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.location_profile_map);
+        mapFragment.getMapAsync(this);
 
         return view;
     }
-
-    //Recuperar datos y poblarlos
-    private void retrieveAdministrator() {
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
         Call<Administrator> call = retrofit.create(Administrators.class).getAdministrator(ID);
@@ -114,6 +106,11 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
 
                     System.out.println(getLat());
                     System.out.println(getLng());
+
+                    LatLng location = new LatLng(getLat(), getLng());
+                    googleMap.addMarker(new MarkerOptions().position(location));
+
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
                 }
             }
 
@@ -123,24 +120,6 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
             }
         });
     }
-
-    private void locationMap() {
-        LatLng latLng = new LatLng(getLat(), getLng());
-
-        map.addMarker(new MarkerOptions().position(latLng));
-
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(14).bearing(90).tilt(45).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        mapFragment.getMapAsync(this);
-    }
-
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        locationMap();
-    }
-
 
     //Metodos getter y setter
     public Double getLat() {
