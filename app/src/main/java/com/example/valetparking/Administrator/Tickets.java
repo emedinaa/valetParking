@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -27,9 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,8 +69,10 @@ public class Tickets extends Fragment {
         }
     }
 
-    RecyclerView recyclerView;
-    Tickets_Adapter adapter;
+    private TextInputLayout tickets_search;
+    private RecyclerView recyclerView;
+    private Tickets_Adapter adapter;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,8 +82,9 @@ public class Tickets extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         //Conexion de la parte logica con la grafica
-        TextInputLayout tickets_search = view.findViewById(R.id.tickets_search);
+        tickets_search = view.findViewById(R.id.tickets_search);
         recyclerView = view.findViewById(R.id.tickets_recyclerView);
+        refreshLayout = view.findViewById(R.id.tickets_refresh);
 
         //RecyclerView
         setRecyclerView();
@@ -102,6 +107,17 @@ public class Tickets extends Fragment {
 
         //Recuperar datos y mostrarlos
         retrieveVehicles();
+
+        //Recargar datos
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveVehicles();
+
+                //Evitar el bucle
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }

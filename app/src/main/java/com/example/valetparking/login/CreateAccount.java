@@ -141,6 +141,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                     place_validateData(v);
                 } else if(count == 2 ){
                     customDialog().show();
+                    registerAdministrator(retrieveAdministrator());
                 }
             }
         });
@@ -204,10 +205,9 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                setFields(v);
                 Intent intent = new Intent(CreateAccount.this, MainActivity.class);
                 startActivity(intent);
-
-                setFields(v);
             }
         });
 
@@ -421,6 +421,9 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             setPlace_type(place_type.getEditText().getText().toString());
             setPlace_description(place_description.getEditText().getText().toString());
             setPlace_phone(place_phone.getEditText().getText().toString());
+            setPlace_facebook(place_facebook.getEditText().getText().toString());
+            setPlace_instagram(place_instagram.getEditText().getText().toString());
+            setPlace_twitter(place_twitter.getEditText().getText().toString());
 
             boolean booleanName = place_validateName(view, getPlace_name());
             boolean booleanType = place_validateType(view, getPlace_type());
@@ -655,7 +658,28 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             });
         }
 
+        //Mostrat datos
+        private void showData() {
+            System.out.println("ADMIN INFO");
+            System.out.println("Admin name: " + getAdmin_name());
+            System.out.println("Admin phone: " + getAdmin_phone());
+            System.out.println("Admin email: " + getAdmin_email());
+            System.out.println("Admin username: " + getAdmin_user());
+            System.out.println("Admin password: " + getAdmin_password());
 
+            System.out.println("PLACE INFO");
+            System.out.println("Place name: " + getPlace_name());
+            System.out.println("Place type: " + getPlace_type());
+            System.out.println("Place description: " + getPlace_description());
+            System.out.println("Place phone: " + getPlace_phone());
+            System.out.println("Place Facebook: " + getPlace_facebook());
+            System.out.println("Place Instagram: " + getPlace_instagram());
+            System.out.println("Place Twitter: " + getPlace_twitter());
+
+            System.out.println("LOCATION");
+            System.out.println("Location latitude: " + getLatitude());
+            System.out.println("Location longitude: " + getLongitude());
+        }
 
     //Metodos getter y setter
     public String getAdmin_name() {

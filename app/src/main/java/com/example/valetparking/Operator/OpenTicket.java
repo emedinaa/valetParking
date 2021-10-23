@@ -69,10 +69,10 @@ public class OpenTicket extends Fragment {
         }
     }
 
-    TextInputLayout open_ticket_search;
-    RecyclerView recyclerView;
-    OpenTicket_Adapter adapter;
-    SwipeRefreshLayout refreshLayout;
+    private TextInputLayout open_ticket_search;
+    private RecyclerView recyclerView;
+    private OpenTicket_Adapter adapter;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -39,13 +39,22 @@
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- RecvlerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tickets_recyclerView"
+        <!-- Refresh Layour -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/tickets_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"/>
+            android:layout_height="match_parent" >
+
+            <!-- RecvlerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tickets_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"/>
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </FrameLayout>

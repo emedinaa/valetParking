@@ -38,6 +38,7 @@
                 android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Refresh Layour -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/open_ticket_refresh"
             android:layout_width="match_parent"
