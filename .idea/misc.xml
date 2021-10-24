@@ -29,6 +29,7 @@
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/drawable/round_alert_dialog_dark.xml" value="0.19027777777777777" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/drawable/round_button.xml" value="0.17796052631578949" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/drawable/round_search_view.xml" value="0.14166666666666666" />
+        <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/activity_main.xml" value="0.22072368421052632" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/activity_operators.xml" value="0.2131578947368421" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/activity_settings.xml" value="0.11" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/adm__activity_operators.xml" value="0.15" />
@@ -56,6 +57,9 @@
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/gen__spinner_item.xml" value="0.2131578947368421" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/gen__tab_layout.xml" value="0.16905537459283387" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/log__create_account.xml" value="0.10416666666666667" />
+        <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/log__pass_change_password.xml" value="0.11052631578947368" />
+        <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/log__pass_forgot_password.xml" value="0.11052631578947368" />
+        <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/log__pass_verify_username.xml" value="0.11052631578947368" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/op__check_in.xml" value="0.25" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/op__check_out.xml" value="0.1" />
         <entry key="..\:/Sitio uno/ValetParking/app/src/main/res/layout/op__open_ticket.xml" value="0.1" />

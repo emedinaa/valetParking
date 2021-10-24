@@ -40,13 +40,16 @@ public class Administrator {
     @SerializedName("placeTwitter")
     private String placeTwitter;
 
+    @SerializedName("token")
+    private int token;
+
     @SerializedName("latitude")
     private String latitude;
 
     @SerializedName("longitude")
     private String longitude;
 
-    //Getters
+    //Metodos getter y setters
     public String getAdminName() {
         return adminName;
     }
@@ -141,6 +144,14 @@ public class Administrator {
 
     public void setPlaceTwitter(String placeTwitter) {
         this.placeTwitter = placeTwitter;
+    }
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
     }
 
     public String getLatitude() {

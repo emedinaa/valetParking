@@ -10,39 +10,57 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.valetparking.Database.Interfaces.Administrators;
+import com.example.valetparking.Database.Interfaces.Authentication;
+import com.example.valetparking.Database.Models.Administrator;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class ForgotPassword extends AppCompatActivity {
 
-    TextInputLayout sms, email;
-    TextInputEditText Sms, Email;
-    TextView new_code;
-    Button button_verify;
+    private TextInputLayout sms, email;
+    private String Sms, Email, id;
+    private  String token;
+    private  TextView new_code;
+    private Button button_verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log__pass_forgot_password);
 
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
+
         //Conexion de la parte logica con la grafica
         sms = findViewById(R.id.forgot_code_sms);
         email = findViewById(R.id.forgot_code_email);
-
-        Sms = findViewById(R.id.forgot_code_sms_edit);
-        Email = findViewById(R.id.forgot_code_email_edit);
 
         new_code = findViewById(R.id.forgot_code_new_code);
 
         button_verify = findViewById(R.id.forgot_button_verify);
 
-        //Validar para pasar de ventana
+        //Enviar tokens
+        tokenSMS();
+        tokenEmail();
+
+        //Recuperar token
+        retrieveToken();
+
+        //Validar tokens
         button_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,9 +68,12 @@ public class ForgotPassword extends AppCompatActivity {
             }
         });
 
+        //Reenviar codigo
         new_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tokenSMS();
+                tokenEmail();
                 customDialog().show();
             }
         });
@@ -105,8 +126,8 @@ public class ForgotPassword extends AppCompatActivity {
 
     //Metodo para setear los campos
     private void setFields(View view) {
-        Sms.setText("");
-        Email.setText("");
+        sms.getEditText().setText("");
+        email.getEditText().setText("");
 
         sms.setHelperText(null);
         email.setHelperText(null);
@@ -141,16 +162,115 @@ public class ForgotPassword extends AppCompatActivity {
 
     //Validar datos
     private void validateData(View view){
-        String Sms = sms.getEditText().getText().toString();
-        String Email = email.getEditText().getText().toString();
+        setSms(sms.getEditText().getText().toString());
+        setEmail(email.getEditText().getText().toString());
 
-        boolean booleanSms = validateSms(view, Sms);
-        boolean booleanEmail = validateEmail(view, Email);
+        boolean booleanSms = validateSms(view, getSms());
+        boolean booleanEmail = validateEmail(view, getEmail());
 
         if(booleanSms || booleanEmail){
-            setFields(view);
-            Intent intent = new Intent(ForgotPassword.this, ChangePassword.class);
-            startActivity(intent);
+            if(getSms().equals(String.valueOf(getToken())) || getEmail().equals(String.valueOf(getToken()))){
+                setFields(view);
+                Intent intent = new Intent(ForgotPassword.this, ChangePassword.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Invalid token", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    //Recuperar token
+    private void retrieveToken() {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<Administrator> call = retrofit.create(Administrators.class).getAdministrator(id);
+
+        call.enqueue(new Callback<Administrator>() {
+            @Override
+            public void onResponse(Call<Administrator> call, Response<Administrator> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Administrator administrator = response.body();
+
+                    setToken(String.valueOf(administrator.getToken()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Administrator> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Token SMS
+    private void tokenSMS() {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<ResponseBody> call = retrofit.create(Authentication.class).tokenSMS(id);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Token Email
+    private void tokenEmail() {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<ResponseBody> call = retrofit.create(Authentication.class).tokenEmail(id);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Metodos getter y setter
+    public String getSms() {
+        return Sms;
+    }
+
+    public void setSms(String sms) {
+        Sms = sms;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

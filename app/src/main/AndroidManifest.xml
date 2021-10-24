@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.valetparking">
-
-
     <!-- Permisos -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,9 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ValetParking"
-        android:windowSoftInputMode="stateHidden"
-        android:usesCleartextTraffic="true">
-
+        android:usesCleartextTraffic="true"
+        android:windowSoftInputMode="stateHidden">
+        <activity
+            android:name=".login.VerifyUsername"
+            android:exported="true" />
         <!-- Main activity -->
         <activity
             android:name=".MainActivity"
@@ -30,9 +30,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Settings -->
+        </activity> <!-- Settings -->
         <activity
             android:name=".Administrator.Settings"
             android:exported="true"
@@ -40,25 +38,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-        </activity>
-
-        <!-- Logins activities -->
+        </activity> <!-- Logins activities -->
         <activity android:name=".login.CreateAccount" />
         <activity android:name=".login.ChangePassword" />
-        <activity android:name=".login.ForgotPassword" />
-
-        <!-- Operator activities -->
+        <activity android:name=".login.ForgotPassword" /> <!-- Operator activities -->
         <activity android:name=".Operator.TabLayoutOperator" />
         <activity android:name=".Operator.CloseTicket" />
-        <activity android:name=".Operator.ProfileOperator" />
-
-        <!-- Administrator activities -->
+        <activity android:name=".Operator.ProfileOperator" /> <!-- Administrator activities -->
         <activity android:name=".Administrator.TabLayoutAdministrator" />
         <activity android:name=".Administrator.TabLayoutAdministratorProfile" />
         <activity android:name=".Administrator.Operators" />
-        <activity android:name=".Administrator.UpdateProfileAdministrator" />
-
-        <!-- Google Map -->
+        <activity android:name=".Administrator.UpdateProfileAdministrator" /> <!-- Google Map -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCkue_EIGSxhlZ-5QKlYtQhTp9uhqIt_Ns" />

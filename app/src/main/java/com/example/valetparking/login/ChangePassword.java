@@ -11,20 +11,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.valetparking.Database.Interfaces.Authentication;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.MainActivity;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Pattern;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class ChangePassword extends AppCompatActivity {
 
     TextInputLayout password, confirm_password;
-    TextInputEditText Password, Confirm_password;
+    String Password, Confirm_password, id;
     Button change_button;
 
     @Override
@@ -32,12 +40,12 @@ public class ChangePassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log__pass_change_password);
 
+        //Recuperar id
+        id = getIntent().getStringExtra("id");
+
         //Conexion de la parte logica con la grafica
         password = findViewById(R.id.change_password);
         confirm_password = findViewById(R.id.change_confirm_password);
-
-        Password = findViewById(R.id.change_password_edit);
-        Confirm_password = findViewById(R.id.change_confirm_password_edit);
 
         change_button = findViewById(R.id.change_button);
 
@@ -52,8 +60,8 @@ public class ChangePassword extends AppCompatActivity {
 
     //Metodo para setear los campos
     private void setFields(View view) {
-        Password.setText("");
-        Confirm_password.setText("");
+        password.getEditText().setText("");
+        confirm_password.getEditText().setText("");
 
         password.setHelperText(null);
         confirm_password.setHelperText(null);
@@ -88,15 +96,42 @@ public class ChangePassword extends AppCompatActivity {
 
     //Validar datos
     private void validateData(View view){
-        String Password = password.getEditText().getText().toString();
-        String Confirm_password = confirm_password.getEditText().getText().toString();
+        setPassword(password.getEditText().getText().toString());
+        setConfirm_password(confirm_password.getEditText().getText().toString());
 
-        boolean booleanPassword = validatePassword(view, Password);
-        boolean booleanConfirmPassword = validateConfirmPassword(view, Confirm_password);
+        boolean booleanPassword = validatePassword(view, getPassword());
+        boolean booleanConfirmPassword = validateConfirmPassword(view, getConfirm_password());
 
-        if(booleanPassword & booleanConfirmPassword){
-            setFields(view);
-            customDialog().show();
+        if(booleanPassword ){
+            if(getPassword().equals(getConfirm_password())){
+                if(booleanPassword & booleanConfirmPassword) {
+
+                    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                    Call<ResponseBody> call = retrofit.create(Authentication.class).changePassword(id,getPassword());
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                            if (!response.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                setFields(view);
+                                customDialog().show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                confirm_password.setHelperText("Invalid password");
+            }
         }
     }
 
@@ -148,5 +183,22 @@ public class ChangePassword extends AppCompatActivity {
         });
 
         return alertDialog;
+    }
+
+    //Metodos getter y setter
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
+    public String getConfirm_password() {
+        return Confirm_password;
+    }
+
+    public void setConfirm_password(String confirm_password) {
+        Confirm_password = confirm_password;
     }
 }

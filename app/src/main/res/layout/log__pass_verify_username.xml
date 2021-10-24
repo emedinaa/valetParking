@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".login.ChangePassword">
+    tools:context=".login.VerifyUsername">
 
     <!-- Title -->
     <TextView
         android:id="@+id/title"
         style="@style/title"
-        android:text="@string/change_title"
+        android:text="@string/verify_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,56 +31,38 @@
 
             <!-- Message -->
             <TextView
-                android:id="@+id/change_message"
+                android:id="@+id/verify_message"
                 style="@style/message"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="@string/change_message" />
+                android:text="@string/verify_message" />
 
-            <!-- Password -->
+            <!-- Username -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/change_password"
+                android:id="@+id/verify_username"
                 style="@style/text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/create_account_password"
+                android:hint="@string/create_account_username"
                 android:textColorHint="@color/black"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/icon__lock"
+                app:startIconDrawable="@drawable/icon__people"
                 app:helperTextTextColor="@color/helper_text_red">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/change_password_edit"
+                    android:id="@+id/verify_username_edit"
                     style="@style/text_input_edit_text"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Confirm password -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/change_confirm_password"
-                style="@style/text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/create_account_confirm_password"
-                android:textColorHint="@color/black"
-                app:endIconMode="password_toggle"
-                app:startIconDrawable="@drawable/icon__lock"
-                app:helperTextTextColor="@color/helper_text_red">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/change_confirm_password_edit"
-                    style="@style/text_input_edit_text"
-                    android:inputType="textPassword" />
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button change -->
             <Button
-                android:id="@+id/change_button"
+                android:id="@+id/verify_button"
                 style="@style/button"
                 android:layout_width="150dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/button_change" />
+                android:text="@string/button_verify" />
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

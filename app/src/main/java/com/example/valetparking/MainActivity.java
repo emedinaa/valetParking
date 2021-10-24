@@ -9,21 +9,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.valetparking.Administrator.SettingsPreferences;
 import com.example.valetparking.Administrator.TabLayoutAdministrator;
 import com.example.valetparking.Database.Interfaces.Authentication;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.Operator.TabLayoutOperator;
 import com.example.valetparking.login.CreateAccount;
-import com.example.valetparking.login.ForgotPassword;
+import com.example.valetparking.login.VerifyUsername;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +33,9 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
-    String user, pass;
-    TextInputLayout ti_username, ti_password;
-    View title_icon;
-    TextView title_info, create_account, forgot_password, pruebaAdmin;
+    String Username, Password;
+    TextInputLayout username, password;
+    TextView create_account, forgot_password;
     Button button_login;
     SettingsPreferences settingsPreferences;
 
@@ -48,31 +48,19 @@ public class MainActivity extends AppCompatActivity {
         button_login = findViewById(R.id.button_login);
         create_account = findViewById(R.id.create_account);
         forgot_password = findViewById(R.id.forgot_password);
-        pruebaAdmin = findViewById(R.id.title_info);
 
-        ti_username = findViewById(R.id.login_username);
-        ti_password = findViewById(R.id.login_password);
-        title_icon = findViewById(R.id.title_icon);
-        title_info = findViewById(R.id.title_info);
+        username = findViewById(R.id.login_username);
+        password = findViewById(R.id.login_password);
 
-        //TextView de prueba para ir a las vistas del admin
-        pruebaAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TabLayoutAdministrator.class);
-                startActivity(intent);
-            }
-        });
-
-        //Button para loguearse
+        //Login
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginCheck(user, pass);
+                LoginCheck(getUsername(), getPassword());
             }
         });
 
-        //TextView para ir a crear una cuenta
+        //Create account
         create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TextView para ir a olvidar una clave
+        //Forgot password
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ForgotPassword.class);
+                Intent intent = new Intent(MainActivity.this, VerifyUsername.class);
                 startActivity(intent);
             }
         });
@@ -102,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean validateUsername(String user){
         Pattern pattern = Pattern.compile("^[a-zA-Z0123456789]+$");
         if(!pattern.matcher(user).matches() || user.length() > 10){
-            ti_username.setHelperText("Invalide username");
+            username.setHelperText("Invalide username");
             return false;
         } else {
-            ti_username.setHelperText(null);
+            username.setHelperText(null);
         }
         return true;
     }
@@ -114,26 +102,26 @@ public class MainActivity extends AppCompatActivity {
     private boolean validatePassword(String pass){
         Pattern pattern = Pattern.compile("^[a-zA-Z0123456789]+$");
         if(!pattern.matcher(pass).matches() || pass.length() > 25){
-            ti_password.setHelperText("Invalide password");
+            password.setHelperText("Invalide password");
             return false;
         } else {
-            ti_password.setHelperText(null);
+            password.setHelperText(null);
         }
         return true;
     }
 
     //Validar Login
-    private void LoginCheck(final String username, final String password) {
-        setUser(ti_username.getEditText().getText().toString());
-        setPass(ti_password.getEditText().getText().toString());
+    private void LoginCheck(final String user, final String pass) {
+        setUsername(username.getEditText().getText().toString());
+        setPassword(password.getEditText().getText().toString());
 
-        boolean User = validateUsername(getUser());
-        boolean Pass = validatePassword(getPass());
+        boolean User = validateUsername(getUsername());
+        boolean Pass = validatePassword(getPassword());
 
         if(User && Pass){
             Retrofit retrofit = RetrofitClient.getRetrofitClient();
 
-            Call<ResponseBody> call = retrofit.create(Authentication.class).checkLogin(getUser(), getPass());
+            Call<ResponseBody> call = retrofit.create(Authentication.class).checkLogin(getUsername(), getPassword());
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -196,20 +184,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Metodos getter y setters
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        Username = username;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return Password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        Password = password;
     }
 }
 

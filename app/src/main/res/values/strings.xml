@@ -65,14 +65,20 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="login_create_account">Create account</string>
 
+    <!-- Verify username -->
+    <string name="verify_title">VERIFY USERNAME</string>
+    <string name="verify_message">Please enter your username</string>
+
+
     <!-- Forgot password -->
-    <string name="forgot_title">CHANGE PASSWORD</string>
+    <string name="forgot_title">FORGOT PASSWORD</string>
     <string name="forgot_code_sms">SMS code</string>
     <string name="forgot_code_email">Email code</string>
     <string name="forgot_code_sent">Send me a new code</string>
     <string name="forgot_message">A code will be sent to you by SMS or email to validate the authentication</string>
 
     <!-- Change password -->
+    <string name="change_title">CHANGE PASSWORD</string>
     <string name="change_message">Please enter a new password</string>
 
     <!-- Create account -->
