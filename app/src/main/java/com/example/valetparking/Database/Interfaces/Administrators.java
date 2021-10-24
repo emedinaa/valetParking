@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Administrators {
@@ -17,4 +18,9 @@ public interface Administrators {
     //READ ONE
     @GET("administrator/{id}")
     Call<Administrator> getAdministrator(@Path("id") String id);
+
+    //UPDATE ACCOUNT
+    @PUT("administrator/{id}")
+    Call<Administrator> updateAdminitrator(@Body Administrator administrator, @Path("id") String id);
+
 }

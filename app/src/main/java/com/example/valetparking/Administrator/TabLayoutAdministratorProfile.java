@@ -65,9 +65,17 @@ public class TabLayoutAdministratorProfile extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TabLayoutAdministratorProfile.this, ProfileAdministrator.class);
+                Intent intent = new Intent(TabLayoutAdministratorProfile.this, UpdateProfileAdministrator.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(TabLayoutAdministratorProfile.this, TabLayoutAdministrator.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 }

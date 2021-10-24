@@ -52,11 +52,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Description -->
-            <TextView
-                android:id="@+id/profile_place_subtitle_contacts"
-                style="@style/subtitle"
-                android:text="@string/about_subtitle_contacts" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/place_profile_description"
                 style="@style/text_input_layout"
@@ -71,6 +66,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Contacts -->
+            <TextView
+                android:id="@+id/profile_place_subtitle_contacts"
+                style="@style/subtitle"
+                android:text="@string/about_subtitle_contacts" />
             <TextView style="@style/line_down" />
 
             <!-- Facebook -->
@@ -128,7 +127,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/profile_place_code"
                 android:hint="@string/phone_number"
                 app:startIconDrawable="@drawable/icon__telephone">
 
