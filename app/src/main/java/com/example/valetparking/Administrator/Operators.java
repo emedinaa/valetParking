@@ -69,7 +69,7 @@ public class Operators extends AppCompatActivity {
         List<Operators_Data> data = new ArrayList<>();
 
         for (Operator operator : operatorList) {
-            data.add(new Operators_Data(operator.getName(), operator.getHourIn(), operator.getHourOut(), operator.getVehiclesIn(), operator.getVehiclesOut()));
+            data.add(new Operators_Data(operator.getUsername(), operator.getHourIn(), operator.getHourOut(), operator.getVehiclesIn(), operator.getVehiclesOut()));
         }
         adapter.update(data);
     }

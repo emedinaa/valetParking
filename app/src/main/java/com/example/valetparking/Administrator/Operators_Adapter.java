@@ -8,12 +8,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.valetparking.Database.Interfaces.Operators;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.MyViewHolderOperators> {
 
@@ -43,7 +50,7 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
         if(data != null && data.size() > 0){
             Operators_Data datas = data.get(position);
 
-            holder.name.setText(datas.getName());
+            holder.username.setText(datas.getUsername());
             holder.hour_entry.setText(String.valueOf(datas.getHourIn()));
             holder.hour_exit.setText(String.valueOf(datas.getHourOut()));
             holder.vehicle_entry.setText(String.valueOf(datas.getVehiclesIn()));
@@ -53,7 +60,27 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Operator: " + datas.getName(), Toast.LENGTH_SHORT).show();
+                    Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                    Call<ResponseBody> call = retrofit.create(Operators.class).deleteOperatorForUsername(datas.getUsername());
+
+                    System.out.println("=====================" + datas.getUsername());
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (!response.isSuccessful()) {
+                                Toast.makeText(v.getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(v.getContext(), "Operator: " + datas.getUsername() + " deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(v.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         } else {
@@ -68,13 +95,13 @@ public class Operators_Adapter extends RecyclerView.Adapter<Operators_Adapter.My
 
     //Clase View Holder
     public class MyViewHolderOperators extends RecyclerView.ViewHolder {
-        TextView name, hour_entry, hour_exit, vehicle_entry, vehicle_exit;
+        TextView username, hour_entry, hour_exit, vehicle_entry, vehicle_exit;
         ImageView delete;
 
         public MyViewHolderOperators(View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.adm__card_name);
+            username = itemView.findViewById(R.id.adm__card_username);
             hour_entry = itemView.findViewById(R.id.adm__card_hour_entry_content);
             hour_exit = itemView.findViewById(R.id.adm__card_hour_exit_content);
             vehicle_entry = itemView.findViewById(R.id.adm__card_vehicles_entry_content);

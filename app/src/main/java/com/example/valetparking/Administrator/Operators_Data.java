@@ -1,12 +1,12 @@
 package com.example.valetparking.Administrator;
 
 public class Operators_Data {
-    private String name, hourIn, hourOut;
+    private String username, hourIn, hourOut;
     private int vehiclesIn, vehiclesOut;
 
     //Constructor
-    public Operators_Data(String name, String hourIn, String hourOut, int vehiclesIn, int vehiclesOut) {
-        this.name = name;
+    public Operators_Data(String username, String hourIn, String hourOut, int vehiclesIn, int vehiclesOut) {
+        this.username = username;
         this.hourIn = hourIn;
         this.hourOut = hourOut;
         this.vehiclesIn = vehiclesIn;
@@ -14,12 +14,12 @@ public class Operators_Data {
     }
 
     //Metodos Getter y Setter
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getHourIn() {
