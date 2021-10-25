@@ -13,13 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -33,6 +26,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -150,7 +149,7 @@ public class OpenTicket extends Fragment {
         for (Vehicle vehicle : vehicleList) {
             data.add(new OpenTicket_Data(
                     vehicle.getBrand(), vehicle.getModel(), vehicle.getYear(),
-                    vehicle.getColor(), vehicle.getPlate(), vehicle.getPhone(),
+                    vehicle.getColor(), vehicle.getPlate(), (vehicle.getCode() + vehicle.getPhone()),
                     vehicle.getEmail(),vehicle.getKey(), vehicle.getVehicle()));
         }
         adapter.update(data);

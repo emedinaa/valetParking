@@ -133,7 +133,7 @@ public class CheckOut extends Fragment {
                     year.getEditText().setText(vehicle.getYear());
                     color.getEditText().setText(vehicle.getColor());
                     plate.getEditText().setText(vehicle.getPlate());
-                    phone.getEditText().setText(vehicle.getPhone());
+                    phone.getEditText().setText(vehicle.getCode() + vehicle.getPhone());
                     email.getEditText().setText(vehicle.getEmail());
                     key.getEditText().setText(vehicle.getKey());
                     vehiclee.getEditText().setText(vehicle.getVehicle());
@@ -147,6 +147,7 @@ public class CheckOut extends Fragment {
         });
     }
 
+    //Cerrar ticket
     private void checkOutClose(){
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
 

@@ -60,7 +60,7 @@ public class CreateAccountOperator extends Fragment {
     }
 
     private TextInputLayout name, phone, email, user, password, confirm_password;
-    private String NameS, PhoneS, EmailS, UserS, PasswordS, Confirm_passwordS;
+    private String NameS, CodeS, PhoneS, EmailS, UserS, PasswordS, Confirm_passwordS;
     private CountryCodePicker code;
     private Button create_operator_account_button;
 
@@ -231,6 +231,7 @@ public class CreateAccountOperator extends Fragment {
         Operator operator = new Operator();
 
         operator.setName(getNameS());
+        operator.setCode(getCodeS());
         operator.setPhone(getPhoneS());
         operator.setEmail(getEmailS());
         operator.setUsername(getUserS());
@@ -265,6 +266,7 @@ public class CreateAccountOperator extends Fragment {
     //Validar datos
     private void validateData(View view){
         setNameS(name.getEditText().getText().toString());
+        setCodeS(code.getSelectedCountryCodeWithPlus());
         setPhoneS(phone.getEditText().getText().toString());
         setEmailS(email.getEditText().getText().toString());
         setUserS(user.getEditText().getText().toString());
@@ -276,8 +278,6 @@ public class CreateAccountOperator extends Fragment {
         boolean booleanEmail = validateEmail(view, getEmailS());
         boolean booleanUser = validateUser(view, getUserS());
         boolean booleanPassword = validatePassword(view, getPasswordS());
-
-        setPhoneS(code.getSelectedCountryCodeWithPlus() + getPhoneS());
 
         if(booleanPassword) {
             if(getPasswordS().equals(getConfirm_passwordS())) {
@@ -298,6 +298,14 @@ public class CreateAccountOperator extends Fragment {
 
     public void setNameS(String nameS) {
         NameS = nameS;
+    }
+
+    public String getCodeS() {
+        return CodeS;
+    }
+
+    public void setCodeS(String codeS) {
+        CodeS = codeS;
     }
 
     public String getPhoneS() {

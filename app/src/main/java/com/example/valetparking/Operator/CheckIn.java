@@ -12,10 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -29,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -67,7 +66,7 @@ public class CheckIn extends Fragment {
     }
 
     private TextInputLayout brand, model, year, color, plate, phone, email, key, vehicle;
-    private String BrandS, ModelS, YearS, ColorS, PlateS, PhoneS, EmailS, KeyS, VehicleS;
+    private String BrandS, ModelS, YearS, ColorS, PlateS, CodeS, PhoneS, EmailS, KeyS, VehicleS;
     //private TextInputEditText Plate, Phone, Email, Key, Vehicle;
     //private AutoCompleteTextView Brand, Year, Model, Color;
     private CountryCodePicker code;
@@ -608,6 +607,7 @@ public class CheckIn extends Fragment {
         vehicle.setYear(getYearS());
         vehicle.setColor(getColorS());
         vehicle.setPlate(getPlateS());
+        vehicle.setCode(getCodeS());
         vehicle.setPhone(getPhoneS());
         vehicle.setEmail(getEmails());
         vehicle.setKey(getKeyS());
@@ -694,6 +694,7 @@ public class CheckIn extends Fragment {
         setYearS(year.getEditText().getText().toString());
         setColorS(color.getEditText().getText().toString());
         setPlateS(plate.getEditText().getText().toString());
+        setCodeS(code.getSelectedCountryCodeWithPlus());
         setPhoneS(phone.getEditText().getText().toString());
         setEmails(email.getEditText().getText().toString());
         setKeyS(key.getEditText().getText().toString());
@@ -708,8 +709,6 @@ public class CheckIn extends Fragment {
         boolean booleanEmail = validateEmail(view, getEmails());
         boolean booleanKey = validateKey(view, getKeyS());
         boolean booleanVehicle = validateVehicle(view, getVehicleS());
-
-        setPhoneS(code.getSelectedCountryCodeWithPlus() + getPhoneS());
 
         if(booleanBrand & booleanYear & booleanModel & booleanColor & booleanPlate & booleanPhone & booleanEmail & booleanKey & booleanVehicle){
             registerVehicle(retrieveVehicle());
@@ -763,6 +762,14 @@ public class CheckIn extends Fragment {
 
     public void setPlateS(String plateS) {
         PlateS = plateS;
+    }
+
+    public String getCodeS() {
+        return CodeS;
+    }
+
+    public void setCodeS(String codeS) {
+        CodeS = codeS;
     }
 
     public String getPhoneS() {

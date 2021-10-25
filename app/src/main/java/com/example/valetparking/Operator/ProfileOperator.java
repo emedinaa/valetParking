@@ -6,14 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.valetparking.Database.Interfaces.Operators;
 import com.example.valetparking.Database.Models.Operator;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +75,7 @@ public class ProfileOperator extends AppCompatActivity {
 
                     username.getEditText().setText(operator.getUsername());
                     name.getEditText().setText(operator.getName());
-                    phone.getEditText().setText(operator.getPhone());
+                    phone.getEditText().setText(operator.getCode() + operator.getPhone());
                     email.getEditText().setText(operator.getEmail());
 
                 }

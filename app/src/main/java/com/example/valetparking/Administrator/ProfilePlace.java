@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import com.example.valetparking.Database.Interfaces.Administrators;
 import com.example.valetparking.Database.Models.Administrator;
 import com.example.valetparking.Database.RetrofitClient;
@@ -21,6 +18,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,7 +98,7 @@ public class ProfilePlace extends Fragment implements OnMapReadyCallback {
                     facebook.getEditText().setText(administrator.getPlaceFacebook());
                     instagram.getEditText().setText(administrator.getPlaceInstagram());
                     twitter.getEditText().setText(administrator.getPlaceTwitter());
-                    phone.getEditText().setText(administrator.getPlacePhone());
+                    phone.getEditText().setText(administrator.getPlaceCode() + administrator.getPlacePhone());
 
                     setLat(Double.parseDouble(administrator.getLatitude()));
                     setLng(Double.parseDouble(administrator.getLongitude()));

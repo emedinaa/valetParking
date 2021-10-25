@@ -96,7 +96,7 @@ public class CloseTicket extends AppCompatActivity {
 
         for (Vehicle vehicle : vehicleList) {
             data.add(new CloseTicket_Data(vehicle.getBrand(),vehicle.getModel(),
-                    vehicle.getYear(), vehicle.getColor(),vehicle.getPlate(),vehicle.getPhone(),
+                    vehicle.getYear(), vehicle.getColor(),vehicle.getPlate(),(vehicle.getCode() + vehicle.getPhone()),
                     vehicle.getEmail(),vehicle.getKey(), vehicle.getVehicle()));
         }
         adapter.update(data);

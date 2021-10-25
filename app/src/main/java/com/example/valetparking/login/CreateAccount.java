@@ -79,8 +79,8 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
     private ImageButton gps;
 
     //general
-    private String Admin_name, Admin_phone, Admin_email, Admin_user, Admin_password, Admin_confirm_password;
-    private String Place_name, Place_type, Place_description, Place_phone, Place_facebook, Place_instagram, Place_twitter;
+    private String Admin_name, Admin_code, Admin_phone, Admin_email, Admin_user, Admin_password, Admin_confirm_password;
+    private String Place_name, Place_type, Place_description, Place_code, Place_phone, Place_facebook, Place_instagram, Place_twitter;
     private String latitude, longitude;
     private Button create_account_button;
     private int count = 0;
@@ -335,6 +335,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
         //Validar datos
         private void admin_validateData(View view){
             setAdmin_name(admin_name.getEditText().getText().toString());
+            setAdmin_code(admin_code.getSelectedCountryCodeWithPlus());
             setAdmin_phone(admin_phone.getEditText().getText().toString());
             setAdmin_email(admin_email.getEditText().getText().toString());
             setAdmin_user(admin_user.getEditText().getText().toString());
@@ -347,8 +348,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             boolean booleanUser = admin_validateUser(view, getAdmin_user());
             boolean booleanPassword = admin_validatePassword(view, getAdmin_password());
             boolean booleanConfirmPassword = admin_validateConfirmPassword(view, getAdmin_confirm_password());
-
-            setAdmin_phone(admin_code.getSelectedCountryCodeWithPlus() + getAdmin_phone());
 
             if(booleanPassword) {
                 if(getAdmin_password().equals(getAdmin_confirm_password())) {
@@ -420,6 +419,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             setPlace_name(place_name.getEditText().getText().toString());
             setPlace_type(place_type.getEditText().getText().toString());
             setPlace_description(place_description.getEditText().getText().toString());
+            setPlace_code(place_code.getSelectedCountryCodeWithPlus());
             setPlace_phone(place_phone.getEditText().getText().toString());
             setPlace_facebook(place_facebook.getEditText().getText().toString());
             setPlace_instagram(place_instagram.getEditText().getText().toString());
@@ -429,8 +429,6 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             boolean booleanType = place_validateType(view, getPlace_type());
             boolean booleanDescription = place_validateDescription(view, getPlace_description());
             boolean booleanPhone = place_validatePhone(view, getPlace_phone());
-
-            setPlace_phone(place_code.getSelectedCountryCodeWithPlus() + getPlace_phone());
 
             if(booleanName & booleanType & booleanDescription & booleanPhone){
                 view_admin.setVisibility(View.INVISIBLE);
@@ -614,6 +612,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
             //Personal info
             administrator.setAdminName(getAdmin_name());
+            administrator.setAdminCode(getAdmin_code());
             administrator.setAdminPhone(getAdmin_phone());
             administrator.setAdminEmail(getAdmin_email());
             administrator.setAdminUsername(getAdmin_user());
@@ -623,6 +622,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
             administrator.setPlaceName(getPlace_name());
             administrator.setPlaceType(getPlace_type());
             administrator.setPlaceDescription(getPlace_description());
+            administrator.setPlaceCode(getPlace_code());
             administrator.setPlacePhone(getPlace_phone());
             administrator.setPlaceFacebook(getPlace_facebook());
             administrator.setPlaceInstagram(getPlace_instagram());
@@ -646,6 +646,7 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
                 public void onResponse(Call<Administrator> call, Response<Administrator> response) {
                     if (!response.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                     } else {
                         customDialog().show();
                     }
@@ -665,6 +666,14 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
     public void setAdmin_name(String admin_name) {
         Admin_name = admin_name;
+    }
+
+    public String getAdmin_code() {
+        return Admin_code;
+    }
+
+    public void setAdmin_code(String admin_code) {
+        Admin_code = admin_code;
     }
 
     public String getAdmin_phone() {
@@ -729,6 +738,14 @@ public class CreateAccount extends AppCompatActivity implements OnMapReadyCallba
 
     public void setPlace_description(String place_description) {
         Place_description = place_description;
+    }
+
+    public String getPlace_code() {
+        return Place_code;
+    }
+
+    public void setPlace_code(String place_code) {
+        Place_code = place_code;
     }
 
     public String getPlace_phone() {

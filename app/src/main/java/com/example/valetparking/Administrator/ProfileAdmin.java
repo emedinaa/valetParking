@@ -6,14 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-
 import com.example.valetparking.Database.Interfaces.Administrators;
 import com.example.valetparking.Database.Models.Administrator;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,7 +84,7 @@ public class ProfileAdmin extends Fragment {
                     Administrator administrator = response.body();
 
                     name.getEditText().setText(administrator.getAdminName());
-                    phone.getEditText().setText(administrator.getAdminPhone());
+                    phone.getEditText().setText(administrator.getAdminCode() + administrator.getAdminPhone());
                     email.getEditText().setText(administrator.getAdminEmail());
                     user.getEditText().setText(administrator.getAdminUsername());
 

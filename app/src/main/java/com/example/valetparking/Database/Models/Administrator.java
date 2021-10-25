@@ -7,6 +7,9 @@ public class Administrator {
     @SerializedName("adminName")
     private String adminName;
 
+    @SerializedName("adminCode")
+    private String adminCode;
+
     @SerializedName("adminPhone")
     private String adminPhone;
 
@@ -27,6 +30,9 @@ public class Administrator {
 
     @SerializedName("placeDescription")
     private String placeDescription;
+
+    @SerializedName("placeCode")
+    private String placeCode;
 
     @SerializedName("placePhone")
     private String placePhone;
@@ -56,6 +62,14 @@ public class Administrator {
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
+    }
+
+    public String getAdminCode() {
+        return adminCode;
+    }
+
+    public void setAdminCode(String adminCode) {
+        this.adminCode = adminCode;
     }
 
     public String getAdminPhone() {
@@ -112,6 +126,14 @@ public class Administrator {
 
     public void setPlaceDescription(String placeDescription) {
         this.placeDescription = placeDescription;
+    }
+
+    public String getPlaceCode() {
+        return placeCode;
+    }
+
+    public void setPlaceCode(String placeCode) {
+        this.placeCode = placeCode;
     }
 
     public String getPlacePhone() {

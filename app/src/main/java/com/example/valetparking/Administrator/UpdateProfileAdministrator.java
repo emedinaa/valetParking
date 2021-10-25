@@ -23,13 +23,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Administrators;
@@ -51,6 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,8 +75,8 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
     private ImageButton gps;
 
     //general
-    private String Admin_name, Admin_phone, Admin_email, Admin_code, Admin_user, Admin_password;
-    private String Place_name, Place_type, Place_description, Place_phone, Place_facebook, Place_instagram, Place_twitter;
+    private String Admin_name, Admin_code, Admin_phone, Admin_email, Admin_user, Admin_password;
+    private String Place_name, Place_type, Place_description, Place_code, Place_phone, Place_facebook, Place_instagram, Place_twitter;
     private String latitude, longitude;
     private Button update_profile_button_next, update_profile_button_update;
     String id;
@@ -312,6 +311,7 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
             setPlace_name(place_name.getEditText().getText().toString());
             setPlace_type(place_type.getEditText().getText().toString());
             setPlace_description(place_description.getEditText().getText().toString());
+            setPlace_code(place_code.getSelectedCountryCodeWithPlus());
             setPlace_phone(place_phone.getEditText().getText().toString());
             setPlace_facebook(place_facebook.getEditText().getText().toString());
             setPlace_instagram(place_instagram.getEditText().getText().toString());
@@ -324,10 +324,11 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
             boolean booleanDescription = profile_place_validateDescription(view, getPlace_description());
             boolean booleanPhone = profile_place_validatePhone(view, getPlace_phone());
 
-            setPlace_phone(place_code.getSelectedCountryCodeWithPlus() + getPlace_phone());
-
             if(booleanAdminName & booleanName & booleanType & booleanDescription & booleanPhone){
+                view_admin_place.setVisibility(View.INVISIBLE);
                 update_profile_button_next.setVisibility(View.INVISIBLE);
+
+                view_location.setVisibility(View.VISIBLE);
                 update_profile_button_update.setVisibility(View.VISIBLE);
             }
         }
@@ -513,6 +514,7 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
                         Administrator administrator = response.body();
 
                         admin_name.getEditText().setText(administrator.getAdminName());
+                        setAdmin_code(administrator.getAdminCode());
                         setAdmin_phone(administrator.getAdminPhone());
                         setAdmin_email(administrator.getAdminEmail());
                         setAdmin_user(administrator.getAdminUsername());
@@ -524,6 +526,7 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
                         place_facebook.getEditText().setText(administrator.getPlaceFacebook());
                         place_instagram.getEditText().setText(administrator.getPlaceInstagram());
                         place_twitter.getEditText().setText(administrator.getPlaceTwitter());
+                        place_code.setCountryForPhoneCode(Integer.parseInt(administrator.getPlaceCode()));
                         place_phone.getEditText().setText(administrator.getPlacePhone());
 
                         setLatitude(administrator.getLatitude());
@@ -545,6 +548,7 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
 
             //Personal info
             administrator.setAdminName(getAdmin_name());
+            administrator.setAdminCode(getAdmin_code());
             administrator.setAdminPhone(getAdmin_phone());
             administrator.setAdminEmail(getAdmin_email());
             administrator.setAdminUsername(getAdmin_user());
@@ -554,6 +558,7 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
             administrator.setPlaceName(getPlace_name());
             administrator.setPlaceType(getPlace_type());
             administrator.setPlaceDescription(getPlace_description());
+            administrator.setPlaceCode(getPlace_code());
             administrator.setPlacePhone(getPlace_phone());
             administrator.setPlaceFacebook(getPlace_facebook());
             administrator.setPlaceInstagram(getPlace_instagram());
@@ -661,6 +666,14 @@ public class UpdateProfileAdministrator extends AppCompatActivity implements OnM
 
     public void setPlace_description(String place_description) {
         Place_description = place_description;
+    }
+
+    public String getPlace_code() {
+        return Place_code;
+    }
+
+    public void setPlace_code(String place_code) {
+        Place_code = place_code;
     }
 
     public String getPlace_phone() {

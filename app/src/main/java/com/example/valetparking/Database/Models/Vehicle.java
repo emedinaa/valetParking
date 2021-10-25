@@ -19,6 +19,9 @@ public class Vehicle {
     @SerializedName("plate")
     private String plate;
 
+    @SerializedName("code")
+    private String code;
+
     @SerializedName("phone")
     private String phone;
 
@@ -70,6 +73,14 @@ public class Vehicle {
 
     public void setPlate(String plate) {
         this.plate = plate;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getPhone() {
