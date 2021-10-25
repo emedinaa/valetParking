@@ -4,8 +4,11 @@ import com.example.valetparking.Database.Models.Vehicle;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -17,6 +20,16 @@ public interface Vehicles {
         //CHECK IN
         @POST("vehicle/checkin/{id}")
         Call<Vehicle> checkIn(@Body Vehicle vehicle, @Path("id") String id);
+
+            //SEND SMS
+            @FormUrlEncoded
+            @POST("sms/checkin")
+            Call<ResponseBody> checkInSMSToken(@Field("plate") String plate);
+
+            //SEND EMAIL
+            @FormUrlEncoded
+            @POST("email/checkin")
+            Call<ResponseBody> checkInEmailToken(@Field("plate") String plate);
 
         //OPEN TICKET
         @GET("vehicle/open/{id}")

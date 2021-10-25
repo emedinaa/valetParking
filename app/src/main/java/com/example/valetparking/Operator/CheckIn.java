@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
@@ -25,10 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.github.muddz.styleabletoast.StyleableToast;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -614,6 +616,52 @@ public class CheckIn extends Fragment {
         return vehicle;
     }
 
+    //Enviar SMS con el token
+    private void checkInSMSToken(){
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<ResponseBody> call = retrofit.create(Vehicles.class).checkInSMSToken(getPlateS());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Enviar email con el token
+    private void checkInEmailToken(){
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<ResponseBody> call = retrofit.create(Vehicles.class).checkInEmailToken(getPlateS());
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     //Guardar datos
     private void registerVehicle(Vehicle vehicle) {
         Retrofit retrofit = RetrofitClient.getRetrofitClient();
@@ -626,6 +674,8 @@ public class CheckIn extends Fragment {
                 if (!response.isSuccessful()) {
                     Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
+                    checkInSMSToken();
+                    checkInEmailToken();
                     customDialog().show();
                 }
             }
