@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyViewHolderOpenTicket> {
@@ -53,6 +54,15 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
             holder.key.setText(datas.getKey());
             holder.vehicle.setText(datas.getVehicle());
 
+            //Seleccionar card
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CancelVehicle cancelVehicle = new CancelVehicle();
+                    cancelVehicle.getData(datas.getBrand(), datas.getYear(), datas.getModel(), datas.getColor(), datas.getPlate(), datas.getPhone(), datas.getEmail(), datas.getKey(), datas.getVehicle());
+                }
+            });
+
         } else {
             return;
         }
@@ -65,6 +75,7 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
 
     public class MyViewHolderOpenTicket extends RecyclerView.ViewHolder {
         TextView brand, model, year, color, plate, telephone, email,key, vehicle;
+        CardView cardView;
 
         public MyViewHolderOpenTicket(View itemView) {
             super(itemView);
@@ -78,6 +89,7 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
             email = itemView.findViewById(R.id.op__card_email_content);
             key = itemView.findViewById(R.id.op__card_key_content);
             vehicle = itemView.findViewById(R.id.op__card_vehicle_content);
+            cardView = itemView.findViewById(R.id.op__card_element);
         }
     }
 }

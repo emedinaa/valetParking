@@ -8,24 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.valetparking.R;
 
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CancelVehicle#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CancelVehicle extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    private String brand,  year,  model,  color,  plate, phone, email,  key,  vehicle;
     private String mParam1;
     private String mParam2;
 
@@ -33,15 +27,6 @@ public class CancelVehicle extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CancelVehicle.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CancelVehicle newInstance(String param1, String param2) {
         CancelVehicle fragment = new CancelVehicle();
         Bundle args = new Bundle();
@@ -114,5 +99,93 @@ public class CancelVehicle extends Fragment {
         });
 
         return alertDialog;
+    }
+
+    //Obtener la data del vehiculo
+    public void getData(String brand, String year, String model, String color, String plate, String phone, String email, String key, String vehicle){
+        setBrand(brand);
+        setYear(year);
+        setModel(model);
+        setColor(color);
+        setPlate(plate);
+        setPhone(phone);
+        setEmail(email);
+        setKey(key);
+        setVehicle(vehicle);
+
+        Toast.makeText(getContext(), "Plate: " + getPlate(), Toast.LENGTH_SHORT).show();
+    }
+
+    //Metodos getter y setter
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
     }
 }
