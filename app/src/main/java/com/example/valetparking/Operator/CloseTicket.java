@@ -126,7 +126,7 @@ public class CloseTicket extends AppCompatActivity {
 
         //Inflar y establecer el layout para el dialogo
         //Pasar nulo como vista principal porque va en el diseno del dialogo
-        View view = inflater.inflate(R.layout.gen__alert_dialog_filter_operator_close_ticket, null);
+        View view = inflater.inflate(R.layout.op__alert_dialog_filter_close_ticket, null);
 
         //Dimensiones del alertDialog
         view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));

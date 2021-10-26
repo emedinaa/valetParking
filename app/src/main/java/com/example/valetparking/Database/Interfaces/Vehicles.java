@@ -60,4 +60,13 @@ public interface Vehicles {
         @GET("vehicle/tickets/{id}")
         Call<List<Vehicle>> getVehicles(@Path("id") String id);
 
+            //FILTER
+            @FormUrlEncoded
+            @POST("vehicle/tickets/filters/{id}")
+            Call<List<Vehicle>> ticketsFilter(@Path("id") String id,
+                                                 @Field("brand") String brand, @Field("year") String year,
+                                                 @Field("model") String model, @Field("color") String color,
+                                                 @Field("ticket") String ticket, @Field("date") String date,
+                                                 @Field("operator") String operator);
+
 }

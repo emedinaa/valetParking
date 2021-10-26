@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -25,7 +24,6 @@ import com.example.valetparking.Database.Interfaces.Vehicles;
 import com.example.valetparking.Database.Models.Vehicle;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -159,7 +157,6 @@ public class Tickets extends Fragment {
         adapter.update(data);
     }
 
-
     //Asignar recyclerView
     private void setRecyclerView(){
         recyclerView.setHasFixedSize(true);
@@ -169,10 +166,9 @@ public class Tickets extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    TextInputLayout brand, year, model, color, ticket, operator, date;
-    AutoCompleteTextView Brand, Year, Model, ColorC, Ticket, Operator;
-    TextInputEditText Date;
-    String selectorBrand;
+    private TextInputLayout brand, year, model, color, ticket, operator, date;
+    private String BrandS, YearS, ModelS, ColorS, TicketS, OperatorS, DateS;
+    private String selectorBrand;
 
     //Metodo del alertDialog (Mensaje emergente)
     private AlertDialog filterDialog(){
@@ -184,7 +180,7 @@ public class Tickets extends Fragment {
 
         //Inflar y establecer el layout para el dialogo
         //Pasar nulo como vista principal porque va en el diseno del dialogo
-        View view = inflater.inflate(R.layout.gen__alert_dialog_filter, null);
+        View view = inflater.inflate(R.layout.adm__alert_dialog_filter_tickets, null);
 
         //Dimensiones del alertDialog
         view.setMinimumWidth((int)(getResources().getDisplayMetrics().widthPixels * 0.40));
@@ -196,20 +192,9 @@ public class Tickets extends Fragment {
         year = view.findViewById(R.id.alert_filter_year);
         model = view.findViewById(R.id.alert_filter_model);
         color = view.findViewById(R.id.alert_filter_color);
-        //ticket = view.findViewById(R.id.alert_filter_ticket);
+        ticket = view.findViewById(R.id.alert_filter_ticket);
         operator = view.findViewById(R.id.alert_filter_operator);
         date = view.findViewById(R.id.alert_filter_date);
-
-        //AutoCompleteTextView
-        Brand = view.findViewById(R.id.alert_filter_brand_edit);
-        Year = view.findViewById(R.id.alert_filter_year_edit);
-        Model = view.findViewById(R.id.alert_filter_model_edit);
-        ColorC = view.findViewById(R.id.alert_filter_color_edit);
-        //Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
-        Operator = view.findViewById(R.id.alert_filter_operator_edit);
-
-        //TextInputEditText
-        Date = view.findViewById(R.id.alert_filter_date_edit);
 
         //Button
         Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
@@ -278,7 +263,8 @@ public class Tickets extends Fragment {
 
                     @Override
                     public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-                        Date.setText(Day + "/" + (Month+1) + "/" + Year);
+                        date.getEditText().setText(Day + "/" + (Month+1) + "/" + Year);
+                        setDateS(Day + "/" + (Month+1) + "/" + Year);
                     }
                 }, year, month, day);
                 datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
@@ -297,7 +283,37 @@ public class Tickets extends Fragment {
         alert_filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                //Recuperar datos filtrados
+                Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                Toast.makeText(getContext(), "ID: " + ID, Toast.LENGTH_SHORT).show();
+
+                Call<List<Vehicle>> call = retrofit.create(Vehicles.class).ticketsFilter(ID, getBrandS(), getYearS(), getModelS(), getColorS(), getTicketS(), getDateS(), getOperatorS());
+
+                call.enqueue(new Callback<List<Vehicle>>() {
+                    @Override
+                    public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            List<Vehicle> vehicleList = response.body();
+                            populateVehicles(vehicleList);
+                            setBrandS("");
+                            setYearS("");
+                            setModelS("");
+                            setColorS("");
+                            setTicketS("");
+                            setDateS("");
+                            setOperatorS("");
+                            alertDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -358,16 +374,19 @@ public class Tickets extends Fragment {
                     if(model.getEditText().getText().toString().equals("")){
                         brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                         setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                         alertDialog.dismiss();
                     } else {
                         if(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view().equals(getSelectorBrand())){
                             brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         } else {
                             brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             model.getEditText().setText("");
                             setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         }
                     }
@@ -427,6 +446,7 @@ public class Tickets extends Fragment {
                 @Override
                 public void onClick(View v) {
                     year.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setYearS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -496,6 +516,7 @@ public class Tickets extends Fragment {
                 @Override
                 public void onClick(View v) {
                     model.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setModelS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -553,6 +574,7 @@ public class Tickets extends Fragment {
                 @Override
                 public void onClick(View v) {
                     color.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setColorS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -611,6 +633,7 @@ public class Tickets extends Fragment {
                 @Override
                 public void onClick(View v) {
                     ticket.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setTicketS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -668,6 +691,7 @@ public class Tickets extends Fragment {
                 @Override
                 public void onClick(View v) {
                     operator.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setOperatorS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -682,5 +706,61 @@ public class Tickets extends Fragment {
 
     public void setSelectorBrand(String selectorBrand) {
         this.selectorBrand = selectorBrand;
+    }
+
+    public String getBrandS() {
+        return BrandS;
+    }
+
+    public void setBrandS(String brandS) {
+        BrandS = brandS;
+    }
+
+    public String getYearS() {
+        return YearS;
+    }
+
+    public void setYearS(String yearS) {
+        YearS = yearS;
+    }
+
+    public String getModelS() {
+        return ModelS;
+    }
+
+    public void setModelS(String modelS) {
+        ModelS = modelS;
+    }
+
+    public String getColorS() {
+        return ColorS;
+    }
+
+    public void setColorS(String colorS) {
+        ColorS = colorS;
+    }
+
+    public String getTicketS() {
+        return TicketS;
+    }
+
+    public void setTicketS(String ticketS) {
+        TicketS = ticketS;
+    }
+
+    public String getOperatorS() {
+        return OperatorS;
+    }
+
+    public void setOperatorS(String operatorS) {
+        OperatorS = operatorS;
+    }
+
+    public String getDateS() {
+        return DateS;
+    }
+
+    public void setDateS(String dateS) {
+        DateS = dateS;
     }
 }

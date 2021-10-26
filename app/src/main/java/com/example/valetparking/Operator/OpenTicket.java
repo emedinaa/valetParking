@@ -177,7 +177,7 @@ public class OpenTicket extends Fragment {
 
         //Inflar y establecer el layout para el dialogo
         //Pasar nulo como vista principal porque va en el diseno del dialogo
-        View view = inflater.inflate(R.layout.gen__alert_dialog_filter, null);
+        View view = inflater.inflate(R.layout.op__alert_dialog_filter_open_ticket, null);
 
         //Dimensiones del alertDialog
         view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.40));
