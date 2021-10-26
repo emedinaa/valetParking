@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Operators {
@@ -33,5 +34,13 @@ public interface Operators {
     //DELETE FOR USERNAME
     @DELETE("operator/delete/{username}")
     Call<ResponseBody> deleteOperatorForUsername(@Path("username") String username);
+
+    //UPDATE HOUR IN
+    @PUT("operator/hourIn/{id}")
+    Call<Operator> updateHourIn(@Path("id") String id);
+
+    //UPDATE HOUR OUT
+    @PUT("operator/hourOut/{id}")
+    Call<Operator> updateHourOut(@Path("id") String id);
 
 }

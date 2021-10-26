@@ -9,12 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.valetparking.Administrator.SettingsPreferences;
 import com.example.valetparking.Administrator.TabLayoutAdministrator;
 import com.example.valetparking.Database.Interfaces.Authentication;
+import com.example.valetparking.Database.Interfaces.Operators;
+import com.example.valetparking.Database.Models.Operator;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.Operator.TabLayoutOperator;
 import com.example.valetparking.login.CreateAccount;
@@ -25,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputLayout username, password;
     TextView create_account, forgot_password;
     Button button_login;
+    String rol, id;
     SettingsPreferences settingsPreferences;
 
     @Override
@@ -136,16 +138,17 @@ public class MainActivity extends AppCompatActivity {
 
                             JSONObject jsonObject = new JSONObject(result);
 
-                            String rol = jsonObject.getString("rol");
-                            String id = jsonObject.getString("_id");
+                            setRol(jsonObject.getString("rol"));
+                            setId(jsonObject.getString("_id"));
 
-                            if(rol.equals("admin")) {
+                            if(getRol().equals("admin")) {
                                 Intent intent = new Intent(MainActivity.this, TabLayoutAdministrator.class);
-                                intent.putExtra("id", id);
+                                intent.putExtra("id", getId());
                                 startActivity(intent);
-                            } else if(rol.equals("operator")){
+                            } else if(getRol().equals("operator")){
+                                updateHourIn();
                                 Intent intent = new Intent(MainActivity.this, TabLayoutOperator.class);
-                                intent.putExtra("id", id);
+                                intent.putExtra("id", getId());
                                 startActivity(intent);
                             }
 
@@ -163,6 +166,35 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    //Update hour in
+    private void updateHourIn() {
+
+        if(getRol().equals("operator")) {
+
+            Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+            Call<Operator> call = retrofit.create(Operators.class).updateHourIn(getId());
+
+            call.enqueue(new Callback<Operator>() {
+                @Override
+                public void onResponse(Call<Operator> call, Response<Operator> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Operator> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
     }
 
     //option menu
@@ -199,50 +231,20 @@ public class MainActivity extends AppCompatActivity {
     public void setPassword(String password) {
         Password = password;
     }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

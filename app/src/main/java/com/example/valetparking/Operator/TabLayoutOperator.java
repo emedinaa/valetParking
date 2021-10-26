@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.valetparking.Database.Interfaces.Operators;
+import com.example.valetparking.Database.Models.Operator;
+import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.MainActivity;
 import com.example.valetparking.R;
 import com.google.android.material.tabs.TabLayout;
@@ -12,6 +16,10 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class TabLayoutOperator extends AppCompatActivity {
 
@@ -94,10 +102,36 @@ public class TabLayoutOperator extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.option_logout:
+                updateHourIn();
                 intent = new Intent(TabLayoutOperator.this, MainActivity.class);
                 startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //Update hour in
+    private void updateHourIn() {
+
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<Operator> call = retrofit.create(Operators.class).updateHourOut(id);
+
+        call.enqueue(new Callback<Operator>() {
+            @Override
+            public void onResponse(Call<Operator> call, Response<Operator> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Operator> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
