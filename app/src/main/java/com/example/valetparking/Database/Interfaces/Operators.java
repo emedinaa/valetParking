@@ -23,8 +23,12 @@ public interface Operators {
     Call<Operator> getOperator(@Path("id") String id);
 
     //OPERATORS FOR ADMIN
-    @GET("operator/list/{id}")
+    @GET("operator/administrator/list/{id}")
     Call<List<Operator>> getOperatorsForAdmin(@Path("id") String id);
+
+    //OPERATORS FOR OPERATOR
+    @GET("operator/list/{id}")
+    Call<List<Operator>> getOperatorsForOperator(@Path("id") String id);
 
     //DELETE FOR USERNAME
     @DELETE("operator/delete/{username}")

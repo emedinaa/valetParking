@@ -13,14 +13,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
 import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Operator;
 import com.example.valetparking.Database.Models.Vehicle;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
@@ -30,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,6 +105,7 @@ public class Tickets extends Fragment {
 
         //Recuperar datos y mostrarlos
         retrieveVehicles();
+        retrieveOperator();
 
         //Recargar datos
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -169,6 +170,28 @@ public class Tickets extends Fragment {
     private TextInputLayout brand, year, model, color, ticket, operator, date;
     private String BrandS, YearS, ModelS, ColorS, TicketS, OperatorS, DateS;
     private String selectorBrand;
+    private List<Operator> operatorList;
+
+    //Recuperar operators
+    private void retrieveOperator() {
+        Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+        Call<List<Operator>> call = retrofit.create(com.example.valetparking.Database.Interfaces.Operators.class).getOperatorsForAdmin(ID);
+
+        call.enqueue(new Callback<List<Operator>>() {
+            @Override
+            public void onResponse(Call<List<Operator>> call, Response<List<Operator>> response) {
+                if(response.isSuccessful()){
+                    setOperatorList(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Operator>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     //Metodo del alertDialog (Mensaje emergente)
     private AlertDialog filterDialog(){
@@ -667,16 +690,14 @@ public class Tickets extends Fragment {
             card_recycler_view.setHasFixedSize(true);
             card_recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            //Llenar data
+            //Poblar datos
             List<CardView_Data> data = new ArrayList<>();
 
-            String[] operators = getResources().getStringArray(R.array.array_filter_operators);
-
-            for (int i = 0; i < operators.length; i++) {
-                data.add(new CardView_Data(operators[i], R.drawable.icon__operator));
+            for (Operator operator : getOperatorList()) {
+                data.add(new CardView_Data(operator.getUsername(), R.drawable.icon__operator));
             }
 
-            //Asignar adapter
+            //Llenar data
             adapter = new CardView_Adapter(getContext(), data);
             card_recycler_view.setAdapter(adapter);
 
@@ -762,5 +783,13 @@ public class Tickets extends Fragment {
 
     public void setDateS(String dateS) {
         DateS = dateS;
+    }
+
+    public List<Operator> getOperatorList() {
+        return operatorList;
+    }
+
+    public void setOperatorList(List<Operator> operatorList) {
+        this.operatorList = operatorList;
     }
 }

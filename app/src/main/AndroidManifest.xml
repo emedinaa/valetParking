@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ValetParking"
         android:usesCleartextTraffic="true"
+
         android:windowSoftInputMode="stateHidden">
         <activity
             android:name=".login.VerifyUsername"
