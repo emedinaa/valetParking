@@ -34,6 +34,21 @@ public class Vehicle {
     @SerializedName("vehicle")
     private String vehicle;
 
+    @SerializedName("ticket")
+    private String ticket;
+
+    @SerializedName("operator_checkIn")
+    private String operator_checkIn;
+
+    @SerializedName("operator_checkOut")
+    private String operator_checkOut;
+
+    @SerializedName("note_cancel")
+    private String note_cancel;
+
+    @SerializedName("date")
+    private String date;
+
     //Getters
     public String getBrand() {
         return brand;
@@ -113,5 +128,45 @@ public class Vehicle {
 
     public void setVehicle(String vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
+
+    public String getOperator_checkIn() {
+        return operator_checkIn;
+    }
+
+    public void setOperator_checkIn(String operator_checkIn) {
+        this.operator_checkIn = operator_checkIn;
+    }
+
+    public String getOperator_checkOut() {
+        return operator_checkOut;
+    }
+
+    public void setOperator_checkOut(String operator_checkOut) {
+        this.operator_checkOut = operator_checkOut;
+    }
+
+    public String getNote_cancel() {
+        return note_cancel;
+    }
+
+    public void setNote_cancel(String note_cancel) {
+        this.note_cancel = note_cancel;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

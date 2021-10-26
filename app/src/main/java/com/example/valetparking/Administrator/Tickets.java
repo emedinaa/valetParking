@@ -196,7 +196,7 @@ public class Tickets extends Fragment {
         year = view.findViewById(R.id.alert_filter_year);
         model = view.findViewById(R.id.alert_filter_model);
         color = view.findViewById(R.id.alert_filter_color);
-        ticket = view.findViewById(R.id.alert_filter_ticket);
+        //ticket = view.findViewById(R.id.alert_filter_ticket);
         operator = view.findViewById(R.id.alert_filter_operator);
         date = view.findViewById(R.id.alert_filter_date);
 
@@ -205,7 +205,7 @@ public class Tickets extends Fragment {
         Year = view.findViewById(R.id.alert_filter_year_edit);
         Model = view.findViewById(R.id.alert_filter_model_edit);
         ColorC = view.findViewById(R.id.alert_filter_color_edit);
-        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
+        //Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
         Operator = view.findViewById(R.id.alert_filter_operator_edit);
 
         //TextInputEditText

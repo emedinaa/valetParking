@@ -8,23 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
-
-import com.example.valetparking.CardView_Adapter;
-import com.example.valetparking.CardView_Data;
-import com.example.valetparking.Database.Interfaces.Vehicles;
-import com.example.valetparking.Database.Models.Vehicle;
-import com.example.valetparking.Database.RetrofitClient;
-import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +18,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.valetparking.CardView_Adapter;
+import com.example.valetparking.CardView_Data;
+import com.example.valetparking.Database.Interfaces.Vehicles;
+import com.example.valetparking.Database.Models.Vehicle;
+import com.example.valetparking.Database.RetrofitClient;
+import com.example.valetparking.R;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import io.github.muddz.styleabletoast.StyleableToast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -164,10 +163,9 @@ public class OpenTicket extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    TextInputLayout brand, year, model, color, ticket, operator, date;
-    AutoCompleteTextView Brand, Year, Model, ColorC, Ticket, Operator;
-    TextInputEditText Date;
-    String selectorBrand;
+    private TextInputLayout brand, year, model, color, operator, date;
+    private String BrandS, YearS, ModelS, ColorS, OperatorS, DateS;
+    private String selectorBrand;
 
     //Metodo del alertDialog (Mensaje emergente)
     private AlertDialog filterDialog() {
@@ -191,20 +189,8 @@ public class OpenTicket extends Fragment {
         year = view.findViewById(R.id.alert_filter_year);
         model = view.findViewById(R.id.alert_filter_model);
         color = view.findViewById(R.id.alert_filter_color);
-        ticket = view.findViewById(R.id.alert_filter_ticket);
         operator = view.findViewById(R.id.alert_filter_operator);
         date = view.findViewById(R.id.alert_filter_date);
-
-        //AutoCompleteTextView
-        Brand = view.findViewById(R.id.alert_filter_brand_edit);
-        Year = view.findViewById(R.id.alert_filter_year_edit);
-        Model = view.findViewById(R.id.alert_filter_model_edit);
-        ColorC = view.findViewById(R.id.alert_filter_color_edit);
-        Ticket = view.findViewById(R.id.alert_filter_ticket_edit);
-        Operator = view.findViewById(R.id.alert_filter_operator_edit);
-
-        //TextInputEditText
-        Date = view.findViewById(R.id.alert_filter_date_edit);
 
         //Button
         Button alert_filter_button = view.findViewById(R.id.alert_filter_button);
@@ -247,13 +233,6 @@ public class OpenTicket extends Fragment {
             }
         });
 
-        ticket.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectTicket().show();
-            }
-        });
-
         operator.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +255,8 @@ public class OpenTicket extends Fragment {
 
                             @Override
                             public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-                                Date.setText(Day + "/" + (Month + 1) + "/" + Year);
+                                date.getEditText().setText(Day + "/" + (Month + 1) + "/" + Year);
+                                setDateS(Day + "/" + (Month + 1) + "/" + Year);
                             }
                         }, year, month, day);
                 datePickerDialog.getWindow()
@@ -296,7 +276,36 @@ public class OpenTicket extends Fragment {
         alert_filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                //Recuperar datos filtrados
+                Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                Toast.makeText(getContext(), "ID: " + ID, Toast.LENGTH_SHORT).show();
+
+                Call<List<Vehicle>> call = retrofit.create(Vehicles.class).openTicketFilter(ID, getBrandS(), getYearS(), getModelS(), getColorS(), getDateS(), getOperatorS());
+
+                call.enqueue(new Callback<List<Vehicle>>() {
+                    @Override
+                    public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            List<Vehicle> vehicleList = response.body();
+                            populateVehicles(vehicleList);
+                            setBrandS("");
+                            setYearS("");
+                            setModelS("");
+                            setColorS("");
+                            setDateS("");
+                            setOperatorS("");
+                            alertDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -356,25 +365,21 @@ public class OpenTicket extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (model.getEditText().getText().toString().equals("")) {
-                        brand.getEditText()
-                                .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                        setSelectorBrand(
-                                data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                         alertDialog.dismiss();
                     } else {
-                        if (data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view()
-                                .equals(getSelectorBrand())) {
-                            brand.getEditText().setText(
-                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                            setSelectorBrand(
-                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        if (data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view().equals(getSelectorBrand())) {
+                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         } else {
-                            brand.getEditText().setText(
-                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             model.getEditText().setText("");
-                            setSelectorBrand(
-                                    data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                             alertDialog.dismiss();
                         }
                     }
@@ -427,15 +432,14 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow()
-                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    year.getEditText()
-                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    year.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setYearS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -498,15 +502,14 @@ public class OpenTicket extends Fragment {
             builder.setView(view);
             builder.setCancelable(true);
             alertDialog = builder.create();
-            alertDialog.getWindow()
-                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             //Asignar valor seleccionado y cerrar alertDialog
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    model.getEditText()
-                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    model.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setModelS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -564,69 +567,8 @@ public class OpenTicket extends Fragment {
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    color.getEditText()
-                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                    alertDialog.dismiss();
-                }
-            });
-
-            return alertDialog;
-        }
-
-        //Tickets
-        private AlertDialog selectTicket() {
-            RecyclerView card_recycler_view;
-            CardView_Adapter adapter;
-
-            AlertDialog alertDialog;
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-            //Obtener el layout inflater
-            LayoutInflater inflater = getLayoutInflater();
-
-            //Inflar y establecer el layout para el dialogo
-            //Pasar nulo como vista principal porque va en el diseno del dialogo
-            View view = inflater.inflate(R.layout.gen__card_view_recycler_view, null);
-
-            //Conexion de la parte logica con la grafica
-            card_recycler_view = view.findViewById(R.id.card_recycler_view);
-
-            //Dimensiones del alertDialog
-            view.setMinimumWidth((int) (getResources().getDisplayMetrics().widthPixels * 0.80));
-            view.setMinimumHeight((int) (getResources().getDisplayMetrics().heightPixels * 0.80));
-
-            //RecyclerView - Adapter
-            card_recycler_view.setHasFixedSize(true);
-            card_recycler_view.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            //Llenar data
-            List<CardView_Data> data = new ArrayList<>();
-
-            String[] tickets = getResources().getStringArray(R.array.array_filter_tickets);
-            int[] tickets_icons = {R.drawable.icon__ticket_open, R.drawable.icon__ticket_close,
-                    R.drawable.icon__ticket_cancel};
-
-            for (int i = 0; i < tickets.length; i++) {
-                data.add(new CardView_Data(tickets[i], tickets_icons[i]));
-            }
-
-            //Asignar adapter
-            adapter = new CardView_Adapter(getContext(), data);
-            card_recycler_view.setAdapter(adapter);
-
-            //Mostrar alertDialog
-            builder.setView(view);
-            builder.setCancelable(true);
-            alertDialog = builder.create();
-            alertDialog.getWindow()
-                    .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-            //Asignar valor seleccionado y cerrar alertDialog
-            adapter.setOnClickLister(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ticket.getEditText()
-                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    color.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setColorS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -684,8 +626,8 @@ public class OpenTicket extends Fragment {
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    operator.getEditText()
-                            .setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    operator.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setOperatorS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -700,6 +642,54 @@ public class OpenTicket extends Fragment {
 
     public void setSelectorBrand(String selectorBrand) {
         this.selectorBrand = selectorBrand;
+    }
+
+    public String getBrandS() {
+        return BrandS;
+    }
+
+    public void setBrandS(String brandS) {
+        BrandS = brandS;
+    }
+
+    public String getYearS() {
+        return YearS;
+    }
+
+    public void setYearS(String yearS) {
+        YearS = yearS;
+    }
+
+    public String getModelS() {
+        return ModelS;
+    }
+
+    public void setModelS(String modelS) {
+        ModelS = modelS;
+    }
+
+    public String getColorS() {
+        return ColorS;
+    }
+
+    public void setColorS(String colorS) {
+        ColorS = colorS;
+    }
+
+    public String getOperatorS() {
+        return OperatorS;
+    }
+
+    public void setOperatorS(String operatorS) {
+        OperatorS = operatorS;
+    }
+
+    public String getDateS() {
+        return DateS;
+    }
+
+    public void setDateS(String dateS) {
+        DateS = dateS;
     }
 }
 
