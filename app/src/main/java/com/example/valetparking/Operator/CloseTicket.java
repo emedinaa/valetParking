@@ -7,10 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.valetparking.CardView_Adapter;
 import com.example.valetparking.CardView_Data;
@@ -18,16 +21,12 @@ import com.example.valetparking.Database.Interfaces.Vehicles;
 import com.example.valetparking.Database.Models.Vehicle;
 import com.example.valetparking.Database.RetrofitClient;
 import com.example.valetparking.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -111,10 +110,9 @@ public class CloseTicket extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    TextInputLayout brand, year, model, color, date;
-    AutoCompleteTextView Brand, Year, Model, ColorC;
-    TextInputEditText Date;
-    String selectorBrand;
+    private TextInputLayout brand, year, model, color, date;
+    private String BrandS, YearS, ModelS, ColorS, DateS;
+    private String selectorBrand;
 
     //Metodo del alertDialog (Mensaje emergente)
     private AlertDialog filterDialog(){
@@ -139,15 +137,6 @@ public class CloseTicket extends AppCompatActivity {
         model = view.findViewById(R.id.alert_filter_close_ticket_model);
         color = view.findViewById(R.id.alert_filter_close_ticket_color);
         date = view.findViewById(R.id.alert_filter_close_ticket_date);
-
-        //AutoCompleteTextView
-        Brand = view.findViewById(R.id.alert_filter_close_ticket_brand_edit);
-        Year = view.findViewById(R.id.alert_filter_close_ticket_year_edit);
-        Model = view.findViewById(R.id.alert_filter_close_ticket_model_edit);
-        ColorC = view.findViewById(R.id.alert_filter_close_ticket_color_edit);
-
-        //TextInputEditText
-        Date = view.findViewById(R.id.alert_filter_close_ticket_date_edit);
 
         //Button
         Button alert_filter_button = view.findViewById(R.id.alert_filter_close_ticket_button);
@@ -205,7 +194,35 @@ public class CloseTicket extends AppCompatActivity {
         alert_filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                //Recuperar datos filtrados
+                Retrofit retrofit = RetrofitClient.getRetrofitClient();
+
+                Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_SHORT).show();
+
+                Call<List<Vehicle>> call = retrofit.create(Vehicles.class).closeTicketFilter(id, getBrandS(), getYearS(), getModelS(), getColorS(), getDateS());
+
+                call.enqueue(new Callback<List<Vehicle>>() {
+                    @Override
+                    public void onResponse(Call<List<Vehicle>> call, Response<List<Vehicle>> response) {
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Code: " + response.code(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            List<Vehicle> vehicleList = response.body();
+                            populateVehicles(vehicleList);
+                            setBrandS("");
+                            setYearS("");
+                            setModelS("");
+                            setColorS("");
+                            setDateS("");
+                            alertDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Vehicle>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -263,9 +280,25 @@ public class CloseTicket extends AppCompatActivity {
             adapter.setOnClickLister(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                    setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
-                    alertDialog.dismiss();
+                    if (model.getEditText().getText().toString().equals("")) {
+                        brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                        alertDialog.dismiss();
+                    } else {
+                        if (data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view().equals(getSelectorBrand())) {
+                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            alertDialog.dismiss();
+                        } else {
+                            brand.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            model.getEditText().setText("");
+                            setSelectorBrand(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            setBrandS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                            alertDialog.dismiss();
+                        }
+                    }
                 }
             });
 
@@ -322,6 +355,7 @@ public class CloseTicket extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     year.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setYearS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -391,6 +425,7 @@ public class CloseTicket extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     model.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setModelS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -448,6 +483,7 @@ public class CloseTicket extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     color.getEditText().setText(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
+                    setColorS(data.get(card_recycler_view.getChildAdapterPosition(v)).getCard_text_view());
                     alertDialog.dismiss();
                 }
             });
@@ -467,7 +503,8 @@ public class CloseTicket extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DatePicker,new DatePickerDialog.OnDateSetListener(){
                 @Override
                 public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-                    Date.setText(Day + "/" + (Month+1) + "/" + Year);
+                    date.getEditText().setText(Day + "/" + (Month+1) + "/" + Year);
+                    setDateS(Day + "/" + (Month+1) + "/" + Year);
                 }
             }, year, month, day);
             datePickerDialog.getWindow().setBackgroundDrawableResource(R.drawable.round__alert_dialog_dark);
@@ -481,5 +518,45 @@ public class CloseTicket extends AppCompatActivity {
 
     public void setSelectorBrand(String selectorBrand) {
         this.selectorBrand = selectorBrand;
+    }
+
+    public String getBrandS() {
+        return BrandS;
+    }
+
+    public void setBrandS(String brandS) {
+        BrandS = brandS;
+    }
+
+    public String getYearS() {
+        return YearS;
+    }
+
+    public void setYearS(String yearS) {
+        YearS = yearS;
+    }
+
+    public String getModelS() {
+        return ModelS;
+    }
+
+    public void setModelS(String modelS) {
+        ModelS = modelS;
+    }
+
+    public String getColorS() {
+        return ColorS;
+    }
+
+    public void setColorS(String colorS) {
+        ColorS = colorS;
+    }
+
+    public String getDateS() {
+        return DateS;
+    }
+
+    public void setDateS(String dateS) {
+        DateS = dateS;
     }
 }

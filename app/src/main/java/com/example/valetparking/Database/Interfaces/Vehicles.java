@@ -55,6 +55,14 @@ public interface Vehicles {
         @GET("vehicle/close/{id}")
         Call<List<Vehicle>> getCloseVehicles(@Path("id") String id);
 
+            //FILTER
+            @FormUrlEncoded
+            @POST("vehicle/close/filters/{id}")
+            Call<List<Vehicle>> closeTicketFilter(@Path("id") String id,
+                                                 @Field("brand") String brand, @Field("year") String year,
+                                                 @Field("model") String model, @Field("color") String color,
+                                                 @Field("date") String date);
+
     //ADMINISTRATOR
         //TICKETS
         @GET("vehicle/tickets/{id}")
