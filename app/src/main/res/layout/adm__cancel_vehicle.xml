@@ -192,14 +192,14 @@
 
             <!-- Vehicle location -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cancel_lot"
+                android:id="@+id/cancel_vehicle"
                 style="@style/text_input_layout"
                 android:hint="@string/check_vehicle"
                 app:helperTextTextColor="@color/helper_text_red"
                 app:startIconDrawable="@drawable/icon__car">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/cancel_lot_edit"
+                    android:id="@+id/cancel_vehicle_edit"
                     style="@style/auto_complete_none" />
             </com.google.android.material.textfield.TextInputLayout>
 

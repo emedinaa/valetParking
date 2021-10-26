@@ -13,12 +13,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyViewHolderOpenTicket> {
 
-    List<Tickets_Data> data;
-    Context context;
+    private List<Tickets_Data> data;
+    private Context context;
 
     //Constructor
     public Tickets_Adapter(Context context, ArrayList<Tickets_Data> data) {
@@ -58,8 +59,7 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CancelVehicle cancelVehicle = new CancelVehicle();
-                    cancelVehicle.getData(datas.getBrand(), datas.getYear(), datas.getModel(), datas.getColor(), datas.getPlate(), datas.getPhone(), datas.getEmail(), datas.getKey(), datas.getVehicle());
+                    //Recupero los datos para mandarlos
                 }
             });
 
@@ -71,6 +71,12 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    //Mandar datos
+    @Override
+    public void onSend(Object o, Fragment fragment) {
+
     }
 
     public class MyViewHolderOpenTicket extends RecyclerView.ViewHolder {

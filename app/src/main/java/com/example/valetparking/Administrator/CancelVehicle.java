@@ -8,17 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.valetparking.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.fragment.app.Fragment;
 
-public class CancelVehicle extends Fragment {
+public class CancelVehicle extends Fragment implements Ticket_Receive{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private TextInputLayout Brand, Year, Model, Colorr, Plate, Phone, Email, Key, Vehicle;
     private String brand,  year,  model,  color,  plate, phone, email,  key,  vehicle;
     private String mParam1;
     private String mParam2;
@@ -53,6 +54,16 @@ public class CancelVehicle extends Fragment {
         View view = inflater.inflate(R.layout.adm__cancel_vehicle, container, false);
 
         //Conexion de la parte logica con la parte grafica
+        Brand = view.findViewById(R.id.cancel_brand);
+        Year = view.findViewById(R.id.cancel_year);
+        Model = view.findViewById(R.id.cancel_model);
+        Colorr = view.findViewById(R.id.cancel_color);
+        Plate = view.findViewById(R.id.cancel_plate);
+        Phone = view.findViewById(R.id.cancel_telephone);
+        Email = view.findViewById(R.id.cancel_email);
+        Key = view.findViewById(R.id.cancel_key);
+        Vehicle = view.findViewById(R.id.cancel_vehicle);
+
         cancel_button = view.findViewById(R.id.cancel_button);
 
         cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +112,11 @@ public class CancelVehicle extends Fragment {
         return alertDialog;
     }
 
+    @Override
+    public void onReceived(Object o) {
+
+    }
+
     //Obtener la data del vehiculo
     public void getData(String brand, String year, String model, String color, String plate, String phone, String email, String key, String vehicle){
         setBrand(brand);
@@ -113,7 +129,25 @@ public class CancelVehicle extends Fragment {
         setKey(key);
         setVehicle(vehicle);
 
-        Toast.makeText(getContext(), "Plate: " + getPlate(), Toast.LENGTH_SHORT).show();
+        System.out.println("BRAND===" + getBrand());
+        System.out.println("YEAR===" + getYear());
+        System.out.println("MODEL===" + getModel());
+        System.out.println("COLOR===" + getColor());
+        System.out.println("PLATE===" + getPlate());
+        System.out.println("PHONE===" + getPhone());
+        System.out.println("EMAIL===" + getEmail());
+        System.out.println("KEY===" + getKey());
+        System.out.println("VEHICLE===" + getVehicle());
+
+        Brand.getEditText().setText(getBrand());
+        Year.getEditText().setText(getYear());
+        Model.getEditText().setText(getModel());
+        Colorr.getEditText().setText(getColor());
+        Plate.getEditText().setText(getPlate());
+        Phone.getEditText().setText(getPhone());
+        Email.getEditText().setText(getEmail());
+        Key.getEditText().setText(getKey());
+        Vehicle.getEditText().setText(getVehicle());
     }
 
     //Metodos getter y setter

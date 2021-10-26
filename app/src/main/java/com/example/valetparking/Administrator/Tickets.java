@@ -169,6 +169,7 @@ public class Tickets extends Fragment {
 
     private TextInputLayout brand, year, model, color, ticket, operator, date;
     private String BrandS, YearS, ModelS, ColorS, TicketS, OperatorS, DateS;
+    private String BrandSS, YearSS, ModelSS, ColorSS, TicketSS, OperatorSS, DateSS;
     private String selectorBrand;
     private List<Operator> operatorList;
 
@@ -791,5 +792,61 @@ public class Tickets extends Fragment {
 
     public void setOperatorList(List<Operator> operatorList) {
         this.operatorList = operatorList;
+    }
+
+    public String getBrandSS() {
+        return BrandSS;
+    }
+
+    public void setBrandSS(String brandSS) {
+        BrandSS = brandSS;
+    }
+
+    public String getYearSS() {
+        return YearSS;
+    }
+
+    public void setYearSS(String yearSS) {
+        YearSS = yearSS;
+    }
+
+    public String getModelSS() {
+        return ModelSS;
+    }
+
+    public void setModelSS(String modelSS) {
+        ModelSS = modelSS;
+    }
+
+    public String getColorSS() {
+        return ColorSS;
+    }
+
+    public void setColorSS(String colorSS) {
+        ColorSS = colorSS;
+    }
+
+    public String getTicketSS() {
+        return TicketSS;
+    }
+
+    public void setTicketSS(String ticketSS) {
+        TicketSS = ticketSS;
+    }
+
+    public String getOperatorSS() {
+        return OperatorSS;
+    }
+
+    public void setOperatorSS(String operatorSS) {
+        OperatorSS = operatorSS;
+    }
+
+    public String getDateSS() {
+        return DateSS;
+    }
+
+    public void setDateSS(String dateSS) {
+        DateSS = dateSS;
     }
 }

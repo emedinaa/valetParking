@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import com.example.valetparking.MainActivity;
 import com.example.valetparking.R;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 public class TabLayoutAdministrator extends AppCompatActivity {
 
@@ -39,7 +39,6 @@ public class TabLayoutAdministrator extends AppCompatActivity {
 
         //Adapter
         pagerAdapter = new PagerControllerAdministrator(getSupportFragmentManager(), tabLayout.getTabCount(), id);
-        Bundle bundle = new Bundle();
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
