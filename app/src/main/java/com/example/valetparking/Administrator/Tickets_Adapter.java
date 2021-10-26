@@ -13,7 +13,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyViewHolderOpenTicket> {
@@ -71,12 +70,6 @@ public class Tickets_Adapter extends RecyclerView.Adapter<Tickets_Adapter.MyView
     @Override
     public int getItemCount() {
         return data.size();
-    }
-
-    //Mandar datos
-    @Override
-    public void onSend(Object o, Fragment fragment) {
-
     }
 
     public class MyViewHolderOpenTicket extends RecyclerView.ViewHolder {
